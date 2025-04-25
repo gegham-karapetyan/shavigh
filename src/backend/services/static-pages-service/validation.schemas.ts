@@ -19,6 +19,6 @@ export const schemas: Record<
   articles: homePageValidationSchema,
   bible: homePageValidationSchema,
   books: homePageValidationSchema,
-  fait: homePageValidationSchema,
+  faith: homePageValidationSchema,
   podcasts: homePageValidationSchema,
 };

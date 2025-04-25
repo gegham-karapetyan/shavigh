@@ -1,4 +1,4 @@
-import { Box, IconButton, Modal, Typography } from "@mui/material";
+import { Box, IconButton, Modal } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Fragment, useState } from "react";
 

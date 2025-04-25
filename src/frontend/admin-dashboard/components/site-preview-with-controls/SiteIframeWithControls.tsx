@@ -1,5 +1,5 @@
 "use client";
-import { CSSProperties, FC, Fragment, useState } from "react";
+import { CSSProperties, FC, Fragment, Suspense, useState } from "react";
 import { Stack, Box } from "@mui/material";
 import { DeviceControls } from "./DeviceControls";
 import { PageStateIndicators } from "./PageStateIndicators";
@@ -37,7 +37,9 @@ export const SitePreviewWithControls: FC<{ previewUrl: string }> = ({
         position="relative"
       >
         <AdminDashboardMessagingProvider>
-          <RouteSyncPlugin />
+          <Suspense>
+            <RouteSyncPlugin />
+          </Suspense>
           <PageStateIndicators />
           <DeviceControls setWidth={setWidth} width={width} />
           <PageSettings />

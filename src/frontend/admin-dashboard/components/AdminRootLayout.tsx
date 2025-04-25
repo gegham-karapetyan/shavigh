@@ -1,20 +1,11 @@
 "use client";
-import {
-  FC,
-  Fragment,
-  memo,
-  PropsWithChildren,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { FC, PropsWithChildren } from "react";
 import { Navbar } from "./Navbar/Navbar";
 import GridViewIcon from "@mui/icons-material/GridView";
-import { Stack, Box, Button } from "@mui/material";
+import { Stack } from "@mui/material";
 // import { useRouter } from "next/router";
-import { useParams } from "next/navigation";
-import { StaticPagesType } from "@/constants";
+// import { useParams } from "next/navigation";
+// import { StaticPagesType } from "@/constants";
 
 const mockdata = [
   {

@@ -40,6 +40,7 @@ export const BookCard: FC<BookCardProps> = ({
       )}
     >
       <div className="grow">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="block w-full h-full object-contain"
           src={data.imgSrc}

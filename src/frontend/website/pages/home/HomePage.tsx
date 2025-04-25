@@ -1,4 +1,4 @@
-import { HtmlContentRenderer } from "@/frontend/website/components/html-content-renderer";
+// import { HtmlContentRenderer } from "@/frontend/website/components/html-content-renderer";
 import {
   HomeLayout,
   HomeLayoutProps,
@@ -107,7 +107,7 @@ const Content = () => {
   );
 };
 
-export const HomePage: FC<HomePageProps> = ({ welcomeContent, articles }) => {
+export const HomePage: FC<HomePageProps> = ({ articles }) => {
   return (
     <HomeLayout
       // welcomeContent={<HtmlContentRenderer content={welcomeContent} />}

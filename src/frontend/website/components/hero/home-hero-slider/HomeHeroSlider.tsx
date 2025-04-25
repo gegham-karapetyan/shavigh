@@ -9,7 +9,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import styles from "./slider.module.css";
 
-import { DotButton, useDotButton } from "./SliderDots";
+// import { useDotButton } from "./SliderDots";
 
 const TWEEN_FACTOR_BASE = 0.2;
 
@@ -32,8 +32,8 @@ export const HomeHeroSlider: FC<HomeHeroSliderProps> = ({ slides }) => {
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
 
-  const { selectedIndex, scrollSnaps, onDotButtonClick } =
-    useDotButton(emblaApi);
+  // const { selectedIndex, scrollSnaps, onDotButtonClick } =
+  //   useDotButton(emblaApi);
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     console.log(styles["embla__parallax__layer"]);
@@ -102,6 +102,7 @@ export const HomeHeroSlider: FC<HomeHeroSliderProps> = ({ slides }) => {
       .on("reInit", tweenParallax)
       .on("scroll", tweenParallax)
       .on("slideFocus", tweenParallax);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emblaApi, tweenParallax]);
 
   return (

@@ -8,7 +8,7 @@ import {
   NavbarLinksGroup,
   NavbarLinksGroupProps,
 } from "./ui/NavbarLinksGroup/NavbarLinksGroup";
-import clsx from "clsx";
+// import clsx from "clsx";
 import { useState } from "react";
 
 export interface NavbarProps {
