@@ -1,0 +1,22 @@
+@reference "../../global.css";
+
+@layer components {
+  .book-grid-item {
+    border-bottom: 1px solid var(--color-gray-900);
+    @apply py-16;
+
+    @media (width >= theme(--breakpoint-lg)) and (width < theme(--breakpoint-2xl)) {
+      &:nth-child(3n + 1):nth-last-child(-n + 3),
+      &:nth-child(3n + 1):nth-last-child(-n + 3) ~ & {
+        border: none;
+      }
+    }
+
+    @media (width >= theme(--breakpoint-2xl)) {
+      &:nth-child(5n + 1):nth-last-child(-n + 5),
+      &:nth-child(5n + 1):nth-last-child(-n + 5) ~ & {
+        border: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+import { FC } from "react";
+import { Button } from "../buttons/Button";
+import Link from "next/link";
+import clsx from "clsx";
+
+export interface IArticleCardData {
+  id: number;
+  title: string;
+  description: string;
+  // imageUrl: string,
+  articleUrl: string;
+  // authorName: string,
+  //   authorUrl: string;
+  date: string;
+  // tags: string[]
+}
+
+export interface ArticleCardProps {
+  data: IArticleCardData;
+  className?: string;
+  size?: "lg" | "md";
+}
+
+const articleSizes = {
+  lg: "px-6 pt-16 pb-12",
+  md: "px-2 py-4",
+};
+
+export const ArticleCard: FC<ArticleCardProps> = ({
+  data,
+  className,
+  size = "md",
+}) => {
+  return (
+    <div
+      className={clsx("max-w-[400px] min-w-2xs", articleSizes[size], className)}
+    >
+      <p>{data.date}</p>
+      <h2 className="font-bold mt-3">{data.title}</h2>
+      <p className="mt-5">{data.description}</p>
+      <div className="mt-5">
+        <Button variant="outlined" href={data.articleUrl} component={Link}>
+          Read more
+        </Button>
+      </div>
+    </div>
+  );
+};
