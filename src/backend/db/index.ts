@@ -1,12 +1,15 @@
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/libsql";
+import { drizzle } from "drizzle-orm/better-sqlite3";
 import {
   // articlesTable, staticPagesTable,
   usersTable,
 } from "./schema";
 import { eq } from "drizzle-orm";
+import Database from "better-sqlite3";
+import { join } from "path";
 
-export const db = drizzle(process.env.DATABASE_URL!);
+const sqlite = new Database(join(process.cwd(), "local.db"));
+export const db = drizzle({ client: sqlite });
 
 export async function main() {
   const user: typeof usersTable.$inferInsert = {
