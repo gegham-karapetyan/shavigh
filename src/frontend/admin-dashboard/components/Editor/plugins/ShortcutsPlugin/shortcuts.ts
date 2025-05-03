@@ -6,7 +6,7 @@
  *
  */
 
-import { IS_APPLE } from "@/frontend/admin-dashboard/utils/environment";
+import { IS_APPLE } from "@/frontend/shared/utils/environment";
 
 //disable eslint sorting rule for quick reference to shortcuts
 

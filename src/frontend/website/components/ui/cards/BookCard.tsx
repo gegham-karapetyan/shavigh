@@ -1,6 +1,8 @@
 import { FC } from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import tmpImg from "@/frontend/website/media/images/24-600x900.jpg";
+import Image from "next/image";
 
 export interface IBookCardData {
   id: number;
@@ -40,10 +42,9 @@ export const BookCard: FC<BookCardProps> = ({
       )}
     >
       <div className="grow">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           className="block w-full h-full object-contain"
-          src={data.imgSrc}
+          src={tmpImg}
           alt={data.title}
         />
       </div>

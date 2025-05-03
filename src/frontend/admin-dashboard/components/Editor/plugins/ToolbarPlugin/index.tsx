@@ -51,7 +51,7 @@ import {
 } from "lexical";
 import { Dispatch, useCallback, useEffect, useState } from "react";
 import * as React from "react";
-import { IS_APPLE } from "@/frontend/admin-dashboard/utils/environment";
+import { IS_APPLE } from "@/frontend/shared/utils/environment";
 
 import {
   blockTypeToBlockName,

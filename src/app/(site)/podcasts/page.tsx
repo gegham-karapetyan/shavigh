@@ -1,4 +1,4 @@
-import PodcastsPage from "@/frontend/website/pages/podcasts/PodcastsPage";
+import PodcastsPage from "@/frontend/website/site-pages/podcasts/PodcastsPage";
 
 export default function Page() {
   return <PodcastsPage />;

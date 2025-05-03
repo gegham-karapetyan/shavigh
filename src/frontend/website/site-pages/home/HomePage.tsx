@@ -14,7 +14,7 @@ const Content = () => {
   return (
     <div>
       <h1 className="text-primary">Welcome to the Home Page</h1>
-      <div className="flex flex-col gap-4 lg:flex-row">
+      <div className="flex flex-col gap-10 lg:flex-row">
         <div>
           <br />
           <h2>Subtitle </h2>

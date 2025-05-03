@@ -105,7 +105,7 @@ export const FaithLayout: FC<FaithLayoutProps> = ({
               </h2>
             </div>
             <div className="text-center text-xl font-bold text-primary mt-5 mb-15">
-              VIEW ALL
+              Տեսնել ավելին
             </div>
             <ArticlesSlider slides={researchArticles} />
           </div>
@@ -119,7 +119,7 @@ export const FaithLayout: FC<FaithLayoutProps> = ({
               </h2>
             </div>
             <div className="text-center text-xl font-bold text-primary mt-5 mb-15">
-              VIEW ALL
+              Տեսնել ավելին
             </div>
             <ArticlesSlider slides={researchArticles} />
           </div>
@@ -133,7 +133,7 @@ export const FaithLayout: FC<FaithLayoutProps> = ({
               </h2>
             </div>
             <div className="text-center text-xl font-bold text-primary mt-5 mb-15">
-              VIEW ALL
+              Տեսնել ավելին
             </div>
             <ArticlesSlider slides={researchArticles} />
           </div>

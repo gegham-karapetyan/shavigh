@@ -1,0 +1,46 @@
+@reference "../../global.css";
+
+@layer components {
+  .scalable-section {
+    font-size: var(--text-scalable-paragraph);
+    overflow-x: hidden;
+    h1 {
+      font-size: var(--text-scalable-heading1);
+    }
+    h2 {
+      font-size: var(--text-scalable-heading2);
+    }
+    h3 {
+      font-size: var(--text-scalable-heading3);
+    }
+    h4 {
+      font-size: var(--text-scalable-heading4);
+    }
+    h5 {
+      font-size: var(--text-scalable-heading5);
+    }
+    h6 {
+      font-size: var(--text-scalable-heading6);
+    }
+    p,
+    a,
+    li {
+      font-size: inherit;
+    }
+    a {
+      @apply hover:text-primary hover:underline my-1;
+    }
+    .commentsPop {
+      @apply text-red relative cursor-pointer inline-block;
+      .message {
+        @apply invisible inline-block absolute w-2xs left-1/2 min-w-fit max-w-[calc(100vw-30px)] bottom-full text-gray-500 bg-gray-800 rounded-lg p-2 -translate-x-1/2;
+      }
+    }
+    .commentsPop:hover {
+      @apply text-red/80;
+      .message {
+        @apply visible;
+      }
+    }
+  }
+}

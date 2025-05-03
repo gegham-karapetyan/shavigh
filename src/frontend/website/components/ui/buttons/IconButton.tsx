@@ -19,8 +19,9 @@ const sizes: Record<Sizes, string> = {
 };
 const variants: Record<Variant, string> = {
   outlined: "text-white bg-transparent border-[1px] border-primary",
-  contained: "text-white bg-primary",
+  contained: "text-white bg-primary hover:bg-primary/40",
   text: "text-black bg-transparent hover:bg-primary/10",
+  mixed: "text-black bg-transparent hover:bg-primary/10",
 };
 
 export const IconButton = <T extends ElementType = "button">({

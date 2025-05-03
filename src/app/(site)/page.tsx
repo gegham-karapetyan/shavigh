@@ -1,5 +1,5 @@
 import { staticPages } from "@/backend/services/static-pages-service";
-import { HomePage } from "@/frontend/website/pages/home/HomePage";
+import { HomePage } from "@/frontend/website/site-pages/home/HomePage";
 
 export default async function Home() {
   const result = await staticPages.getPage("home");

@@ -16,7 +16,7 @@ import {
   LexicalNode,
   SerializedElementNode,
 } from "lexical";
-import { IS_CHROME } from "@/frontend/admin-dashboard/utils/environment";
+import { IS_CHROME } from "@/frontend/shared/utils/environment";
 // import invariant from 'shared/invariant';
 
 // import { $isCollapsibleContainerNode } from "./CollapsibleContainerNode";

@@ -1,4 +1,4 @@
-import { BooksCatalogPage } from "@/frontend/website/pages/books/BooksCatalogPage";
+import { BooksCatalogPage } from "@/frontend/website/site-pages/books/BooksCatalogPage";
 
 export default function Page() {
   return (

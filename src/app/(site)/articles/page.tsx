@@ -1,4 +1,4 @@
-import { ArticlesCatalogPage } from "@/frontend/website/pages/articles/ArticlesCatalogPage";
+import { ArticlesCatalogPage } from "@/frontend/website/site-pages/articles/ArticlesCatalogPage";
 
 export default function Page() {
   return (

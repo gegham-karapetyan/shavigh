@@ -26,21 +26,35 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/bible",
+        destination: "/bible/echmiadzin",
+        permanent: true,
+      },
+      {
         source: "/admin",
         destination: "/admin/dashboard",
         permanent: true,
       },
-    ];
+    ].concat(
+      rewritesPaths.map(([source, destination]) => ({
+        source: source
+          .split("/")
+          .map((chunk) => encodeURIComponent(chunk))
+          .join("/"),
+        destination,
+        permanent: true,
+      }))
+    );
   },
-  async rewrites() {
-    return rewritesPaths.map(([source, destination]) => ({
-      source: source
-        .split("/")
-        .map((chunk) => encodeURIComponent(chunk))
-        .join("/"),
-      destination,
-    }));
-  },
+  // async rewrites() {
+  //   return rewritesPaths.map(([source, destination]) => ({
+  //     source: source
+  //       .split("/")
+  //       .map((chunk) => encodeURIComponent(chunk))
+  //       .join("/"),
+  //     destination,
+  //   }));
+  // },
 };
 
 export default nextConfig;

@@ -6,7 +6,7 @@
  *
  */
 
-import { CAN_USE_DOM } from "@/frontend/admin-dashboard/utils/canUseDOM";
+import { CAN_USE_DOM } from "@/frontend/shared/utils/canUseDOM";
 
 declare global {
   interface Document {

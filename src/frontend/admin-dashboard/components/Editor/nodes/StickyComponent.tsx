@@ -19,7 +19,7 @@ import { calculateZoomLevel } from "@lexical/utils";
 import { $getNodeByKey } from "lexical";
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import useLayoutEffect from "@/frontend/admin-dashboard/utils/useLayoutEffect";
+import useLayoutEffect from "@/frontend/shared/utils/useLayoutEffect";
 
 import { useSharedHistoryContext } from "../context/SharedHistoryContext";
 import StickyEditorTheme from "../themes/StickyEditorTheme";

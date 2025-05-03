@@ -4,6 +4,7 @@ import Image from "next/image";
 import clsx from "clsx";
 
 export interface ToggleButtonProps {
+  isOpened: boolean;
   isActive: boolean;
   onToggle: () => void;
   title: string;
@@ -16,6 +17,7 @@ const defaultStyles =
 export const ToggleButton: FC<ToggleButtonProps> = ({
   isActive,
   onToggle,
+  isOpened,
   title,
   variant,
 }) => {
@@ -45,11 +47,11 @@ export const ToggleButton: FC<ToggleButtonProps> = ({
         <Image
           src={arrow}
           className={clsx(
-            "transition",
-            isActive ? "rotate-180" : "rotate-0",
+            "transition h-auto",
+            isOpened ? "rotate-180" : "rotate-0",
             variant === "book" ? "w-10" : "w-8"
           )}
-          alt={isActive ? "close" : "open"}
+          alt={isOpened ? "close" : "open"}
         />
       </span>
     </li>

@@ -1,8 +1,11 @@
 import Image, { ImageProps } from "next/image";
-import logo from "@/frontend/website/media/images/logo.svg";
-import { FC, ReactNode } from "react";
+import icon1 from "@/frontend/website/media/icons/icons-08.svg";
+import icon2 from "@/frontend/website/media/icons/icons-02.svg";
+import icon3 from "@/frontend/website/media/icons/icons-07.svg";
+
 import { HomeHero } from "../hero/HomeHero";
 import { ArticleCard, ArticleCardProps } from "../ui/cards/ArticleCard";
+import { FC, ReactNode } from "react";
 
 // const logoProps = {
 //   src: logo.src,
@@ -18,9 +21,9 @@ interface HeroCardProps {
 
 const HeroCard: FC<HeroCardProps> = ({ description, src, title }) => {
   return (
-    <div className="bg-white rounded-2xl shadow shadow-gray-400 w-full max-w-[320px] px-5 py-7">
-      <Image src={src} alt="" className="m-auto min-h-14" />
-      <h3 className="mt-5">{title}</h3>
+    <div className="bg-white rounded-3xl shadow shadow-gray-400 w-full max-w-[300px] px-5 py-7">
+      <Image src={src} alt="" className="m-auto min-h-14 max-w-12" />
+      <h3 className="mt-1">{title}</h3>
       <p className="mt-3.5">{description}</p>
     </div>
   );
@@ -38,19 +41,19 @@ export const HomeLayout: FC<HomeLayoutProps> = ({
     <div>
       <main>
         <HomeHero />
-        <div className="relative -mt-[130px] flex flex-col gap-4 justify-center items-center lg:flex-row text-center">
+        <div className="relative -mt-[120px] flex flex-col gap-6 justify-center items-center lg:flex-row text-center">
           <HeroCard
-            src={logo}
+            src={icon1}
             title="ԱՍՏՎԱԾԱՇՈՒՆՉ"
             description="Բացահայտել Աստծո Խոսքը՝ մեկնությունների միջոցով"
           />
           <HeroCard
-            src={logo}
+            src={icon2}
             title="ՀԱՎԱՏՔ"
             description="Ճանաչել Հայ Եկեղեցու սրբազան ավանդությունը"
           />
           <HeroCard
-            src={logo}
+            src={icon3}
             title="ՎԱՐՔ ՍՐԲՈՑ"
             description="Հետևել Եկեղեցու սրբերի օրինակին և ներշնչվել"
           />

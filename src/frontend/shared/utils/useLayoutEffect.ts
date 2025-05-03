@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useLayoutEffect } from "react";
-import { CAN_USE_DOM } from "@/frontend/admin-dashboard/utils/canUseDOM";
+import { CAN_USE_DOM } from "@/frontend/shared/utils/canUseDOM";
 
 // This workaround is no longer necessary in React 19,
 // but we currently support React >=17.x

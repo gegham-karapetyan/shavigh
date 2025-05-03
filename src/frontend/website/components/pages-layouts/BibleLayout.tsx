@@ -1,12 +1,20 @@
-import { BibleNavMenu } from "../bible-nav-menu/BibleNavMenu";
+import { FC } from "react";
+// import { BibleNavMenu } from "../bible-nav-menu/BibleNavMenu";
 import { BibleHero } from "../hero/BibleHero";
+import { HtmlContentRenderer } from "../html-content-renderer";
 
-export const BibleLayout = () => {
+export interface BibleLayoutProps {
+  bodyContent: string;
+}
+export const BibleLayout: FC<BibleLayoutProps> = ({ bodyContent }) => {
   return (
     <div>
       <main>
         <BibleHero />
-        <BibleNavMenu />
+        <div className="flex gap-6">
+          <HtmlContentRenderer content={bodyContent} />
+          {/* <BibleNavMenu /> */}
+        </div>
       </main>
     </div>
   );

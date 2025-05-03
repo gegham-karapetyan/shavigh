@@ -24,27 +24,27 @@ const LogoComponent = (
 const routes = [
   {
     label: "ԱՍՏՎԱԾԱՇՈՒՆՉ",
-    href: "/աստվածաշունչ",
+    href: "/bible",
   },
   {
     label: "ՀԱՎԱՏՔ",
-    href: "/հավատք",
+    href: "/faith",
   },
   {
     label: "ՎԱՐՔ ՍՐԲՈՑ",
-    href: "/վարք-սրբոց",
+    href: "/sanctuary-attitude",
   },
   {
     label: "ԳՐՔԵՐ",
-    href: "/գրքեր",
+    href: "/books",
   },
   {
     label: "ՀՈԴՎԱԾՆԵՐ",
-    href: "/հոդվածներ",
+    href: "/articles",
   },
   {
     label: "ՊՈԴՔԱՍՏՆԵՐ",
-    href: "/պոդքաստներ",
+    href: "/podcasts",
   },
 ];
 

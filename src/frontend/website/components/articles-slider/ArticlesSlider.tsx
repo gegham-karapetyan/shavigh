@@ -9,7 +9,7 @@ export const ArticlesSlider: FC<ArticlesSliderProps> = ({ slides }) => {
   const [emblaRef] = useEmblaCarousel({ align: "start" });
   return (
     <div className="overflow-hidden" ref={emblaRef}>
-      <div className="flex w-[calc(100%+8px)]">
+      <div className="flex w-[calc(100%+8px)] -ml-1">
         {slides.map((slide) => (
           <div
             className="shrink-0 grow-0  xl:basis-[calc(100%/3)]  2xl:basis-1/4"

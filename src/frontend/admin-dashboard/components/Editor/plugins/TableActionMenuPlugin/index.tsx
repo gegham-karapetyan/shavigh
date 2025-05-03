@@ -58,7 +58,7 @@ import { createPortal } from "react-dom";
 
 import useModal from "../../hooks/useModal";
 import ColorPicker from "../../ui/ColorPicker";
-import invariant from "@/frontend/admin-dashboard/utils/invariant";
+import invariant from "@/frontend/shared/utils/invariant";
 
 function computeSelectionCount(selection: TableSelection): {
   columns: number;

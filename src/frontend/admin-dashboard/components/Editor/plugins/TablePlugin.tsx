@@ -26,7 +26,7 @@ import {
 import Button from "../ui/Button";
 import { DialogActions } from "../ui/Dialog";
 import TextInput from "../ui/TextInput";
-import invariant from "@/frontend/admin-dashboard/utils/invariant";
+import invariant from "@/frontend/shared/utils/invariant";
 
 export type InsertTableCommandPayload = Readonly<{
   columns: string;

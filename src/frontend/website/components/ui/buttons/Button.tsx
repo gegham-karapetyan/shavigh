@@ -42,15 +42,15 @@ export const Button = <T extends ElementType = "button">({
     () => ({
       contained: clsx(
         "hover:bg-primary/90",
-        isActive ? "bg-primary text-white" : "bg-white"
+        isActive ? "bg-primary text-white  font-default-bold" : "bg-white"
       ),
       outlined: clsx(
         "border border-primary text-primary hover:bg-primary hover:text-white",
-        isActive && "bg-primary text-white"
+        isActive && "bg-primary text-white font-default-bold"
       ),
       text: clsx(
         "text-black hover:text-primary hover:underline",
-        isActive && "text-primary"
+        isActive && "text-primary font-default-bold"
       ),
       mixed: clsx(
         "text-black",
