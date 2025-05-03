@@ -1,7 +1,7 @@
 import Image, { ImageProps } from "next/image";
-import icon1 from "@/frontend/website/media/icons/icons-08.svg";
-import icon2 from "@/frontend/website/media/icons/icons-02.svg";
-import icon3 from "@/frontend/website/media/icons/icons-07.svg";
+import icon1 from "@/frontend/website/media/icons/icon-08.svg";
+import icon2 from "@/frontend/website/media/icons/icon-02.svg";
+import icon3 from "@/frontend/website/media/icons/icon-07.svg";
 
 import { HomeHero } from "../hero/HomeHero";
 import { ArticleCard, ArticleCardProps } from "../ui/cards/ArticleCard";
