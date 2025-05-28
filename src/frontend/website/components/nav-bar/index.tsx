@@ -1,23 +1,23 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-// import Link from "next/link";
-import logo from "@/frontend/website/media/images/logo.svg";
 import SearchIcon from "@mui/icons-material/Search";
 
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 import { IconButton } from "../ui/buttons/IconButton";
 import { NavLink } from "../ui/links/NavLink";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import logo from "@/frontend/website/media/icons/shavigh-logo.svg?url";
+
 import clsx from "clsx";
-import { omit } from "lodash-es";
+// import { omit } from "lodash-es";
 import { usePathname } from "next/navigation";
 
-const logoProps = omit(logo, ["blurWidth", "blurHeight"]) as ImageProps;
+// const logoProps = omit(logo, ["blurWidth", "blurHeight"]) as ImageProps;
 
 const LogoComponent = (
   <NavLink variant="text" href="/">
-    <Image {...logoProps} alt="logo" />
+    <Image className="w-20" src={logo} alt="logo" />
   </NavLink>
 );
 
@@ -34,10 +34,7 @@ const routes = [
     label: "ՎԱՐՔ ՍՐԲՈՑ",
     href: "/sanctuary-attitude",
   },
-  {
-    label: "ԳՐՔԵՐ",
-    href: "/books",
-  },
+
   {
     label: "ՀՈԴՎԱԾՆԵՐ",
     href: "/articles",

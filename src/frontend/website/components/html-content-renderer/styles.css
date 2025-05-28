@@ -3,7 +3,7 @@
 @layer components {
   .scalable-section {
     font-size: var(--text-scalable-paragraph);
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     h1 {
       font-size: var(--text-scalable-heading1);
     }
@@ -31,9 +31,9 @@
       @apply hover:text-primary hover:underline my-1;
     }
     .commentsPop {
-      @apply text-red relative cursor-pointer inline-block;
+      @apply text-red relative cursor-pointer inline-block px-1;
       .message {
-        @apply invisible inline-block absolute w-2xs left-1/2 min-w-fit max-w-[calc(100vw-30px)] bottom-full text-gray-500 bg-gray-800 rounded-lg p-2 -translate-x-1/2;
+        @apply invisible inline-block absolute w-2xs left-0  min-w-fit max-w-[calc(100vw-30px)] bottom-full text-gray-500 bg-gray-800 rounded-lg p-2;
       }
     }
     .commentsPop:hover {

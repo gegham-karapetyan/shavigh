@@ -12,33 +12,31 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
   const messageRef = useRef<HTMLSpanElement>(null);
   useLayoutEffectImpl(() => {
     if (messageRef.current) {
-      const { left, right, x, width } =
-        messageRef.current.getBoundingClientRect();
-      //   console.log(
-      //     "messageLeftPosition",
-      //     messageRef.current.getBoundingClientRect()
-      //   );
-      console.log(
-        messageRef.current.innerHTML,
-        "left",
-        left,
-        "right",
-        right,
-        "x",
-        x
-      );
-      if (left < 0) {
-        messageRef.current.style.left = `${width / 2 + left}px`;
+      const rect = messageRef.current.getBoundingClientRect();
 
-        return;
-      }
-      if (right > window.innerWidth) {
-        messageRef.current.style.left = `${window.innerWidth - right - 16}px`;
+      if (rect.right - rect.width / 2 >= window.innerWidth) {
+        messageRef.current.style.transform = `translateX(-${Math.abs(
+          window.innerWidth - rect.right - 16
+        )}px)`;
+      } else if (rect.left - rect.width / 2 <= 0) {
+        messageRef.current.style.transform = `translateX(-${Math.abs(
+          rect.left - 16
+        )}px)`;
+      } else {
+        messageRef.current.style.transform = `translateX(-${Math.abs(
+          rect.width / 2
+        )}px)`;
       }
     }
   }, []);
   return (
-    <span className="commentsPop">
+    <span
+      className="commentsPop"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       <span className="message" ref={messageRef}>
         {content}
       </span>

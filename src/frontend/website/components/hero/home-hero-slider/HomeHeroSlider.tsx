@@ -36,7 +36,6 @@ export const HomeHeroSlider: FC<HomeHeroSliderProps> = ({ slides }) => {
   //   useDotButton(emblaApi);
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-    console.log(styles["embla__parallax__layer"]);
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
       return slideNode.querySelector(
         `.${styles["embla__parallax__layer"]}`

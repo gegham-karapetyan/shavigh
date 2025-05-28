@@ -1,4 +1,4 @@
-import arrow from "@/frontend/website/media/icons/arrow-up.svg";
+import arrow from "@/frontend/website/media/icons/arrow-up.svg?url";
 import Image from "next/image";
 
 export const ScrollTopButton = () => {

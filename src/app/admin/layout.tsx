@@ -14,7 +14,6 @@ const roboto = Roboto({
 });
 
 export default function RootLayout(props: PropsWithChildren) {
-  console.log("Root Layout");
   return (
     <html lang="en">
       <CssBaseline />

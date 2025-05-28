@@ -4,6 +4,7 @@ import { ConfigBar } from "@/frontend/website/components/config-bar";
 import { Header } from "@/frontend/website/components/header";
 import { Footer } from "@/frontend/website/components/Footer";
 import { BasePathProvider } from "@/frontend/shared/contexts/basepath-context";
+import { WrongTextSenderDialog } from "@/frontend/website/components/wrong-text-sender-dialog/WrongTextSenderDialog";
 
 // import { localFontFace } from "@/fonts/fonts";
 
@@ -28,6 +29,7 @@ export default function SiteLayout({ children }: PropsWithChildren) {
             <Footer />
           </div>
         </BasePathProvider>
+        <WrongTextSenderDialog />
       </body>
     </html>
   );

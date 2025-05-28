@@ -1,5 +1,5 @@
 import { FC, useMemo } from "react";
-import arrow from "@/frontend/website/media/icons/arrow-down.svg";
+import arrow from "@/frontend/website/media/icons/arrow-down.svg?url";
 import Image from "next/image";
 import clsx from "clsx";
 

@@ -50,7 +50,7 @@ import {
 import * as React from "react";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSharedHistoryContext } from "../context/SharedHistoryContext";
-import brokenImage from "../images/image-broken.svg";
+import brokenImage from "../images/image-broken.svg?url";
 import EmojisPlugin from "../plugins/EmojisPlugin";
 import KeywordsPlugin from "../plugins/KeywordsPlugin";
 import LinkPlugin from "../plugins/LinkPlugin";
@@ -124,7 +124,7 @@ function BrokenImage() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={brokenImage}
+      src={brokenImage as string}
       style={{
         height: 200,
         opacity: 0.2,

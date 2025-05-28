@@ -40,6 +40,7 @@
     background: var(--background); */
     font-family: var(--font-default) Arial, Helvetica, sans-serif;
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   a {
     display: inline-block;
@@ -71,23 +72,13 @@
   li {
     font-size: var(--text-base);
   }
-}
-
-.main-container {
-  width: 100%;
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.small-container {
-  width: 100%;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.footer-container {
-  width: 100%;
-  max-width: 1440px;
-  margin-left: auto;
-  margin-right: auto;
+  .main-container {
+    @apply w-full max-w-7xl mx-auto px-4 2xl:px-0;
+  }
+  .small-container {
+    @apply w-full max-w-2xl mx-auto px-4 2xl:px-0;
+  }
+  .footer-container {
+    @apply w-full max-w-[1440px] mx-auto px-4;
+  }
 }

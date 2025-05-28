@@ -32,9 +32,7 @@ export const ArticleCard: FC<ArticleCardProps> = ({
   size = "md",
 }) => {
   return (
-    <div
-      className={clsx("max-w-[400px] min-w-2xs", articleSizes[size], className)}
-    >
+    <div className={clsx("min-w-2xs", articleSizes[size], className)}>
       <p>{data.date}</p>
       <h2 className="font-bold mt-3">{data.title}</h2>
       <p className="mt-5">{data.description}</p>
