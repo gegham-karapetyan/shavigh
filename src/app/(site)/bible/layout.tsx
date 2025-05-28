@@ -6,8 +6,6 @@ import {
 import { BibleHero } from "@/frontend/website/components/hero/BibleHero";
 import { PropsWithChildren } from "react";
 
-import tmpJson from "./tmp.json";
-
 interface IBook {
   title: string;
   translationName: string;
@@ -37,10 +35,10 @@ const normalizeTestamentBooks = (
   });
 };
 export default async function BibleLayout(props: PropsWithChildren) {
-  // const data = await fetch("http://192.168.2.179:8080/bibles");
-  // const testament = (await data.json()) as ITestament[];
+  const data = await fetch("http://54.93.81.137:8080/bibles");
+  const testament = (await data.json()) as ITestament[];
 
-  const testament = tmpJson as ITestament[];
+  // const testament = tmpJson as ITestament[];
 
   const groupFn = (book: BooksListItemProps) => {
     switch (book.translationName) {
@@ -67,8 +65,8 @@ export default async function BibleLayout(props: PropsWithChildren) {
   return (
     <div>
       <BibleHero />
-      <main className="mt-16 lg:mt-[110px] px-5">
-        <div className="main-container flex flex-col-reverse lg:flex-row gap-12 justify-between">
+      <main className="main-container mt-16 lg:mt-[110px]">
+        <div className="flex flex-col-reverse lg:flex-row gap-12 justify-between">
           <div>{props.children}</div>
           <div>
             <BibleNavMenu

@@ -4,7 +4,6 @@ import { HomePage } from "@/frontend/website/site-pages/home/HomePage";
 export default async function Home() {
   const result = await staticPages.getPage("home");
   const { welcome } = JSON.parse(result.content);
-  console.log("res", result);
   return (
     <HomePage
       articles={[
