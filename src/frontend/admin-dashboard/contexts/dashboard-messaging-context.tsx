@@ -52,10 +52,22 @@ export const DashboardMessagingProvider: FC<PropsWithChildren> = ({
 
   useEffect(() => {
     const controller = messagingRef.current!.controller;
-    controller.addTarget(
+    if (
       (document.querySelector(`#${SITE_PREVIEW_NAME}`) as HTMLIFrameElement)
-        .contentWindow!
-    );
+        .contentWindow
+    ) {
+      controller.addTarget(
+        (document.querySelector(`#${SITE_PREVIEW_NAME}`) as HTMLIFrameElement)
+          .contentWindow!
+      );
+    } else {
+      setTimeout(() => {
+        controller.addTarget(
+          (document.querySelector(`#${SITE_PREVIEW_NAME}`) as HTMLIFrameElement)
+            .contentWindow!
+        );
+      }, 3000);
+    }
   }, []);
   return (
     <DashboardMessagingContext.Provider
