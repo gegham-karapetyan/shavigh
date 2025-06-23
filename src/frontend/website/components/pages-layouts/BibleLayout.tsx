@@ -1,19 +1,26 @@
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 // import { BibleNavMenu } from "../bible-nav-menu/BibleNavMenu";
 import { BibleHero } from "../hero/BibleHero";
-import { HtmlContentRenderer } from "../html-content-renderer";
+import { BibleNavMenu } from "../bible-nav-menu/BibleNavMenu";
+import { BibleNavDataModel } from "@/http-api/interfaces/site-pages.models";
 
-export interface BibleLayoutProps {
-  bodyContent: string;
-}
-export const BibleLayout: FC<BibleLayoutProps> = ({ bodyContent }) => {
+export type BibleLayoutProps = PropsWithChildren<{
+  data: BibleNavDataModel;
+}>;
+export const BibleLayout: FC<BibleLayoutProps> = ({ data, children }) => {
   return (
     <div>
-      <main>
-        <BibleHero />
-        <div className="flex gap-6">
-          <HtmlContentRenderer content={bodyContent} />
-          {/* <BibleNavMenu /> */}
+      <BibleHero />
+      <main className="main-container mt-16 lg:mt-[110px]">
+        <div className="flex flex-col-reverse lg:flex-row gap-12 justify-between">
+          <div>{children}</div>
+          <div>
+            <BibleNavMenu
+              classname="lg:max-w-[450px]"
+              newTestament={data.newTestament}
+              oldTestament={data.oldTestament}
+            />
+          </div>
         </div>
       </main>
     </div>

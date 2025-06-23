@@ -45,33 +45,17 @@ const nextConfig: NextConfig = {
     return config;
   },
   output: "standalone",
-  i18n: {
-    locales: ["default"], // Use 'default' if not using multiple languages
-    defaultLocale: "default", // Set the default language
-  },
+
   /* config options here */
   async redirects() {
-    return [
-      {
-        source: "/bible",
-        destination: "/bible/echmiadzin",
-        permanent: true,
-      },
-      {
-        source: "/admin",
-        destination: "/admin/dashboard",
-        permanent: true,
-      },
-    ].concat(
-      rewritesPaths.map(([source, destination]) => ({
-        source: source
-          .split("/")
-          .map((chunk) => encodeURIComponent(chunk))
-          .join("/"),
-        destination,
-        permanent: true,
-      }))
-    );
+    return rewritesPaths.map(([source, destination]) => ({
+      source: source
+        .split("/")
+        .map((chunk) => encodeURIComponent(chunk))
+        .join("/"),
+      destination,
+      permanent: true,
+    }));
   },
   // async rewrites() {
   //   return rewritesPaths.map(([source, destination]) => ({

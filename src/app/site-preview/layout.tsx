@@ -1,27 +1,55 @@
-import { PropsWithChildren } from "react";
+"use client";
+import { PropsWithChildren, useState } from "react";
 import "@/frontend/website/global.css";
 import { ConfigBar } from "@/frontend/website/components/config-bar";
 import { Header } from "@/frontend/website/components/header";
 import { Footer } from "@/frontend/website/components/Footer";
 import { BasePathProvider } from "@/frontend/shared/contexts/basepath-context";
-import { SitePreviewMessagingProvider } from "@/frontend/website/contexts/messaging-context";
+// import { SyncPreviewRoutePlugin } from "@/frontend/website/contexts/messaging-context";
+import {
+  useOnRouteChangeEvent,
+  WebsiteMessagingProvider,
+} from "@/frontend/admin-dashboard/contexts/website-messaging-context";
+import { useRouter } from "next/navigation";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+
+const RouteSyncPlugin = ({ onReady }: { onReady: () => void }) => {
+  const router = useRouter();
+  useOnRouteChangeEvent((data) => {
+    console.log("useOnRouteChangeEvent");
+    router.push(
+      `${data.pathname}${data.searchParams ? "?" + data.searchParams : ""}`
+    );
+    onReady();
+  });
+
+  return null;
+};
+const queryClient = new QueryClient();
 
 export default function SiteLayout({ children }: PropsWithChildren) {
+  const [isReady, setIsReady] = useState(false);
+  console.log("isReady", isReady);
   return (
     <html lang="hy">
       <body>
-        <SitePreviewMessagingProvider>
-          <BasePathProvider base="/site-preview">
-            <div>
-              <ConfigBar />
-              <Header />
-              {children}
-              <Footer />
-            </div>
-          </BasePathProvider>
-        </SitePreviewMessagingProvider>
+        <QueryClientProvider client={queryClient}>
+          <WebsiteMessagingProvider>
+            <RouteSyncPlugin onReady={() => setIsReady(true)} />
+            {isReady && (
+              <BasePathProvider base="/site-preview">
+                <div>
+                  <ConfigBar />
+                  <Header />
+                  {children}
+                  <Footer />
+                </div>
+              </BasePathProvider>
+            )}
+          </WebsiteMessagingProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

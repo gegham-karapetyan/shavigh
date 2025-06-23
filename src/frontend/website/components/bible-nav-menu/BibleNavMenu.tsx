@@ -4,7 +4,9 @@ import { NavLink } from "../ui/links/NavLink";
 import { Expandable } from "../ui/Expandable";
 import { ToggleButton } from "./ToggleButton";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "../ui/buttons/Button";
+import { useBasePath } from "@/frontend/shared/contexts/basepath-context";
 
 export interface BibleNavMenuProps {
   newTestament: Record<string, BooksListItemProps[]>;
@@ -12,9 +14,13 @@ export interface BibleNavMenuProps {
   classname?: string;
 }
 
-const generatePathname = (language: string, pathname: string) => {
+const generatePathname = (
+  language: string,
+  pathname: string,
+  languageSegmentIndex: number
+) => {
   const pathChunks = pathname.split("/");
-  pathChunks[2] = language;
+  pathChunks[languageSegmentIndex] = language;
   return pathChunks.join("/");
 };
 
@@ -24,27 +30,53 @@ export const BibleNavMenu: FC<BibleNavMenuProps> = ({
   classname,
 }) => {
   const pathname = usePathname();
-  const lg = pathname.split("/")[2];
-  const newTestamentByLanguage = newTestament[lg] || [];
-  const oldTestamentByLanguage = oldTestament[lg] || [];
+  const basepath = useBasePath();
+  const route = useRouter();
+
+  const languageSegmentIndex = basepath ? 3 : 2;
+
+  const [selectedLg, setSelectedLg] = useState(
+    () => pathname.split("/")[languageSegmentIndex] || "echmiadzin"
+  );
+
+  const handleLanguageChange = (language: string) => {
+    setSelectedLg(language);
+    if (pathname.split("/")[languageSegmentIndex])
+      route.push(generatePathname(language, pathname, languageSegmentIndex));
+  };
+
+  const newTestamentByLanguage = newTestament[selectedLg] || [];
+  const oldTestamentByLanguage = oldTestament[selectedLg] || [];
 
   return (
     <div
       className={clsx(
-        "shadow-[0px_0px_20px_0px_rgba(0,_0,_0,_0.1)] rounded-3xl overflow-hidden",
+        "shadow-[0px_0px_20px_0px_rgba(0,_0,_0,_0.1)] rounded-3xl overflow-hidden select-none",
         classname
       )}
     >
       <div className="flex px-2 lg:px-7 py-2 flex-row gap-1 justify-center items-center border-b-[1px] border-gray-100">
-        <NavLink variant="text" href={generatePathname("echmiadzin", pathname)}>
+        <Button
+          isActive={selectedLg === "echmiadzin"}
+          variant="text"
+          onClick={() => handleLanguageChange("echmiadzin")}
+        >
           ԷՋՄԻԱԾԻՆ
-        </NavLink>
-        <NavLink variant="text" href={generatePathname("ararat", pathname)}>
+        </Button>
+        <Button
+          isActive={selectedLg === "ararat"}
+          variant="text"
+          onClick={() => handleLanguageChange("ararat")}
+        >
           ԱՐԱՐԱՏ
-        </NavLink>
-        <NavLink variant="text" href={generatePathname("grabar", pathname)}>
+        </Button>
+        <Button
+          isActive={selectedLg === "grabar"}
+          variant="text"
+          onClick={() => handleLanguageChange("grabar")}
+        >
           ԳՐԱԲԱՐ
-        </NavLink>
+        </Button>
       </div>
       <BooksList
         newBibleBooks={newTestamentByLanguage}
@@ -70,7 +102,10 @@ export interface BooksListProps {
 }
 
 const BooksList: FC<BooksListProps> = ({ newBibleBooks, oldBibleBooks }) => {
-  const testament = usePathname().split("/")[3];
+  const basepath = useBasePath();
+
+  const testamentSegmentIndex = basepath ? 4 : 3;
+  const testament = usePathname().split("/")[testamentSegmentIndex];
   const isNewTestament = testament === "newtestament";
   const isOldTestament = testament === "oldtestament";
   const [open, setOpen] = useState({
@@ -118,7 +153,11 @@ const BookWithChapters: FC<BooksListItemProps> = ({
   title,
   chapters,
 }) => {
-  const book = usePathname().split("/")[4];
+  const basepath = useBasePath();
+
+  const bookSegmentIndex = basepath ? 5 : 4;
+  const book = usePathname().split("/")[bookSegmentIndex];
+
   const isBookActive = book === slug;
   const [open, setOpen] = useState(isBookActive);
   return (
