@@ -4,13 +4,7 @@ import icon3 from "@/frontend/website/media/icons/icon-07.svg";
 
 import { HomeHero } from "../hero/HomeHero";
 import { ArticleCard, ArticleCardProps } from "../ui/cards/ArticleCard";
-import { FC, ReactNode, SVGProps } from "react";
-
-// const logoProps = {
-//   src: logo.src,
-//   width: logo.width,
-//   height: logo.height,
-// };
+import { FC, ReactElement, ReactNode, SVGProps } from "react";
 
 interface HeroCardProps {
   title: string;
@@ -29,12 +23,30 @@ const HeroCard: FC<HeroCardProps> = ({ description, title, icon: Icon }) => {
 };
 
 export interface HomeLayoutProps {
-  welcomeContent: Exclude<ReactNode, null | undefined>;
-  articles: ArticleCardProps["data"][];
+  welcomeContentSection: Exclude<ReactNode, null | undefined>;
+  articlesSection: ReactElement;
 }
-export const HomeLayout: FC<HomeLayoutProps> = ({
-  welcomeContent,
+
+export const ArticlesSection: FC<{ articles: ArticleCardProps["data"][] }> = ({
   articles,
+}) => {
+  return (
+    <div className="main-container flex flex-col items-center lg:items-stretch lg:flex-row  justify-between gap-7">
+      {articles.map((article) => (
+        <ArticleCard
+          size="lg"
+          className="bg-white w-full lg:w-auto shadow-2xl rounded-2xl flex-1"
+          key={article.id}
+          data={article}
+        />
+      ))}
+    </div>
+  );
+};
+
+export const HomeLayout: FC<HomeLayoutProps> = ({
+  welcomeContentSection,
+  articlesSection,
 }) => {
   return (
     <div>
@@ -58,20 +70,9 @@ export const HomeLayout: FC<HomeLayoutProps> = ({
           />
         </div>
         <section className="main-container scalable-section my-11 py-12">
-          {welcomeContent}
+          {welcomeContentSection}
         </section>
-        <section className="bg-gray-100 py-36">
-          <div className="main-container flex flex-col items-center lg:items-stretch lg:flex-row  justify-between gap-7">
-            {articles.map((article) => (
-              <ArticleCard
-                size="lg"
-                className="bg-white shadow-2xl rounded-2xl"
-                key={article.id}
-                data={article}
-              />
-            ))}
-          </div>
-        </section>
+        <section className="bg-gray-100 py-36">{articlesSection}</section>
       </main>
     </div>
   );

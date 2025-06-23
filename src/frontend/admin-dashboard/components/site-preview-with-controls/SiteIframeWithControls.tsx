@@ -1,13 +1,17 @@
 "use client";
-import { CSSProperties, FC, Fragment, Suspense, useState } from "react";
+import { CSSProperties, FC, useState } from "react";
 import { Stack, Box } from "@mui/material";
 import { DeviceControls } from "./DeviceControls";
 import { PageStateIndicators } from "./PageStateIndicators";
-import { PageSettings } from "./PageSettigns";
+import bgImg from "@/frontend/website/media/images/climpek.png";
+// import { PageSettings } from "./PageSettigns";
 
-import { AdminDashboardMessagingProvider } from "../../contexts/messaging-context";
 import { SITE_PREVIEW_NAME } from "@/frontend/admin-dashboard/constants";
-import { RouteSyncPlugin } from "./plugins/RouteSyncPlugin";
+
+import { RouteSyncPlugin } from "./RouteSyncPlugin";
+import { SitePreviewStateProvider } from "../../contexts/site-preview-state-context";
+import { PublishControl } from "./PublishControl";
+import { TextEditControl } from "./edit-controls/TextEditControl";
 
 const iframeStyles: CSSProperties = {
   // flex: 1,
@@ -27,7 +31,9 @@ export const SitePreviewWithControls: FC<{ previewUrl: string }> = ({
   const [width, setWidth] = useState("100%");
 
   return (
-    <Fragment>
+    <SitePreviewStateProvider>
+      <TextEditControl />
+      <RouteSyncPlugin />
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -36,20 +42,30 @@ export const SitePreviewWithControls: FC<{ previewUrl: string }> = ({
         p={1}
         position="relative"
       >
-        <AdminDashboardMessagingProvider>
-          <Suspense>
-            <RouteSyncPlugin />
-          </Suspense>
-          <PageStateIndicators />
-          <DeviceControls setWidth={setWidth} width={width} />
-          <PageSettings />
-        </AdminDashboardMessagingProvider>
+        <PageStateIndicators />
+        <DeviceControls setWidth={setWidth} width={width} />
+        <PublishControl />
       </Stack>
 
       <Stack flex={1} minHeight={0}>
-        <Box flex={1} minHeight={0} sx={{ overflowX: "auto" }}>
-          <Box height="100%" style={{ width }}>
+        <Box
+          flex={1}
+          minHeight={0}
+          sx={{
+            overflowX: "auto",
+            backgroundImage: `url(${bgImg.src})`,
+            backgroundRepeat: "repeat",
+            backgroundColor: "currentcolor",
+          }}
+        >
+          <Box
+            height="100%"
+            bgcolor="background.paper"
+            mx="auto"
+            style={{ width }}
+          >
             <iframe
+              id={SITE_PREVIEW_NAME}
               name={SITE_PREVIEW_NAME}
               style={iframeStyles}
               src={previewUrl}
@@ -57,6 +73,6 @@ export const SitePreviewWithControls: FC<{ previewUrl: string }> = ({
           </Box>
         </Box>
       </Stack>
-    </Fragment>
+    </SitePreviewStateProvider>
   );
 };

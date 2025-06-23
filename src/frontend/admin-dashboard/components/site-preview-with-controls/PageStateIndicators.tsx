@@ -1,24 +1,20 @@
-import { Stack, Tooltip, Chip } from "@mui/material";
+import { Chip, CircularProgress } from "@mui/material";
+import { useSitePreviewState } from "../../contexts/site-preview-state-context";
+import { PAGE_STATUS } from "@/constants";
 
 export const PageStateIndicators = () => {
+  const { previewState } = useSitePreviewState();
+  if (!previewState) {
+    return <CircularProgress size="20px" />;
+  }
+  const isOriginal = previewState.status === PAGE_STATUS.PUBLISHED;
+
   return (
-    <Stack direction="row" textAlign="center" gap={1}>
-      <Tooltip title="original">
-        <Chip
-          color="success"
-          variant="outlined"
-          size="small"
-          label="Content State : Original"
-        />
-      </Tooltip>
-      <Tooltip title="active">
-        <Chip
-          color="success"
-          size="small"
-          variant="outlined"
-          label="Status : Active"
-        />
-      </Tooltip>
-    </Stack>
+    <Chip
+      color={isOriginal ? "success" : "info"}
+      variant="outlined"
+      size="small"
+      label={`State : ${isOriginal ? "ORIGINAL" : "DRAFT"}`}
+    />
   );
 };

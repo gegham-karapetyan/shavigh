@@ -8,7 +8,7 @@ export const useQueryParams = () => {
   const searchParamsRef = useRef(searchParams);
   searchParamsRef.current = searchParams;
 
-  const setQueryParams = useCallback(
+  const setSearchParams = useCallback(
     (
       queryParams:
         | URLSearchParams
@@ -35,5 +35,5 @@ export const useQueryParams = () => {
     },
     [router, pathname]
   );
-  return [searchParams, setQueryParams] as const;
+  return [searchParams, setSearchParams] as const;
 };

@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Button } from "../buttons/Button";
 import Link from "next/link";
 import clsx from "clsx";
+import { GetArticleListItemModel } from "@/http-api/interfaces/site-pages.models";
 
 export interface IArticleCardData {
   id: number;
@@ -16,7 +17,7 @@ export interface IArticleCardData {
 }
 
 export interface ArticleCardProps {
-  data: IArticleCardData;
+  data: GetArticleListItemModel;
   className?: string;
   size?: "lg" | "md";
 }
@@ -33,11 +34,11 @@ export const ArticleCard: FC<ArticleCardProps> = ({
 }) => {
   return (
     <div className={clsx("min-w-2xs", articleSizes[size], className)}>
-      <p>{data.date}</p>
+      <p>{data.createdAt}</p>
       <h2 className="font-bold mt-3">{data.title}</h2>
       <p className="mt-5">{data.description}</p>
       <div className="mt-5">
-        <Button variant="outlined" href={data.articleUrl} component={Link}>
+        <Button variant="outlined" href={data.url} component={Link}>
           Read more
         </Button>
       </div>

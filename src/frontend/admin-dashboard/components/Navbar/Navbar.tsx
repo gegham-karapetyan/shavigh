@@ -1,21 +1,25 @@
-"use client";
+// "use client";
 
-import { Divider, IconButton, Stack } from "@mui/material";
+import { Divider, IconButton, Stack, Box } from "@mui/material";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
-
+import { FC, useState } from "react";
 import {
-  NavbarLinksGroup,
-  NavbarLinksGroupProps,
-} from "./ui/NavbarLinksGroup/NavbarLinksGroup";
-// import clsx from "clsx";
-import { useState } from "react";
+  NavbarMenuGroupItem,
+  NavbarMenuGroupItemModel,
+  NavbarMenuItemType,
+  NavbarMenuSingleItem,
+  NavbarMenuSingleItemModel,
+} from "./ui/NavbarLinksGroup/NavbarMenuItems";
+
+export type * from "./ui/NavbarLinksGroup/NavbarMenuItems";
+export { NavbarMenuItemType } from "./ui/NavbarLinksGroup/NavbarMenuItems";
 
 export interface NavbarProps {
-  linkItems: NavbarLinksGroupProps[];
+  navItems: (NavbarMenuGroupItemModel | NavbarMenuSingleItemModel)[];
 }
-export function Navbar({ linkItems }: NavbarProps) {
-  const [isNavbarOpen, setIsNavbarOpen] = useState(true);
+export const Navbar: FC<NavbarProps> = ({ navItems }) => {
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   return (
     <Stack
@@ -29,12 +33,8 @@ export function Navbar({ linkItems }: NavbarProps) {
         transition: "width 0.3s ease-in-out",
         width: isNavbarOpen ? "300px" : "50px",
       }}
-      // className={clsx(
-      //   "transition-[width] overflow-hidden",
-      //   isNavbarOpen ? "w-2xs" : "w-[50px]"
-      // )}
     >
-      <div className="text-right">
+      <Box sx={{ textAlign: "right" }}>
         <IconButton
           onClick={() => setIsNavbarOpen(!isNavbarOpen)}
           color="primary"
@@ -42,18 +42,34 @@ export function Navbar({ linkItems }: NavbarProps) {
           {isNavbarOpen ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
         <Divider />
-      </div>
+      </Box>
 
-      <div className="overflow-y-auto overflow-x-hidden">
-        {linkItems.map((item) => (
-          <NavbarLinksGroup
-            {...item}
-            isNavbarOpen={isNavbarOpen}
-            onNavbarOpen={() => setIsNavbarOpen(true)}
-            key={item.label}
-          />
-        ))}
-      </div>
+      <Stack
+        sx={{
+          overflowX: "hidden",
+          overflowY: "auto",
+        }}
+      >
+        {navItems.map((item) =>
+          item.type === NavbarMenuItemType.GROUP ? (
+            <NavbarMenuGroupItem
+              isFirstLevel
+              onSelect={() => setIsNavbarOpen(true)}
+              isNavbarOpen={isNavbarOpen}
+              key={item.label}
+              item={item}
+            />
+          ) : (
+            <NavbarMenuSingleItem
+              isFirstLevel
+              onSelect={() => setIsNavbarOpen(true)}
+              isNavbarOpen={isNavbarOpen}
+              key={item.label}
+              item={item}
+            />
+          )
+        )}
+      </Stack>
     </Stack>
   );
-}
+};

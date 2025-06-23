@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/types/app/(site)/bible/[[...segments]]/page.tsx"
+    ".next/types/app/(site)/bible/[[...segments]]/page.tsx",
+    "src/backend/services/articles"
   ],
   "exclude": ["node_modules"]
 }

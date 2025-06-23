@@ -1,19 +1,14 @@
 "use client";
 import { FC, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-
 import Image from "next/image";
 import { IconButton } from "../ui/buttons/IconButton";
 import { NavLink } from "../ui/links/NavLink";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "@/frontend/website/media/icons/shavigh-logo.svg?url";
-
 import clsx from "clsx";
-// import { omit } from "lodash-es";
 import { usePathname } from "next/navigation";
-
-// const logoProps = omit(logo, ["blurWidth", "blurHeight"]) as ImageProps;
 
 const LogoComponent = (
   <NavLink variant="text" href="/">
@@ -66,8 +61,8 @@ export const NavBar: FC<NavBarProps> = () => {
             </NavLink>
           </li>
         ))}
-        <li className="mt-3">
-          <IconButton size="xl" variant="text">
+        <li className="mt-1">
+          <IconButton size="lg" variant="text">
             <SearchIcon />
           </IconButton>
         </li>

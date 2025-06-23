@@ -26,6 +26,7 @@ export const HeroBase: FC<HeroBaseProps> = ({
         className="w-full h-auto min-h-[400px] object-cover"
         src={imgSrc}
         alt={imgAlt}
+        priority
       />
       {title && (
         <h1
