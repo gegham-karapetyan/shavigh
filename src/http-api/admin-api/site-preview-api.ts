@@ -197,7 +197,6 @@ export const sitePreviewApi = {
       originId: isFirstUpdate ? data.id : data.originId,
       status: undefined,
     };
-    console.log("updateBibleChapterOrPageData", dataCopy);
     const url =
       type === "chapter" ? "/bibles/chapters" : "/bibles/chapters/pages";
 

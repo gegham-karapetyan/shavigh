@@ -23,8 +23,6 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  console.log("login page");
-
   const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     setIsLoading(true);

@@ -22,7 +22,6 @@ const useGetDraftBibleChapters = () => {
           },
         }
       );
-      console.log(data);
       return data;
     },
     refetchOnWindowFocus: false,
