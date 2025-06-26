@@ -43,9 +43,9 @@ export const WebsiteMessagingProvider: FC<PropsWithChildren> = ({
   useEffect(() => {
     const node = messaging.current!.node;
     node.start();
-    // return () => {
-    //   node.stop();
-    // };
+    return () => {
+      node.stop();
+    };
   }, []);
   return (
     <WebsiteMessagingContext.Provider
@@ -58,7 +58,6 @@ export const WebsiteMessagingProvider: FC<PropsWithChildren> = ({
 
 export const useWebsiteMessagingChannel = () => {
   const messaging = useContext(WebsiteMessagingContext);
-  console.log("useWebsiteMessagingChannel", messaging);
   if (!messaging) {
     throw new Error(
       "useWebsiteMessagingChannel must be used within a WebsiteMessagingProvider"

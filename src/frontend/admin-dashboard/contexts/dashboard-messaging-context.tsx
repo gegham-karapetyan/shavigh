@@ -1,5 +1,5 @@
 "use client";
-import { SITE_PREVIEW_NAME } from "@/frontend/admin-dashboard/constants";
+// import { SITE_PREVIEW_NAME } from "@/frontend/admin-dashboard/constants";
 import { createController } from "@sanity/comlink";
 import {
   createContext,
@@ -50,25 +50,6 @@ export const DashboardMessagingProvider: FC<PropsWithChildren> = ({
     };
   }
 
-  useEffect(() => {
-    const controller = messagingRef.current!.controller;
-    if (
-      (document.querySelector(`#${SITE_PREVIEW_NAME}`) as HTMLIFrameElement)
-        .contentWindow
-    ) {
-      controller.addTarget(
-        (document.querySelector(`#${SITE_PREVIEW_NAME}`) as HTMLIFrameElement)
-          .contentWindow!
-      );
-    } else {
-      setTimeout(() => {
-        controller.addTarget(
-          (document.querySelector(`#${SITE_PREVIEW_NAME}`) as HTMLIFrameElement)
-            .contentWindow!
-        );
-      }, 3000);
-    }
-  }, []);
   return (
     <DashboardMessagingContext.Provider
       value={messagingRef as DashboardMessagingContextModel}
@@ -93,7 +74,6 @@ export const useDashboardMessagingChannel = () => {
  */
 export const useSendRouteChangeEvent = () => {
   const messaging = useDashboardMessagingChannel();
-  console.log(messaging.current.channel.onStatus(console.log));
   return useCallback(
     (data: IDashboardRouteChangeMessageData["data"]) => {
       messaging.current.channel.post(DashboardMessageType.ROUTE_CHANGE, data);
@@ -126,13 +106,14 @@ export const useOnRouteChangeEvent = (
   onSuccessRef.current = onSuccess;
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const unsubscribe = messaging.current.channel.on(
       WebsiteMessageType.ON_ROUTE_CHANGE,
       (data) => {
         onSuccessRef.current(data);
       }
     );
-    return unsubscribe;
+    // return unsubscribe;
   }, [messaging]);
   return;
 };

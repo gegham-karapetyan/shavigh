@@ -18,7 +18,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const RouteSyncPlugin = ({ onReady }: { onReady: () => void }) => {
   const router = useRouter();
   useOnRouteChangeEvent((data) => {
-    console.log("useOnRouteChangeEvent");
     router.push(
       `${data.pathname}${data.searchParams ? "?" + data.searchParams : ""}`
     );
@@ -31,7 +30,7 @@ const queryClient = new QueryClient();
 
 export default function SiteLayout({ children }: PropsWithChildren) {
   const [isReady, setIsReady] = useState(false);
-  console.log("isReady", isReady);
+
   return (
     <html lang="hy">
       <body>
