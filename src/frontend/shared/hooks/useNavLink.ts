@@ -4,7 +4,10 @@ import { LinkProps } from "next/link";
 import { isAbsolutePath } from "../utils/path-utils";
 import { UrlObject } from "url";
 
-const getFullUrl = (href: LinkProps["href"], basepath: string): UrlObject => {
+const getFullUrl = (
+  href: LinkProps["href"],
+  basepath: ReturnType<typeof useBasePath>
+): UrlObject => {
   const isHrefObject = typeof href === "object";
   const hrefPathname = isHrefObject ? href.pathname : href;
   const isAbsolute = isAbsolutePath(hrefPathname);

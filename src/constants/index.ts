@@ -27,3 +27,5 @@ export const enum LANGUAGES {
   ARARAT = "ararat",
   GRABAR = "grabar",
 }
+
+export const SITE_PREVIEW_BASEPATH = "/site-preview";

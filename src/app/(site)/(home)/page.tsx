@@ -8,6 +8,7 @@ import { getHomePageData } from "./actions";
 
 export default async function Home() {
   const result = await getHomePageData();
+
   if (result.error) {
     return notFound();
   }

@@ -120,9 +120,13 @@ export const useOnRefetchEvent = (
   onRefetchRef.current = onRefetch;
 
   useEffect(() => {
-    messaging.current.node.on(DashboardMessageType.REFETCH, (data) => {
-      onRefetchRef.current(data);
-    });
+    const unsubscribe = messaging.current.node.on(
+      DashboardMessageType.REFETCH,
+      (data) => {
+        onRefetchRef.current(data);
+      }
+    );
+    return unsubscribe;
   }, [messaging]);
   return;
 };

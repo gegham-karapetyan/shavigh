@@ -149,3 +149,43 @@ export interface UpdateBibleDynamicPageModel {
   bibleBookId?: number;
   bibleBookChapterId?: number;
 }
+export interface GetSaintsBehaviorSectionModel {
+  id: number;
+  title: string;
+  url: string;
+  status: PAGE_STATUS;
+  content: string;
+}
+
+export interface GetSaintsBehaviorModel {
+  id: number;
+  title: string;
+  url:
+    | "saintsbehavior/echmiadzin"
+    | "saintsbehavior/ararat"
+    | "saintsbehavior/grabar";
+  status: PAGE_STATUS;
+  sections: {
+    id: number;
+    title: string;
+    url: string;
+  }[];
+}
+export interface GetSaintsBehaviorPageModel {
+  id: number;
+  title: string;
+  url: string;
+  status: PAGE_STATUS;
+  content: string;
+}
+
+export interface GetSaintsBehaviorSectionAndPageCombinedModel {
+  id: string;
+  title: string;
+  url: string;
+  status: PAGE_STATUS;
+  content: {
+    page: GetSaintsBehaviorPageModel;
+    section: GetSaintsBehaviorSectionModel;
+  };
+}

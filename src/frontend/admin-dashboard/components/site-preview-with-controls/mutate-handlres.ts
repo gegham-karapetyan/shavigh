@@ -6,8 +6,8 @@ export const mutateHandlers = {
     editHandler: (data: IPageData["data"]) =>
       axios.put<void>("/api/site-preview/home", data),
     publishHandler: (data: {
-      id: number;
-      originId?: number | null;
+      id: number | string;
+      originId?: number | string | null;
       path: string;
     }) => axios.put("/api/site-preview/home/publish", data),
   },
@@ -15,8 +15,8 @@ export const mutateHandlers = {
     editHandler: (data: IPageData["data"]) =>
       axios.put<void>("/api/site-preview/faith", data),
     publishHandler: (data: {
-      id: number;
-      originId?: number | null;
+      id: number | string;
+      originId?: number | string | null;
       path: string;
     }) => axios.put("/api/site-preview/faith/publish", data),
   },
@@ -24,8 +24,8 @@ export const mutateHandlers = {
     editHandler: (data: IPageData["data"]) =>
       axios.put<void>("/api/site-preview/bible/main-page", data),
     publishHandler: (data: {
-      id: number;
-      originId?: number | null;
+      id: number | string;
+      originId?: number | string | null;
       path: string;
     }) => axios.put("/api/site-preview/bible/main-page/publish", data),
   },
@@ -37,8 +37,8 @@ export const mutateHandlers = {
         },
       }),
     publishHandler: (data: {
-      id: number;
-      originId?: number | null;
+      id: number | string;
+      originId?: number | string | null;
       path: string;
     }) =>
       axios.put("/api/site-preview/bible/chapter-or-page/publish", data, {
@@ -56,8 +56,8 @@ export const mutateHandlers = {
         },
       }),
     publishHandler: (data: {
-      id: number;
-      originId?: number | null;
+      id: number | string;
+      originId?: number | string | null;
       path: string;
     }) =>
       axios.put("/api/site-preview/bible/chapter-or-page/publish", data, {
@@ -71,26 +71,34 @@ export const mutateHandlers = {
   [PageType.ARTICLE]: {
     editHandler: (data: IPageData["data"]) =>
       axios.put<void>("/api/site-preview/{...}", data),
-    publishHandler: (data: { id: number; originId?: number | null }) =>
-      axios.put("/api/site-preview/{...}/publish", data),
+    publishHandler: (data: {
+      id: number | string;
+      originId?: number | string | null;
+    }) => axios.put("/api/site-preview/{...}/publish", data),
   },
   [PageType.ARTICLES]: {
     editHandler: (data: IPageData["data"]) =>
       axios.put<void>("/api/site-preview/{...}", data),
-    publishHandler: (data: { id: number; originId?: number | null }) =>
-      axios.put("/api/site-preview/{...}/publish", data),
+    publishHandler: (data: {
+      id: number | string;
+      originId?: number | string | null;
+    }) => axios.put("/api/site-preview/{...}/publish", data),
   },
 
-  [PageType.SANCTUARY_ATTITUDE]: {
+  [PageType.SAINTS_BEHAVIOR]: {
     editHandler: (data: IPageData["data"]) =>
       axios.put<void>("/api/site-preview/{...}", data),
-    publishHandler: (data: { id: number; originId?: number | null }) =>
-      axios.put("/api/site-preview/{...}/publish", data),
+    publishHandler: (data: {
+      id: number | string;
+      originId?: number | string | null;
+    }) => axios.put("/api/site-preview/{...}/publish", data),
   },
   [PageType.BIBLE]: {
     editHandler: (data: IPageData["data"]) =>
       axios.put<void>("/api/site-preview/{...}", data),
-    publishHandler: (data: { id: number; originId?: number | null }) =>
-      axios.put("/api/site-preview/{...}/publish", data),
+    publishHandler: (data: {
+      id: number | string;
+      originId?: number | string | null;
+    }) => axios.put("/api/site-preview/{...}/publish", data),
   },
 };

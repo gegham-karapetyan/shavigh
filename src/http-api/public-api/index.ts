@@ -7,6 +7,9 @@ import {
   TestamentModel,
   GetBibleDynamicPageModel,
   BibleMainPageContentModel,
+  GetSaintsBehaviorModel,
+  GetSaintsBehaviorSectionModel,
+  GetSaintsBehaviorPageModel,
 } from "../interfaces/site-pages.models";
 import { createBibleNavDTO } from "../helpers/createBibleNavDTO";
 import {
@@ -124,10 +127,12 @@ export const publicApi = {
     book: string,
     chapter: string
   ) {
+    const url = `bible/${lg}/${testament}/${book}/${chapter}`;
     const bibleChapterResponse = await fetcher<GetBibleDynamicPageModel>(
-      `/bibles/chapters?url=bible/${lg}/${testament}/${book}/${chapter}`,
+      `/bibles/chapters?url=${url}`,
       {
         cache: "force-cache",
+        next: { tags: [url] },
       }
     );
     return bibleChapterResponse;
@@ -139,13 +144,46 @@ export const publicApi = {
     chapter: string,
     page: string
   ) {
+    const url = `bible/${lg}/${testament}/${book}/${chapter}/${page}`;
     const biblePageResponse = await fetcher<GetBibleDynamicPageModel>(
       `/bibles/chapters/pages?url=bible/${lg}/${testament}/${book}/${chapter}/${page}`,
       {
         cache: "force-cache",
+        next: { tags: [url] },
       }
     );
     return biblePageResponse;
   },
   getArticlesByIds,
+
+  getSaintsBehaviorData() {
+    return fetcher<GetSaintsBehaviorModel[]>("/saints-behavior", {
+      cache: "force-cache",
+      next: { tags: ["sanctuary-attitude"] },
+    });
+  },
+  getSaintsBehaviorSectionData(lg: string, section: string) {
+    const url = `saintsbehavior/${lg}/${section}`;
+    return fetcher<GetSaintsBehaviorSectionModel>("/saints-behavior/section", {
+      cache: "force-cache",
+      next: { tags: [url] },
+      params: {
+        url,
+      },
+    });
+  },
+  getSaintsBehaviorPageData(lg: string, section: string, page: string) {
+    const url = `saintsbehavior/${lg}/${section}/${page}`;
+
+    return fetcher<GetSaintsBehaviorPageModel>(
+      "/saints-behavior/section/pages",
+      {
+        cache: "force-cache",
+        next: { tags: [url] },
+        params: {
+          url,
+        },
+      }
+    );
+  },
 };
