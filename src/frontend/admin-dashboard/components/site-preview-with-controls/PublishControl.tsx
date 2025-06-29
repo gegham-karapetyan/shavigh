@@ -20,6 +20,7 @@ export const PublishControl = () => {
   const sendToRefetch = useSendRefetchEvent();
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   if (!previewState) {
     return <CircularProgress size="20px" />; // or a loading indicator
   }

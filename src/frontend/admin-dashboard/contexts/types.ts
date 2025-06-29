@@ -52,7 +52,7 @@ export interface IDashboardRefetchMessageData {
 export const enum PageType {
   HOME = "home",
   FAITH = "faith",
-  SANCTUARY_ATTITUDE = "sanctuaryAttitude",
+  SAINTS_BEHAVIOR = "SaintsBehavior",
   BIBLE = "bible",
   BIBLE_CHAPTER = "bibleChapter",
   BIBLE_PAGE = "biblePage",
@@ -62,8 +62,8 @@ export const enum PageType {
 }
 
 export type IPageData<T extends DefaultDataType = DefaultDataType> = {
-  id: number;
-  originId?: number | null; // if this is a draft, it will have an originalId
+  id: number | string;
+  originId?: number | string | null; // if this is a draft, it will have an originalId
   isEditable: true;
   pathname: string;
   searchParams: string | null;

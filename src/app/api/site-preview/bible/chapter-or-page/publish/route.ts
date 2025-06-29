@@ -1,5 +1,5 @@
 import { sitePreviewApi } from "@/http-api/admin-api/site-preview-api";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(request: NextRequest) {
@@ -17,7 +17,7 @@ export async function PUT(request: NextRequest) {
     pageType
   );
 
-  if (!response?.error) revalidatePath(data.path);
+  if (!response?.error) revalidateTag(data.path.slice(1)); //remove first slash to get tag
 
   return NextResponse.json(null, {
     status: response?.error?.code || 200,

@@ -53,8 +53,8 @@ const menus: NavbarProps["navItems"] = [
     type: NavbarMenuItemType.GROUP,
     icon: SecurityOutlinedIcon,
     items: [
-      { type: NavbarMenuItemType.SINGLE, label: "Enable 2FA", link: "/" },
-      { type: NavbarMenuItemType.SINGLE, label: "Change password", link: "/" },
+      // { type: NavbarMenuItemType.SINGLE, label: "Enable 2FA", link: "/" },
+      // { type: NavbarMenuItemType.SINGLE, label: "Change password", link: "/" },
       {
         type: NavbarMenuItemType.SINGLE,
         label: "Logout",

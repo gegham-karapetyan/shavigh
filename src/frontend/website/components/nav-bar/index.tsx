@@ -27,7 +27,7 @@ const routes = [
   },
   {
     label: "ՎԱՐՔ ՍՐԲՈՑ",
-    href: "/sanctuary-attitude",
+    href: "/saintsbehavior",
   },
 
   {

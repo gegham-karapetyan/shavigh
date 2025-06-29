@@ -12,6 +12,7 @@ import {
 } from "@/frontend/admin-dashboard/contexts/website-messaging-context";
 import { useRouter } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SITE_PREVIEW_BASEPATH } from "@/constants";
 
 // export const dynamic = "force-dynamic";
 
@@ -26,7 +27,14 @@ const RouteSyncPlugin = ({ onReady }: { onReady: () => void }) => {
 
   return null;
 };
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    },
+  },
+});
 
 export default function SiteLayout({ children }: PropsWithChildren) {
   const [isReady, setIsReady] = useState(false);
@@ -38,7 +46,7 @@ export default function SiteLayout({ children }: PropsWithChildren) {
           <WebsiteMessagingProvider>
             <RouteSyncPlugin onReady={() => setIsReady(true)} />
             {isReady && (
-              <BasePathProvider base="/site-preview">
+              <BasePathProvider base={SITE_PREVIEW_BASEPATH}>
                 <div>
                   <ConfigBar />
                   <Header />

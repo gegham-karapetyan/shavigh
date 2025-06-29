@@ -12,6 +12,8 @@ import {
   BibleMainPageContentModel,
   UpdateStaticPageInternalModel,
   UpdateBibleDynamicPageModel,
+  GetSaintsBehaviorSectionModel,
+  GetSaintsBehaviorPageModel,
 } from "../interfaces/site-pages.models";
 import { publicApi } from "../public-api";
 
@@ -191,12 +193,14 @@ export const sitePreviewApi = {
     type: "chapter" | "page"
   ) {
     const isFirstUpdate = !data.originId;
+
     const dataCopy = {
       ...data,
       id: isFirstUpdate ? undefined : data.id,
       originId: isFirstUpdate ? data.id : data.originId,
       status: undefined,
     };
+
     const url =
       type === "chapter" ? "/bibles/chapters" : "/bibles/chapters/pages";
 
@@ -216,5 +220,30 @@ export const sitePreviewApi = {
         ? "/bibles/chapters/draft"
         : "/bibles/chapters/pages/draft";
     return await fetcher<GetBibleDynamicPageModel[]>(url);
+  },
+  getSaintsBehaviorSectionData(lg: string, section: string) {
+    const url = `saintsbehavior/${lg}/${section}`;
+
+    return fetcher<GetSaintsBehaviorSectionModel>("/saints-behavior/section", {
+      cache: "no-cache",
+      params: {
+        status: PAGE_STATUS.DRAFT,
+        url,
+      },
+    });
+  },
+  getSaintsBehaviorPageData(lg: string, section: string, page: string) {
+    const url = `saintsbehavior/${lg}/${section}/${page}`;
+
+    return fetcher<GetSaintsBehaviorPageModel>(
+      "/saints-behavior/section/pages",
+      {
+        cache: "no-cache",
+        params: {
+          status: PAGE_STATUS.DRAFT,
+          url,
+        },
+      }
+    );
   },
 };
