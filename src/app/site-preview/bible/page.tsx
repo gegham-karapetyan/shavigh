@@ -1,4 +1,6 @@
 "use client";
+import { tags } from "@/constants/tags";
+import { getEntitySelector } from "@/frontend/admin-dashboard/contexts/site-preview-state-context";
 import {
   EditableBlockType,
   PageType,
@@ -43,14 +45,19 @@ export default function BibleMainPagePreview() {
   useEffect(() => {
     if (data) {
       sendRouteChange({
-        status: data.status,
-        data,
-        id: data.id,
-        originId: data.originId,
-        pageType: PageType.BIBLE_MAIN_PAGE,
-        isEditable: true,
-        pathname,
-        searchParams: qs,
+        routeId: data.id,
+        routePathname: pathname,
+        routeSearchParams: qs,
+        routeStatus: data.status,
+        isRouteDataEditable: false,
+        data: {
+          [getEntitySelector(PageType.BIBLE_MAIN_PAGE, data.id)]: {
+            ...data,
+            revalidateTags: [tags.getBibleMainPageRevalidateTag()],
+            pageType: PageType.BIBLE_MAIN_PAGE,
+            connectedPages: [],
+          },
+        },
       });
     }
   }, [data, sendRouteChange, pathname, qs]);
@@ -58,12 +65,13 @@ export default function BibleMainPagePreview() {
   if (isError) return <div>error....</div>;
 
   const onEditContent = () => {
+    const selector = getEntitySelector(PageType.BIBLE_MAIN_PAGE, data!.id);
+
     sendEditEvent({
+      routeId: data!.id,
       id: data!.id,
       blockType: EditableBlockType.TEXT,
-      pathname,
-      searchParams: qs,
-      identifier: "content.content",
+      editableBlockIdentifier: `${selector}.content.content`,
     });
   };
 

@@ -1,5 +1,5 @@
 "use client";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import "@/frontend/website/global.css";
 import { ConfigBar } from "@/frontend/website/components/config-bar";
 import { Header } from "@/frontend/website/components/header";
@@ -18,6 +18,7 @@ import { SITE_PREVIEW_BASEPATH } from "@/constants";
 
 const RouteSyncPlugin = ({ onReady }: { onReady: () => void }) => {
   const router = useRouter();
+
   useOnRouteChangeEvent((data) => {
     router.push(
       `${data.pathname}${data.searchParams ? "?" + data.searchParams : ""}`
@@ -38,6 +39,10 @@ const queryClient = new QueryClient({
 
 export default function SiteLayout({ children }: PropsWithChildren) {
   const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    return queryClient.clear;
+  }, []);
 
   return (
     <html lang="hy">

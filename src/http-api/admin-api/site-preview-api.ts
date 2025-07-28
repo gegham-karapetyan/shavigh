@@ -14,6 +14,8 @@ import {
   UpdateBibleDynamicPageModel,
   GetSaintsBehaviorSectionModel,
   GetSaintsBehaviorPageModel,
+  UpdateSaintsBehaviorSectionModel,
+  UpdateSaintsBehaviorPageModel,
 } from "../interfaces/site-pages.models";
 import { publicApi } from "../public-api";
 
@@ -153,6 +155,7 @@ export const sitePreviewApi = {
   async publishBibleChapterOrPage(
     id: number,
     originId: number,
+    bibleBookId: number | undefined,
     type: "chapter" | "page"
   ) {
     const url =
@@ -161,7 +164,7 @@ export const sitePreviewApi = {
         : "/bibles/chapters/pages/publish";
     const response = await fetcher<void>(url, {
       method: "PUT",
-      body: JSON.stringify({ id, originId }),
+      body: JSON.stringify({ id, originId, bibleBookId }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -192,8 +195,9 @@ export const sitePreviewApi = {
     data: UpdateBibleDynamicPageModel,
     type: "chapter" | "page"
   ) {
-    const isFirstUpdate = !data.originId;
+    const isPublish = data.status === PAGE_STATUS.PUBLISHED;
 
+    const isFirstUpdate = isPublish;
     const dataCopy = {
       ...data,
       id: isFirstUpdate ? undefined : data.id,
@@ -232,6 +236,35 @@ export const sitePreviewApi = {
       },
     });
   },
+  updateSaintsBehaviorSectionData(data: UpdateSaintsBehaviorSectionModel) {
+    const isPublish = data.status === PAGE_STATUS.PUBLISHED;
+
+    const isFirstUpdate = isPublish;
+
+    const dataCopy = {
+      ...data,
+      id: isFirstUpdate ? undefined : data.id,
+      originId: isFirstUpdate ? data.id : data.originId,
+      status: undefined,
+    };
+
+    return fetcher<void>("/saints-behavior/section", {
+      method: "POST",
+      body: JSON.stringify(dataCopy),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  },
+  publishSaintsBehaviorSectionData(id: number, originId: number) {
+    return fetcher<void>("/saints-behavior/section/publish", {
+      method: "PUT",
+      body: JSON.stringify({ id, originId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  },
   getSaintsBehaviorPageData(lg: string, section: string, page: string) {
     const url = `saintsbehavior/${lg}/${section}/${page}`;
 
@@ -245,5 +278,33 @@ export const sitePreviewApi = {
         },
       }
     );
+  },
+  updateSaintsBehaviorPageData(data: UpdateSaintsBehaviorPageModel) {
+    const isPublish = data.status === PAGE_STATUS.PUBLISHED;
+
+    const isFirstUpdate = isPublish;
+
+    const dataCopy = {
+      ...data,
+      id: isFirstUpdate ? undefined : data.id,
+      originId: isFirstUpdate ? data.id : data.originId,
+      status: undefined,
+    };
+    return fetcher<void>("/saints-behavior/section/pages", {
+      method: "POST",
+      body: JSON.stringify(dataCopy),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  },
+  publishSaintsBehaviorPageData(id: number, originId: number) {
+    return fetcher<void>("/saints-behavior/section/pages/publish", {
+      method: "PUT",
+      body: JSON.stringify({ id, originId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   },
 };

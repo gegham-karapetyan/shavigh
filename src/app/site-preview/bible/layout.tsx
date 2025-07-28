@@ -1,22 +1,7 @@
 "use client";
 import { PropsWithChildren } from "react";
-
 import { BibleLayout } from "@/frontend/website/components/pages-layouts/BibleLayout";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { BibleNavDataModel } from "@/http-api/interfaces/site-pages.models";
-
-const useBibleNavigationMenuData = () =>
-  useQuery({
-    queryKey: ["BIBLE_NAVIGATION_MENU_DATA_QUERY_KEY"],
-    queryFn: async () => {
-      const { data } = await axios.get<BibleNavDataModel>(
-        "/api/site-preview/bible/nav-menu"
-      );
-      return data;
-    },
-    staleTime: Infinity,
-  });
+import { useBibleNavigationMenuData } from "@/frontend/admin-dashboard/api-hooks/useBibleNavigationMenuData";
 
 export default function BibleLayoutPage(props: PropsWithChildren) {
   const { data, isLoading, isError } = useBibleNavigationMenuData();

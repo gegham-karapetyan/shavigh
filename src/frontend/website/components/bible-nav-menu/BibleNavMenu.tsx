@@ -115,21 +115,6 @@ const BooksList: FC<BooksListProps> = ({ newBibleBooks, oldBibleBooks }) => {
   return (
     <ul className="divide-y divide-gray-100 select-none">
       <ToggleButton
-        isOpened={open.newTestamentOpen}
-        isActive={isNewTestament}
-        onToggle={() =>
-          setOpen((p) => ({ ...p, newTestamentOpen: !p.newTestamentOpen }))
-        }
-        variant="book"
-        title="ՆՈՐ ԿՏԱԿԱՐԱՆ"
-      />
-
-      <Expandable component="li" expanded={open.newTestamentOpen}>
-        {newBibleBooks.map((book) => (
-          <BookWithChapters key={book.slug} {...book} />
-        ))}
-      </Expandable>
-      <ToggleButton
         isOpened={open.oldTestamentOpen}
         isActive={isOldTestament}
         onToggle={() =>
@@ -141,6 +126,21 @@ const BooksList: FC<BooksListProps> = ({ newBibleBooks, oldBibleBooks }) => {
 
       <Expandable component="li" expanded={open.oldTestamentOpen}>
         {oldBibleBooks.map((book) => (
+          <BookWithChapters key={book.slug} {...book} />
+        ))}
+      </Expandable>
+      <ToggleButton
+        isOpened={open.newTestamentOpen}
+        isActive={isNewTestament}
+        onToggle={() =>
+          setOpen((p) => ({ ...p, newTestamentOpen: !p.newTestamentOpen }))
+        }
+        variant="book"
+        title="ՆՈՐ ԿՏԱԿԱՐԱՆ"
+      />
+
+      <Expandable component="li" expanded={open.newTestamentOpen}>
+        {newBibleBooks.map((book) => (
           <BookWithChapters key={book.slug} {...book} />
         ))}
       </Expandable>
@@ -174,7 +174,7 @@ const BookWithChapters: FC<BooksListItemProps> = ({
         <ul className="flex gap-1 px-8 flex-wrap p-3 bg-gray-500">
           {chapters.map((chapter) => (
             <li key={chapter.title} className="first-of-type:w-full">
-              <NavLink size="sm" href={`/${chapter.url}`}>
+              <NavLink prefetch={false} size="sm" href={`/${chapter.url}`}>
                 {chapter.title}
               </NavLink>
             </li>

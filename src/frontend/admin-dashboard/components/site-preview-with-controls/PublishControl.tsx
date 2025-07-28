@@ -22,17 +22,17 @@ export const PublishControl = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!previewState) {
-    return <CircularProgress size="20px" />; // or a loading indicator
+    return <CircularProgress size="20px" />;
   }
-  const isPublished = previewState.status === PAGE_STATUS.PUBLISHED;
+  const isPublished = previewState.routeStatus === PAGE_STATUS.PUBLISHED;
   const handlePublish = async () => {
     try {
       setIsLoading(true);
-      await mutateHandlers[previewState.pageType].publishHandler({
-        id: previewState.id,
-        originId: previewState.originId,
-        path: "/" + previewState.pathname.split("/").slice(2).join("/"),
-      });
+      await Promise.all(
+        Object.values(previewState.data)
+          .filter((item) => item.status === PAGE_STATUS.DRAFT)
+          .map((item) => mutateHandlers[item.pageType].publishHandler(item))
+      );
 
       sendToRefetch({ type: "refetch" });
       setOpenConfirmation(false);

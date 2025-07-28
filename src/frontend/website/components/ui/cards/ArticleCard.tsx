@@ -34,7 +34,7 @@ export const ArticleCard: FC<ArticleCardProps> = ({
 }) => {
   return (
     <div className={clsx("min-w-2xs", articleSizes[size], className)}>
-      <p>{data.createdAt}</p>
+      <p>{new Date(data.createdAt).toLocaleDateString()}</p>
       <h2 className="font-bold mt-3">{data.title}</h2>
       <p className="mt-5">{data.description}</p>
       <div className="mt-5">

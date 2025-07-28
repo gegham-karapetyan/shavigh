@@ -1,0 +1,3 @@
+bible chapter pages' would be defined in phase of publish
+
+draft pages haven't ability to navigate to the next and prev pages,

@@ -4,6 +4,8 @@ import { publicApi } from "@/http-api/public-api";
 import { notFound } from "next/navigation";
 import { PropsWithChildren } from "react";
 
+export const generateStaticParams = () => [];
+
 type LayoutProps = PropsWithChildren<{
   params: Promise<{ lg: string; section: string }>;
 }>;

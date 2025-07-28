@@ -7,6 +7,7 @@ import {
 } from "@/frontend/website/components/pages-layouts/FaithLayout";
 import { notFound } from "next/navigation";
 import { getFaithPageData } from "./actions";
+import { articlesMock } from "@/tmp/articles-mock";
 
 export default async function FaithPage() {
   const { data, error } = await getFaithPageData();
@@ -35,17 +36,20 @@ export default async function FaithPage() {
         <HtmlContentRenderer content={data.content.introductionContent} />
       }
       researchArticlesSection={
-        <ResearchArticlesSection articles={data.content.researchArticles} />
+        // <ResearchArticlesSection articles={data.content.researchArticles} />
+        <ResearchArticlesSection articles={articlesMock.slice(0, 5)} />
       }
       translationsArticlesSection={
-        <TranslationsArticlesSection
-          articles={data.content.translationsArticles}
-        />
+        // <TranslationsArticlesSection
+        //   articles={data.content.translationsArticles}
+        // />
+        <TranslationsArticlesSection articles={articlesMock.slice(3, 7)} />
       }
       bibliographiesArticlesSection={
-        <BibliographiesArticlesSection
-          articles={data.content.bibliographiesArticles}
-        />
+        // <BibliographiesArticlesSection
+        //   articles={data.content.bibliographiesArticles}
+        // />
+        <BibliographiesArticlesSection articles={articlesMock.slice(4, 8)} />
       }
     />
   );

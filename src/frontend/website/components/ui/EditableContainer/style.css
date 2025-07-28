@@ -5,10 +5,10 @@
     @apply relative min-h-24;
 
     .edit-btn-container {
-      @apply left-0 hidden absolute w-full py-4 -top-10 right-5 z-2 text-right;
+      @apply left-0 hidden absolute w-full py-4 top-0 -translate-y-full right-5 z-2;
     }
     .edit-btn {
-      @apply cursor-pointer backdrop-blur-xs inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-transparent border border-transparent rounded-md shadow-sm hover:bg-gray-500 focus:outline-none;
+      @apply absolute right-0 cursor-pointer backdrop-blur-xs inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-transparent border border-transparent rounded-md shadow-sm hover:bg-gray-500 focus:outline-none;
     }
   }
   .editable-wrapper:hover {

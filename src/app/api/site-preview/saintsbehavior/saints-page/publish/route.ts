@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request: Request) {
   const data = (await request.json()) as EntityBaseModel;
-  const response = await sitePreviewApi.publishStaticPage(
+  const response = await sitePreviewApi.publishSaintsBehaviorPageData(
     data.id,
     data.originId!
   );

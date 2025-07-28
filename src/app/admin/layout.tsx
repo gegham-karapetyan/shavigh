@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "@/frontend/admin-dashboard/components/admin-theme";
 import { CssBaseline } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SnackbarProvider } from "notistack";
 // import { useQuery } from "@tanstack/react-query";
 // import axios from "axios";
 // import { useRouter } from "next/navigation";
@@ -47,14 +48,19 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <html lang="en" className={roboto.variable}>
       <body>
-        <QueryClientProvider client={queryClient}>
-          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              {props.children}
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </QueryClientProvider>
+        <SnackbarProvider
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          maxSnack={3}
+        >
+          <QueryClientProvider client={queryClient}>
+            <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                {props.children}
+              </ThemeProvider>
+            </AppRouterCacheProvider>
+          </QueryClientProvider>
+        </SnackbarProvider>
       </body>
     </html>
   );

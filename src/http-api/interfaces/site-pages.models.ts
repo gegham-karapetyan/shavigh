@@ -106,6 +106,7 @@ export interface GetBibleMainPageModel {
 }
 
 export interface BibleBookModel {
+  id: number;
   title: string;
   slug: string;
   translationName: string;
@@ -135,6 +136,7 @@ export interface GetBibleDynamicPageModel {
   nextLink: string | null;
   prevLink: string | null;
   bibleBookId?: number;
+  attached: boolean;
 }
 export interface UpdateBibleDynamicPageModel {
   id?: number;
@@ -148,9 +150,21 @@ export interface UpdateBibleDynamicPageModel {
   prevLink: string | null;
   bibleBookId?: number;
   bibleBookChapterId?: number;
+  attached?: boolean;
+  bibleBookChapterUnattachedPageIds?: number[];
 }
 export interface GetSaintsBehaviorSectionModel {
   id: number;
+  originId?: number | null;
+  title: string;
+  url: string;
+  status: PAGE_STATUS;
+  content: string;
+}
+
+export interface UpdateSaintsBehaviorSectionModel {
+  id?: number;
+  originId?: number | null;
   title: string;
   url: string;
   status: PAGE_STATUS;
@@ -176,16 +190,18 @@ export interface GetSaintsBehaviorPageModel {
   title: string;
   url: string;
   status: PAGE_STATUS;
+  sectionId: number;
+  attached: boolean;
   content: string;
 }
 
-export interface GetSaintsBehaviorSectionAndPageCombinedModel {
-  id: string;
+export interface UpdateSaintsBehaviorPageModel {
+  id?: number;
+  originId?: number | null;
   title: string;
   url: string;
-  status: PAGE_STATUS;
-  content: {
-    page: GetSaintsBehaviorPageModel;
-    section: GetSaintsBehaviorSectionModel;
-  };
+  status?: PAGE_STATUS;
+  sectionId: number;
+  attached: boolean;
+  content: string;
 }

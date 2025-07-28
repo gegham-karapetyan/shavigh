@@ -23,6 +23,7 @@ const normalizeTestamentBooks = (
   return books.map((book) => {
     const slug = book.chapters[0].url.split("/").at(-2)!;
     return {
+      id: book.id,
       title: book.title,
       translationName: book.translationName,
       slug,

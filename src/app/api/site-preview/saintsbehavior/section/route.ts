@@ -1,4 +1,5 @@
 import { sitePreviewApi } from "@/http-api/admin-api/site-preview-api";
+import { UpdateSaintsBehaviorSectionModel } from "@/http-api/interfaces/site-pages.models";
 import { publicApi } from "@/http-api/public-api";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -21,16 +22,12 @@ export async function GET(request: NextRequest) {
   });
 }
 
-// export async function POST(request: NextRequest) {
-//   const data = await request.json();
-//   const searchParams = new URL(request.nextUrl).searchParams;
-//   const pageType = searchParams.get("pageType") as "chapter" | "page";
-//   const response = await sitePreviewApi.updateBibleChapterOrPageData(
-//     data,
-//     pageType
-//   );
+export async function POST(request: NextRequest) {
+  const data = (await request.json()) as UpdateSaintsBehaviorSectionModel;
 
-//   return NextResponse.json(null, {
-//     status: response?.error?.code || 200,
-//   });
-// }
+  const response = await sitePreviewApi.updateSaintsBehaviorSectionData(data);
+  console.log("response", response);
+  return NextResponse.json(null, {
+    status: response?.error?.code || 200,
+  });
+}

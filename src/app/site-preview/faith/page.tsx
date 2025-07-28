@@ -1,4 +1,6 @@
 "use client";
+import { tags } from "@/constants/tags";
+import { getEntitySelector } from "@/frontend/admin-dashboard/contexts/site-preview-state-context";
 import {
   EditableBlockType,
   PageType,
@@ -50,28 +52,31 @@ export default function FaithPreviewPage() {
   useEffect(() => {
     if (data) {
       sendRouteChange({
-        status: data.status,
+        routeId: data.id,
+        routeStatus: data.status,
+        isRouteDataEditable: true,
+        routePathname: pathname,
+        routeSearchParams: qs,
         data: {
-          ...data,
-          content: {
-            ...data.content,
-            researchArticles: data.content.researchArticles.map(
-              (article) => article.id
-            ),
-            translationsArticles: data.content.translationsArticles.map(
-              (article) => article.id
-            ),
-            bibliographiesArticles: data.content.bibliographiesArticles.map(
-              (article) => article.id
-            ),
+          [getEntitySelector(PageType.FAITH, data.id)]: {
+            ...data,
+            connectedPages: [],
+            pageType: PageType.FAITH,
+            revalidateTags: [tags.getFaithRevalidateTag()],
+            content: {
+              ...data.content,
+              researchArticles: data.content.researchArticles.map(
+                (article) => article.id
+              ),
+              translationsArticles: data.content.translationsArticles.map(
+                (article) => article.id
+              ),
+              bibliographiesArticles: data.content.bibliographiesArticles.map(
+                (article) => article.id
+              ),
+            },
           },
         },
-        id: data.id,
-        originId: data.originId,
-        pageType: PageType.FAITH,
-        isEditable: true,
-        pathname,
-        searchParams: qs,
       });
     }
   }, [data, sendRouteChange, pathname, qs]);
@@ -80,22 +85,24 @@ export default function FaithPreviewPage() {
   if (isError) return <div>error....</div>;
 
   const onEditTextContent = (identifier: string) => {
+    const selector = getEntitySelector(PageType.FAITH, data!.id);
+
     sendEditEvent({
+      routeId: data!.id,
       id: data!.id,
       blockType: EditableBlockType.TEXT,
-      pathname,
-      searchParams: qs,
-      identifier,
+      editableBlockIdentifier: `${selector}.${identifier}`,
     });
   };
 
   const onEditArticles = (identifier: string) => {
+    const selector = getEntitySelector(PageType.FAITH, data!.id);
+
     sendEditEvent({
       id: data!.id,
+      routeId: data!.id,
       blockType: EditableBlockType.ARTICLES,
-      pathname,
-      searchParams: qs,
-      identifier,
+      editableBlockIdentifier: `${selector}.${identifier}`,
     });
   };
 

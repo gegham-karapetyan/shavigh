@@ -39,9 +39,9 @@ export const RouteSyncPlugin = () => {
     setPreviewState(data);
 
     router.push(
-      `?${queryKeys.PREVIEW_PATHNAME}=${data.pathname}${
-        data.searchParams
-          ? `&${queryKeys.PREVIEW_QUERY}${data.searchParams}`
+      `?${queryKeys.PREVIEW_PATHNAME}=${data.routePathname}${
+        data.routeSearchParams
+          ? `&${queryKeys.PREVIEW_QUERY}${data.routeSearchParams}`
           : ""
       }`
     );

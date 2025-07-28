@@ -7,7 +7,7 @@ import parse, {
   attributesToProps,
   domToReact,
 } from "html-react-parser";
-import { Comment } from "./Comment";
+import { Tooltip } from "./Tooltip";
 import { RendererLink, RendererLinkProps } from "./RendererLink";
 
 export interface HtmlContentRendererProps {
@@ -16,14 +16,14 @@ export interface HtmlContentRendererProps {
 const options: HTMLReactParserOptions = {
   replace(domNode) {
     if (domNode instanceof Element) {
+      if (domNode.attribs["data-info"]) {
+        return (
+          <Tooltip text={domNode.attribs["data-info"]}>
+            {domToReact(domNode.children as DOMNode[], options)}
+          </Tooltip>
+        );
+      }
       if (domNode.name === "a") {
-        if (domNode.attribs.class === "commentsPop") {
-          return (
-            <Comment content={domNode.attribs["data-info"]}>
-              {domToReact(domNode.children as DOMNode[], options)}
-            </Comment>
-          );
-        }
         return (
           <RendererLink
             {...(attributesToProps(
