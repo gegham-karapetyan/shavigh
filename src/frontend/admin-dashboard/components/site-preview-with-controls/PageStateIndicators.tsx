@@ -7,7 +7,7 @@ export const PageStateIndicators = () => {
   if (!previewState) {
     return <CircularProgress size="20px" />;
   }
-  const isOriginal = previewState.status === PAGE_STATUS.PUBLISHED;
+  const isOriginal = previewState.routeStatus === PAGE_STATUS.PUBLISHED;
 
   return (
     <Chip

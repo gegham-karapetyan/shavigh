@@ -22,6 +22,7 @@ export const SaintsBehaviorLayout: FC<
           <div className="main-container grid gap-x-6 gap-y-5 grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
             {sections.map((section) => (
               <NavLink
+                prefetch={false}
                 href={"/" + section.url}
                 variant="contained"
                 size="lg"

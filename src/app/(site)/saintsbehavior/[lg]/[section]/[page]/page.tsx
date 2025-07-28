@@ -2,6 +2,8 @@ import { HtmlContentRenderer } from "@/frontend/website/components/html-content-
 import { publicApi } from "@/http-api/public-api";
 import { notFound } from "next/navigation";
 
+export const generateStaticParams = () => [];
+
 export default async function Page({
   params,
 }: {

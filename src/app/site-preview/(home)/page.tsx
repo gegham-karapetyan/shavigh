@@ -1,5 +1,7 @@
 // import heroDesktop from '@/media/images/home-hero-desktop.jpg'
 "use client";
+import { tags } from "@/constants/tags";
+import { getEntitySelector } from "@/frontend/admin-dashboard/contexts/site-preview-state-context";
 import {
   EditableBlockType,
   PageType,
@@ -49,20 +51,23 @@ export default function HomePreview() {
   useEffect(() => {
     if (data) {
       sendRouteChange({
-        status: data.status,
+        routeId: data.id,
+        routeStatus: data.status,
+        isRouteDataEditable: true,
+        routePathname: pathname,
+        routeSearchParams: qs,
         data: {
-          ...data,
-          content: {
-            ...data.content,
-            articles: data.content.articles.map((article) => article.id),
+          [getEntitySelector(PageType.HOME, data.id)]: {
+            ...data,
+            connectedPages: [],
+            revalidateTags: [tags.getHomeRevalidateTag()],
+            pageType: PageType.HOME,
+            content: {
+              ...data.content,
+              articles: data.content.articles.map((article) => article.id),
+            },
           },
         },
-        id: data.id,
-        originId: data.originId,
-        pageType: PageType.HOME,
-        isEditable: true,
-        pathname,
-        searchParams: qs,
       });
     }
   }, [data, sendRouteChange, pathname, qs]);
@@ -70,21 +75,22 @@ export default function HomePreview() {
   if (isError) return <div>error....</div>;
 
   const onEditWelcomeContent = () => {
+    const selector = getEntitySelector(PageType.HOME, data!.id);
     sendEditEvent({
+      routeId: data!.id,
       id: data!.id,
       blockType: EditableBlockType.TEXT,
-      pathname,
-      searchParams: qs,
-      identifier: "content.welcomeContent",
+      editableBlockIdentifier: `${selector}.content.welcomeContent`,
     });
   };
   const onEditArticlesSection = () => {
+    const selector = getEntitySelector(PageType.HOME, data!.id);
+
     sendEditEvent({
+      routeId: data!.id,
       id: data!.id,
       blockType: EditableBlockType.ARTICLES,
-      pathname,
-      searchParams: qs,
-      identifier: "content.articles",
+      editableBlockIdentifier: `${selector}.content.articles`,
     });
   };
   return (

@@ -16,12 +16,13 @@ import {
   aggregateFaithPageData,
   aggregateHomePageData,
 } from "../helpers/aggregators";
+import { tags } from "@/constants/tags";
 
 const getArticlesByIds = (articleIds: number[]) => {
   return fetcher<GetArticleListItemModel[]>("/articles", {
     params: { ids: articleIds },
     cache: "force-cache",
-    next: { tags: ["articles"] },
+    next: { tags: [tags.getArticlesRevalidateTag()] },
   });
 };
 
@@ -31,7 +32,7 @@ export const publicApi = {
       "/static-pages/home",
       {
         cache: "force-cache",
-        next: { tags: ["home"] },
+        next: { tags: [tags.getHomeRevalidateTag()] },
       }
     );
 
@@ -59,7 +60,7 @@ export const publicApi = {
       "/static-pages/faith",
       {
         cache: "force-cache",
-        next: { tags: ["faith"] },
+        next: { tags: [tags.getFaithRevalidateTag()] },
       }
     );
     if (faithResponse.error) {
@@ -94,7 +95,7 @@ export const publicApi = {
       "/static-pages/bible-main-page",
       {
         cache: "force-cache",
-        next: { tags: ["bible-main-page"] },
+        next: { tags: [tags.getBibleMainPageRevalidateTag()] },
       }
     );
     if (bibleMainPageResponse.error) {
@@ -111,7 +112,7 @@ export const publicApi = {
   async getBibleNavigation() {
     const bibleNavigationResponse = await fetcher<TestamentModel[]>("/bibles", {
       cache: "force-cache",
-      next: { tags: ["bible-navigation"] },
+      next: { tags: [tags.getBibleNavigationRevalidateTag()] },
     });
     if (bibleNavigationResponse.error) {
       return bibleNavigationResponse;
@@ -132,7 +133,11 @@ export const publicApi = {
       `/bibles/chapters?url=${url}`,
       {
         cache: "force-cache",
-        next: { tags: [url] },
+        next: {
+          tags: [
+            tags.getBibleChapterRevalidateTag(lg, testament, book, chapter),
+          ],
+        },
       }
     );
     return bibleChapterResponse;
@@ -146,10 +151,14 @@ export const publicApi = {
   ) {
     const url = `bible/${lg}/${testament}/${book}/${chapter}/${page}`;
     const biblePageResponse = await fetcher<GetBibleDynamicPageModel>(
-      `/bibles/chapters/pages?url=bible/${lg}/${testament}/${book}/${chapter}/${page}`,
+      `/bibles/chapters/pages?url=${url}`,
       {
         cache: "force-cache",
-        next: { tags: [url] },
+        next: {
+          tags: [
+            tags.getBiblePageRevalidateTag(lg, testament, book, chapter, page),
+          ],
+        },
       }
     );
     return biblePageResponse;
@@ -159,14 +168,14 @@ export const publicApi = {
   getSaintsBehaviorData() {
     return fetcher<GetSaintsBehaviorModel[]>("/saints-behavior", {
       cache: "force-cache",
-      next: { tags: ["sanctuary-attitude"] },
+      next: { tags: [tags.getSaintsBehaviorRevalidateTag()] },
     });
   },
   getSaintsBehaviorSectionData(lg: string, section: string) {
     const url = `saintsbehavior/${lg}/${section}`;
     return fetcher<GetSaintsBehaviorSectionModel>("/saints-behavior/section", {
       cache: "force-cache",
-      next: { tags: [url] },
+      next: { tags: [tags.getSaintsBehaviorSectionRevalidateTag(lg, section)] },
       params: {
         url,
       },
@@ -179,7 +188,9 @@ export const publicApi = {
       "/saints-behavior/section/pages",
       {
         cache: "force-cache",
-        next: { tags: [url] },
+        next: {
+          tags: [tags.getSaintsBehaviorPageRevalidateTag(lg, section, page)],
+        },
         params: {
           url,
         },

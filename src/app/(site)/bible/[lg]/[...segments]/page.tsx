@@ -10,6 +10,7 @@ import { HtmlContentRenderer } from "@/frontend/website/components/html-content-
 export interface BibleDynamicPageProps {
   params: Promise<{ [key: string]: string | string[] }>;
 }
+export const generateStaticParams = () => [];
 
 const isNotValidPath = (lg: string | string[], segments: string | string[]) => {
   if (
@@ -41,6 +42,7 @@ export default async function Page(props: BibleDynamicPageProps) {
     ).join("/")}`;
     return <BibleDynamicNotFoundPage alternateUrl={alternateUrl} />;
   }
+
   return (
     <BibleDynamicPageLayout
       prevLink={data.prevLink}

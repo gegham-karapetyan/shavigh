@@ -30,5 +30,5 @@ export const RendererLink: FC<RendererLinkProps> = ({
   //   fullHref = `${basepath ? basepath + "/" : ""}${href}`;
   // }
 
-  return <Link {...props} href={fullHref} />;
+  return <Link {...props} prefetch={false} href={fullHref} />;
 };

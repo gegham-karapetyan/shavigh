@@ -1,46 +1,37 @@
 import axios from "axios";
-import { IPageData, PageType } from "../../contexts/types";
+import {
+  // RouteDataModel,
+  PageType,
+  EntityBaseModel,
+} from "../../contexts/types";
 
 export const mutateHandlers = {
   [PageType.HOME]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.put<void>("/api/site-preview/home", data),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-      path: string;
-    }) => axios.put("/api/site-preview/home/publish", data),
+    publishHandler: (data: EntityBaseModel) =>
+      axios.put("/api/site-preview/home/publish", data),
   },
   [PageType.FAITH]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.put<void>("/api/site-preview/faith", data),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-      path: string;
-    }) => axios.put("/api/site-preview/faith/publish", data),
+    publishHandler: (data: EntityBaseModel) =>
+      axios.put("/api/site-preview/faith/publish", data),
   },
   [PageType.BIBLE_MAIN_PAGE]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.put<void>("/api/site-preview/bible/main-page", data),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-      path: string;
-    }) => axios.put("/api/site-preview/bible/main-page/publish", data),
+    publishHandler: (data: EntityBaseModel) =>
+      axios.put("/api/site-preview/bible/main-page/publish", data),
   },
   [PageType.BIBLE_CHAPTER]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.post<void>("/api/site-preview/bible/chapter-or-page", data, {
         params: {
           pageType: "chapter",
         },
       }),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-      path: string;
-    }) =>
+    publishHandler: (data: EntityBaseModel) =>
       axios.put("/api/site-preview/bible/chapter-or-page/publish", data, {
         params: {
           pageType: "chapter",
@@ -49,17 +40,13 @@ export const mutateHandlers = {
   },
 
   [PageType.BIBLE_PAGE]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.post<void>("/api/site-preview/bible/chapter-or-page", data, {
         params: {
           pageType: "page",
         },
       }),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-      path: string;
-    }) =>
+    publishHandler: (data: EntityBaseModel) =>
       axios.put("/api/site-preview/bible/chapter-or-page/publish", data, {
         params: {
           pageType: "page",
@@ -67,17 +54,29 @@ export const mutateHandlers = {
       }),
   },
 
+  [PageType.SAINTS_BEHAVIOR_SECTION]: {
+    editHandler: (data: EntityBaseModel) =>
+      axios.post<void>("/api/site-preview/saintsbehavior/section", data),
+    publishHandler: (data: EntityBaseModel) =>
+      axios.put("/api/site-preview/saintsbehavior/section/publish", data),
+  },
+  [PageType.SAINTS_BEHAVIOR_PAGE]: {
+    editHandler: (data: EntityBaseModel) =>
+      axios.post<void>("/api/site-preview/saintsbehavior/saints-page", data),
+    publishHandler: (data: EntityBaseModel) =>
+      axios.put("/api/site-preview/saintsbehavior/saints-page/publish", data),
+  },
+
   // must be implemented
+
   [PageType.ARTICLE]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.put<void>("/api/site-preview/{...}", data),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-    }) => axios.put("/api/site-preview/{...}/publish", data),
+    publishHandler: (data: EntityBaseModel) =>
+      axios.put("/api/site-preview/{...}/publish", data),
   },
   [PageType.ARTICLES]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.put<void>("/api/site-preview/{...}", data),
     publishHandler: (data: {
       id: number | string;
@@ -85,20 +84,16 @@ export const mutateHandlers = {
     }) => axios.put("/api/site-preview/{...}/publish", data),
   },
 
-  [PageType.SAINTS_BEHAVIOR]: {
-    editHandler: (data: IPageData["data"]) =>
-      axios.put<void>("/api/site-preview/{...}", data),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-    }) => axios.put("/api/site-preview/{...}/publish", data),
-  },
+  // [PageType.SAINTS_BEHAVIOR]: {
+  //   editHandler: (data: EntityBaseModel) =>
+  //     axios.put<void>("/api/site-preview/{...}", data),
+  //   publishHandler: (data: EntityBaseModel) =>
+  //     axios.put("/api/site-preview/{...}/publish", data),
+  // },
   [PageType.BIBLE]: {
-    editHandler: (data: IPageData["data"]) =>
+    editHandler: (data: EntityBaseModel) =>
       axios.put<void>("/api/site-preview/{...}", data),
-    publishHandler: (data: {
-      id: number | string;
-      originId?: number | string | null;
-    }) => axios.put("/api/site-preview/{...}/publish", data),
+    publishHandler: (data: EntityBaseModel) =>
+      axios.put("/api/site-preview/{...}/publish", data),
   },
 };

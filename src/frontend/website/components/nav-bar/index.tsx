@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
 const LogoComponent = (
-  <NavLink variant="text" href="/">
+  <NavLink prefetch={false} variant="text" href="/">
     <Image className="w-20" src={logo} alt="logo" />
   </NavLink>
 );
@@ -56,7 +56,7 @@ export const NavBar: FC<NavBarProps> = () => {
       <ul className="hidden flex-row items-center gap-5 2xl:gap-10 xl:flex">
         {routes.map(({ href, label }) => (
           <li key={label}>
-            <NavLink className="font-bold" href={href}>
+            <NavLink prefetch={false} className="font-bold" href={href}>
               {label}
             </NavLink>
           </li>
@@ -103,6 +103,7 @@ export const NavBar: FC<NavBarProps> = () => {
           {routes.map(({ href, label }, index) => (
             <li key={label}>
               <NavLink
+                prefetch={false}
                 href={href}
                 variant="text"
                 className="pt-5 pb-4 text-xl block"

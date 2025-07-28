@@ -2,7 +2,19 @@ import { PAGE_STATUS } from "@/constants";
 import { ChannelInstance, Controller, Node } from "@sanity/comlink";
 import { RefObject } from "react";
 
-export type DefaultDataType = unknown;
+export type EntityBaseModel<T = Record<string, unknown>> = {
+  id: number;
+  originId?: number | null;
+  pageType: PageType;
+  status: PAGE_STATUS;
+  content: unknown;
+  revalidateTags: string[];
+  connectedPages: { id: number; title: string; url: string }[];
+} & T;
+
+export type EntitySelector = `${PageType}:${number}`;
+
+export type DefaultDataType = Record<EntitySelector, EntityBaseModel>;
 
 export type IWebsiteMessageData<T extends DefaultDataType = DefaultDataType> =
   | IWebsiteRouteChangeMessageData<T>
@@ -52,7 +64,9 @@ export interface IDashboardRefetchMessageData {
 export const enum PageType {
   HOME = "home",
   FAITH = "faith",
-  SAINTS_BEHAVIOR = "SaintsBehavior",
+  // SAINTS_BEHAVIOR = "saintsBehavior",
+  SAINTS_BEHAVIOR_SECTION = "saintsBehaviorSection",
+  SAINTS_BEHAVIOR_PAGE = "saintsBehaviorPage",
   BIBLE = "bible",
   BIBLE_CHAPTER = "bibleChapter",
   BIBLE_PAGE = "biblePage",
@@ -61,14 +75,12 @@ export const enum PageType {
   BIBLE_MAIN_PAGE = "bibleMainPage",
 }
 
-export type IPageData<T extends DefaultDataType = DefaultDataType> = {
-  id: number | string;
-  originId?: number | string | null; // if this is a draft, it will have an originalId
-  isEditable: true;
-  pathname: string;
-  searchParams: string | null;
-  pageType: PageType;
-  status: PAGE_STATUS;
+export type RouteDataModel<T extends DefaultDataType = DefaultDataType> = {
+  routeId: number | string;
+  routePathname: string;
+  routeSearchParams: string | null;
+  routeStatus: PAGE_STATUS;
+  isRouteDataEditable: boolean;
   data: T;
 };
 
@@ -76,17 +88,16 @@ export interface IWebsiteRouteChangeMessageData<
   T extends DefaultDataType = DefaultDataType
 > {
   type: WebsiteMessageType.ON_ROUTE_CHANGE;
-  data: IPageData<T>;
+  data: RouteDataModel<T>;
 }
 
 export interface IWebsiteOnEditMessageData {
   type: WebsiteMessageType.ON_EDIT;
   data: {
+    routeId: number | string;
     id: number;
     blockType: EditableBlockType;
-    pathname: string;
-    searchParams: string | null;
-    identifier: string;
+    editableBlockIdentifier: `${EntitySelector}.${string}`;
   };
 }
 

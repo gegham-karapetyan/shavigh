@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogProps,
   DialogTitle,
   Paper,
   PaperProps,
@@ -35,6 +36,7 @@ export type DraggableDialogProps = PropsWithChildren<{
   onClose: () => void;
   onSave: () => void;
   title: ReactNode;
+  size?: DialogProps["maxWidth"];
 }>;
 
 export const DraggableDialog: FC<DraggableDialogProps> = ({
@@ -43,12 +45,14 @@ export const DraggableDialog: FC<DraggableDialogProps> = ({
   onSave,
   title,
   children,
+  size = "md",
 }) => {
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth="xl"
+      maxWidth={size}
+      fullWidth
       PaperComponent={PaperComponent}
       aria-labelledby="draggable-dialog-title"
     >

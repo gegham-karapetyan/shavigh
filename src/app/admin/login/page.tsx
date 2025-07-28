@@ -83,6 +83,7 @@ export default function LoginPage() {
           disabled={isLoading}
           loading={isLoading}
           type="submit"
+          size="large"
           variant="contained"
           color="primary"
         >

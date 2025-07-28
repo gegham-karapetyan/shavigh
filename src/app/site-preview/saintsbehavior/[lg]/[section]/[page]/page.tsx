@@ -1,5 +1,9 @@
 "use client";
-import { useSendRouteChangeEvent } from "@/frontend/admin-dashboard/contexts/website-messaging-context";
+import {
+  useOnRefetchEvent,
+  useSendEditEvent,
+  useSendRouteChangeEvent,
+} from "@/frontend/admin-dashboard/contexts/website-messaging-context";
 import { HtmlContentRenderer } from "@/frontend/website/components/html-content-renderer";
 import { EditableContainer } from "@/frontend/website/components/ui/EditableContainer/EditableContainer";
 import { GetSaintsBehaviorPageModel } from "@/http-api/interfaces/site-pages.models";
@@ -8,8 +12,13 @@ import axios from "axios";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useGetSaintsBehaviorSection } from "../../../get-saints-behavior-data";
 import { useEffect } from "react";
-import { PageType } from "@/frontend/admin-dashboard/contexts/types";
+import {
+  EditableBlockType,
+  PageType,
+} from "@/frontend/admin-dashboard/contexts/types";
 import { PAGE_STATUS } from "@/constants";
+import { tags } from "@/constants/tags";
+import { getEntitySelector } from "@/frontend/admin-dashboard/contexts/site-preview-state-context";
 
 const useGetSaintsBehaviorPage = (
   lg: string,
@@ -42,16 +51,33 @@ export default function Page() {
     isError: isPageDataError,
     isLoading: isPageDataLoading,
     isFetching: isPageDataFetching,
+    refetch: refetchPageData,
   } = useGetSaintsBehaviorPage(params.lg, params.section, params.page);
+
   const {
     data: sectionData,
-
     isFetching: isSectionDataFetching,
+    refetch: refetchSectionData,
   } = useGetSaintsBehaviorSection(params.lg, params.section);
+
   const sendRouteChange = useSendRouteChangeEvent();
   const pathname = usePathname();
   const search = useSearchParams();
   const qs = search.toString();
+  const lg = params.lg;
+  const section = params.section;
+  const page = params.page;
+
+  useOnRefetchEvent(() => {
+    refetchPageData();
+    refetchSectionData();
+  });
+
+  console.log("xxxxxxx", {
+    sectionData,
+    pageData,
+  });
+
   useEffect(() => {
     if (
       !isPageDataFetching &&
@@ -60,19 +86,33 @@ export default function Page() {
       pageData
     ) {
       sendRouteChange({
-        id: `${sectionData.id}/${pageData.id}`,
-        status:
+        routeId: `${sectionData.id}/${page}`,
+        routeStatus:
           sectionData.status === PAGE_STATUS.DRAFT ||
           pageData.status === PAGE_STATUS.DRAFT
             ? PAGE_STATUS.DRAFT
             : PAGE_STATUS.PUBLISHED,
-        pageType: PageType.SAINTS_BEHAVIOR,
-        isEditable: true,
-        pathname,
-        searchParams: qs,
+        isRouteDataEditable: true,
+        routePathname: pathname,
+        routeSearchParams: qs,
         data: {
-          page: pageData,
-          section: sectionData,
+          [getEntitySelector(PageType.SAINTS_BEHAVIOR_SECTION, sectionData.id)]:
+            {
+              ...sectionData,
+              connectedPages: [],
+              pageType: PageType.SAINTS_BEHAVIOR_SECTION,
+              revalidateTags: [
+                tags.getSaintsBehaviorSectionRevalidateTag(lg, section),
+              ],
+            },
+          [getEntitySelector(PageType.SAINTS_BEHAVIOR_PAGE, pageData.id)]: {
+            ...pageData,
+            connectedPages: [],
+            revalidateTags: [
+              tags.getSaintsBehaviorPageRevalidateTag(lg, section, page),
+            ],
+            pageType: PageType.SAINTS_BEHAVIOR_PAGE,
+          },
         },
       });
     }
@@ -80,12 +120,31 @@ export default function Page() {
     isPageDataFetching,
     isPageDataLoading,
     isSectionDataFetching,
+    lg,
+    page,
     pageData,
     pathname,
     qs,
+    section,
     sectionData,
     sendRouteChange,
   ]);
+
+  const sendEditEvent = useSendEditEvent();
+
+  const onEditTextContent = () => {
+    const selector = getEntitySelector(
+      PageType.SAINTS_BEHAVIOR_PAGE,
+      pageData!.id
+    );
+
+    sendEditEvent({
+      id: pageData!.id,
+      routeId: `${sectionData!.id}/${page}`,
+      blockType: EditableBlockType.TEXT,
+      editableBlockIdentifier: `${selector}.content`,
+    });
+  };
 
   if (isPageDataError) {
     return <div>error.....</div>;
@@ -93,9 +152,9 @@ export default function Page() {
   if (isPageDataLoading) {
     return <div>loading.....</div>;
   }
-  console.log("page data", pageData);
+
   return (
-    <EditableContainer>
+    <EditableContainer onEdit={onEditTextContent}>
       <HtmlContentRenderer content={pageData!.content} />
     </EditableContainer>
   );

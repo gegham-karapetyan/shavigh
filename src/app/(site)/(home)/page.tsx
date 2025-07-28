@@ -5,6 +5,7 @@ import {
 } from "@/frontend/website/components/pages-layouts/HomeLayout";
 import { notFound } from "next/navigation";
 import { getHomePageData } from "./actions";
+import { articlesMock } from "@/tmp/articles-mock";
 
 export default async function Home() {
   const result = await getHomePageData();
@@ -15,7 +16,8 @@ export default async function Home() {
   return (
     <HomeLayout
       articlesSection={
-        <ArticlesSection articles={result.data.content.articles} />
+        // <ArticlesSection articles={result.data.content.articles} />
+        <ArticlesSection articles={articlesMock.slice(0, 3)} />
       }
       welcomeContentSection={
         <HtmlContentRenderer content={result.data.content.welcomeContent} />

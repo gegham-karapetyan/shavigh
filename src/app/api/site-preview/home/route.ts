@@ -15,6 +15,7 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   const data = await request.json();
+
   const response = await sitePreviewApi.updateStaticPageData(data);
   return NextResponse.json(null, {
     status: response?.error?.code || 200,
