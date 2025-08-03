@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import logo from "@/frontend/website/media/icons/shavigh-logo.svg?url";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const LogoComponent = (
   <NavLink prefetch={false} variant="text" href="/">
@@ -62,7 +63,7 @@ export const NavBar: FC<NavBarProps> = () => {
           </li>
         ))}
         <li className="mt-1">
-          <IconButton size="lg" variant="text">
+          <IconButton component={Link} href="/search" size="lg" variant="text">
             <SearchIcon />
           </IconButton>
         </li>
@@ -96,7 +97,12 @@ export const NavBar: FC<NavBarProps> = () => {
         </div>
         <ul className="px-5 pb-5">
           <li>
-            <IconButton size="lg" variant="text">
+            <IconButton
+              component={Link}
+              href="/search"
+              size="lg"
+              variant="text"
+            >
               <SearchIcon />
             </IconButton>
           </li>
