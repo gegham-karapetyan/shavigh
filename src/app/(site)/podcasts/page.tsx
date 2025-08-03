@@ -1,5 +1,5 @@
-import PodcastsPage from "@/frontend/website/site-pages/podcasts/PodcastsPage";
+import { PodcastsLayout } from "@/frontend/website/components/pages-layouts/PodcastsLayout";
 
 export default function Page() {
-  return <PodcastsPage />;
+  return <PodcastsLayout />;
 }
