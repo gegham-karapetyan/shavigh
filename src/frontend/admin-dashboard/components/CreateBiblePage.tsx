@@ -1,4 +1,4 @@
-import { Autocomplete, Stack, TextField } from "@mui/material";
+import { Autocomplete, Box, Stack, TextField, Typography } from "@mui/material";
 import { useBibleNavigationMenuData } from "../api-hooks/useBibleNavigationMenuData";
 import { DraggableDialog } from "./DraggableDialog";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { FC } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import slugify from "slugify";
 import { UpdateBibleDynamicPageModel } from "@/http-api/interfaces/site-pages.models";
 import { PAGE_STATUS } from "@/constants";
 import { useSnackbar } from "notistack";
@@ -23,16 +24,21 @@ const languagesMapping = {
   echmiadzin: "ԷՋՄԻԱԾԻՆ",
 };
 
-interface BibleChapterFormModel {
+interface BiblePageFormModel {
   lg: keyof typeof languagesMapping | null;
   testament: keyof typeof testamentMapping | null;
   book: null | { title: string; slug: string; id: number };
+  chapter: null | { title: string; url: string };
   title: string;
+  slug: string;
 }
 
-const validation: yup.ObjectSchema<BibleChapterFormModel> = yup.object({
-  lg: yup.mixed<keyof typeof languagesMapping>().nullable().required(),
-  testament: yup.mixed<keyof typeof testamentMapping>().nullable().required(),
+const validation: yup.ObjectSchema<BiblePageFormModel> = yup.object({
+  lg: yup.mixed<keyof typeof languagesMapping>().nullable().required("req"),
+  testament: yup
+    .mixed<keyof typeof testamentMapping>()
+    .nullable()
+    .required("required"),
   book: yup
     .object({
       title: yup.string().required(),
@@ -40,111 +46,100 @@ const validation: yup.ObjectSchema<BibleChapterFormModel> = yup.object({
       id: yup.number().required(),
     })
     .nullable()
-    .required(),
-  title: yup
+    .required("required"),
+  chapter: yup
+    .object({
+      title: yup.string().required(),
+      url: yup.string().required(),
+    })
+    .nullable()
+    .required("required"),
+  title: yup.string().trim().required("required"),
+  slug: yup
     .string()
     .trim()
-    .required()
-    .matches(/^[0-9 ]+$/, "Only numbers"),
+    .required("required")
+    .matches(/^[a-zA-Z0-9 ]+$/, "gh"),
 });
 
-export interface CreateBibleChapterProps {
+export interface CreateBiblePageProps {
   onClose: () => void;
 }
 
-const useCreateBibleChapter = () => {
+const useCreateBiblePage = () => {
   return useMutation({
     mutationFn: (data: UpdateBibleDynamicPageModel) =>
       axios.post<void>("/api/site-preview/bible/chapter-or-page", data, {
         params: {
-          pageType: "chapter",
+          pageType: "page",
         },
       }),
   });
 };
 
-export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
-  onClose,
-}) => {
-  const { mutate: createBibleChapter } = useCreateBibleChapter();
+export const CreateBiblePage: FC<CreateBiblePageProps> = ({ onClose }) => {
+  const { mutate: createBiblePage } = useCreateBiblePage();
   const queryClient = useQueryClient();
   const { data, isSuccess, isLoading } = useBibleNavigationMenuData();
-  console.log("data", data);
   const { enqueueSnackbar } = useSnackbar();
   const { control, watch, setValue, handleSubmit } =
-    useForm<BibleChapterFormModel>({
+    useForm<BiblePageFormModel>({
       mode: "onBlur",
       defaultValues: {
         lg: null,
         testament: null,
         book: null,
+        chapter: null,
         title: "",
+        slug: "",
       },
       resolver: yupResolver(validation),
     });
   const testament = watch("testament");
+  const selectedBook = watch("book");
   const lg = watch("lg");
 
   const booksOptions = data && testament && lg ? data[testament][lg] : [];
+  const chaptersOptions =
+    booksOptions.find((book) => book.id === selectedBook?.id)?.chapters || [];
 
-  const onSave: SubmitHandler<BibleChapterFormModel> = async (data) => {
-    // const slug = slugify(data.title, {
-    //   lower: true,
-    //   strict: true,
-    //   replacement: "-",
-    // });
-    const url = `bible/${data.lg}/${data.testament!.toLowerCase()}/${
-      data.book!.slug
-    }/chapter${data.title}`;
-
-    const { status } = await axios.get(
-      "/api/site-preview/bible/chapter-or-page",
+  const onSave: SubmitHandler<BiblePageFormModel> = async (data) => {
+    const slug = slugify(data.slug, {
+      lower: true,
+      strict: true,
+      replacement: "-",
+    });
+    // const url = `/${data.chapter!.url}/${slug}`;
+    createBiblePage(
       {
-        params: {
-          lg: data.lg,
-          testament: data.testament!.toLowerCase(),
-          book: data.book!.slug,
-          chapter: `chapter${data.title}`,
+        title: data.title!,
+        content: "<div>New Content</div>",
+        bibleBookChapterUnattachedPageIds: [],
+        url: `/${data.chapter!.url}/${slug}`,
+        nextLink: null,
+        prevLink: null,
+        linkToDefaultContent: null,
+        status: PAGE_STATUS.DRAFT,
+        bibleBookId: data.book!.id,
+      },
+      {
+        onSuccess() {
+          enqueueSnackbar("Բաժինը ստեղծվել է", {
+            variant: "success",
+          });
+          queryClient.invalidateQueries({
+            queryKey: [GET_DRAFT_BIBLE_CHAPTERS_QUERY_KEY],
+          });
+          onClose();
         },
-        validateStatus: () => true,
+        onError() {
+          enqueueSnackbar("Սխալ է տեղի ունեցել", {
+            variant: "error",
+          });
+          onClose();
+        },
       }
     );
-    if (status === 404) {
-      createBibleChapter(
-        {
-          title: data.title!,
-          content: "<div>New Content</div>",
-          bibleBookChapterUnattachedPageIds: [],
-          url,
-          nextLink: null,
-          prevLink: null,
-          linkToDefaultContent: null,
-          status: PAGE_STATUS.DRAFT,
-          bibleBookId: data.book!.id,
-        },
-        {
-          onSuccess() {
-            enqueueSnackbar("Բաժինը ստեղծվել է", {
-              variant: "success",
-            });
-            queryClient.invalidateQueries({
-              queryKey: [GET_DRAFT_BIBLE_CHAPTERS_QUERY_KEY],
-            });
-            onClose();
-          },
-          onError() {
-            enqueueSnackbar("Սխալ է տեղի ունեցել", {
-              variant: "error",
-            });
-            onClose();
-          },
-        }
-      );
-    } else {
-      enqueueSnackbar("Այսպիսի բաժին արդեն կա", {
-        variant: "error",
-      });
-    }
   };
 
   return (
@@ -153,7 +148,7 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
       onSave={handleSubmit(onSave, console.log)}
       open
       size="sm"
-      title="Create Bible Chapter"
+      title="Create Bible Page"
     >
       {isLoading && <Loading />}
       {isSuccess && (
@@ -172,6 +167,7 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
                   onChange(value);
                   if (value === null) {
                     setValue("book", null, { shouldValidate: true });
+                    setValue("chapter", null, { shouldValidate: true });
                   }
                 }}
                 onBlur={onBlur}
@@ -196,7 +192,7 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
             name="lg"
             render={({
               field: { onChange, onBlur, value },
-              fieldState: { error },
+              fieldState: {},
             }) => (
               <Autocomplete
                 fullWidth
@@ -205,6 +201,7 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
                   onChange(value);
                   if (value === null) {
                     setValue("book", null, { shouldValidate: true });
+                    setValue("chapter", null, { shouldValidate: true });
                   }
                 }}
                 onBlur={onBlur}
@@ -214,12 +211,7 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
                   languagesMapping[option as keyof typeof languagesMapping]
                 }
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    error={!!error}
-                    helperText={error?.message}
-                    label="Ընտրել Թարգմանությունը"
-                  />
+                  <TextField {...params} label="Ընտրել Թարգմանությունը" />
                 )}
               />
             )}
@@ -227,14 +219,16 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
           <Controller
             control={control}
             name="book"
-            render={({
-              field: { onChange, onBlur, value },
-              fieldState: { error },
-            }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <Autocomplete
                 fullWidth
                 value={value}
-                onChange={(_, value) => onChange(value)}
+                onChange={(_, value) => {
+                  onChange(value);
+                  if (value === null) {
+                    setValue("chapter", null, { shouldValidate: true });
+                  }
+                }}
                 onBlur={onBlur}
                 options={booksOptions}
                 isOptionEqualToValue={(option, value) =>
@@ -242,30 +236,68 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
                 }
                 getOptionLabel={(option) => option.title}
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    error={!!error}
-                    helperText={error?.message}
-                    label="Ընտրել Գիրքը"
-                  />
+                  <TextField {...params} label="Ընտրել Գիրքը" />
                 )}
               />
             )}
           />
           <Controller
             control={control}
-            name="title"
-            render={({ field, fieldState: { error } }) => (
-              <TextField
-                {...field}
-                sx={{ bgcolor: "background.paper" }}
+            name="chapter"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Autocomplete
                 fullWidth
-                label="Գլխի համարը"
-                error={!!error}
-                helperText={error?.message}
+                value={value}
+                onChange={(_, value) => onChange(value)}
+                onBlur={onBlur}
+                options={chaptersOptions}
+                isOptionEqualToValue={(option, value) =>
+                  option.title === value.title
+                }
+                getOptionLabel={(option) => option.title}
+                renderInput={(params) => (
+                  <TextField {...params} label="Ընտրել Գլուխը" />
+                )}
               />
             )}
           />
+          <Box
+            bgcolor={(t) => t.palette.grey[100]}
+            component="fieldset"
+            borderRadius={1}
+          >
+            <Typography variant="caption" component="legend">
+              Վերնագիր
+            </Typography>
+            <Stack gap={2}>
+              <Controller
+                control={control}
+                name="title"
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    sx={{ bgcolor: "background.paper" }}
+                    fullWidth
+                    label="Հայերեն"
+                    helperText={error?.message}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="slug"
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    sx={{ bgcolor: "background.paper" }}
+                    fullWidth
+                    label="Անգլերեն"
+                    helperText={error?.message}
+                  />
+                )}
+              />
+            </Stack>
+          </Box>
         </Stack>
       )}
     </DraggableDialog>
