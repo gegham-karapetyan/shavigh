@@ -307,4 +307,12 @@ export const sitePreviewApi = {
       },
     });
   },
+  getPagesByChapterId(chapterId: string) {
+    return fetcher<Omit<GetBibleDynamicPageModel, "content">[]>(
+      `/bibles/chapters/pages/${chapterId}`,
+      {
+        cache: "no-cache",
+      }
+    );
+  },
 };

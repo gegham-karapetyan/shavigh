@@ -138,6 +138,7 @@ export interface GetBibleDynamicPageModel {
   bibleBookId?: number;
   attached: boolean;
 }
+
 export interface UpdateBibleDynamicPageModel {
   id?: number;
   originId?: number | null;
