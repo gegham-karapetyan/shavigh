@@ -4,7 +4,10 @@ import {
   PageType,
   EntityBaseModel,
 } from "../../contexts/types";
-import { GetBibleDynamicPageModel } from "@/http-api/interfaces/site-pages.models";
+import {
+  GetBibleDynamicPageModel,
+  GetSaintsBehaviorPageModel,
+} from "@/http-api/interfaces/site-pages.models";
 import { getLastPathSegment } from "@/utls/urls";
 
 export const mutateHandlers = {
@@ -90,8 +93,36 @@ export const mutateHandlers = {
   [PageType.SAINTS_BEHAVIOR_SECTION]: {
     editHandler: (data: EntityBaseModel) =>
       axios.post<void>("/api/site-preview/saintsbehavior/section", data),
-    publishHandler: (data: EntityBaseModel) =>
-      axios.put("/api/site-preview/saintsbehavior/section/publish", data),
+    publishHandler: async (data: EntityBaseModel) => {
+      const { data: pages } = await axios.get<
+        Omit<GetSaintsBehaviorPageModel, "content">[]
+      >("/api/site-preview/saintsbehavior/pages-by-section", {
+        params: {
+          sectionId: data.originId ?? data.id,
+        },
+      });
+      const pagesMap = new Map<string, number>(
+        pages.map((page) => [getLastPathSegment(page.url)!, page.id])
+      );
+
+      const saintsBehaviourSectionAttachedPageIds = Array.from(
+        new DOMParser()
+          .parseFromString(data.content as string, "text/html")
+          .querySelectorAll("a")
+      )
+        .map((a) => {
+          const url = getLastPathSegment(a.getAttribute("href"));
+          if (url && pagesMap.has(url)) {
+            return pagesMap.get(url);
+          }
+          return null;
+        })
+        .filter((id) => id !== null) as number[];
+      await axios.put("/api/site-preview/saintsbehavior/section/publish", {
+        ...data,
+        saintsBehaviourSectionAttachedPageIds,
+      });
+    },
   },
   [PageType.SAINTS_BEHAVIOR_PAGE]: {
     editHandler: (data: EntityBaseModel) =>
@@ -117,12 +148,6 @@ export const mutateHandlers = {
     }) => axios.put("/api/site-preview/{...}/publish", data),
   },
 
-  // [PageType.SAINTS_BEHAVIOR]: {
-  //   editHandler: (data: EntityBaseModel) =>
-  //     axios.put<void>("/api/site-preview/{...}", data),
-  //   publishHandler: (data: EntityBaseModel) =>
-  //     axios.put("/api/site-preview/{...}/publish", data),
-  // },
   [PageType.BIBLE]: {
     editHandler: (data: EntityBaseModel) =>
       axios.put<void>("/api/site-preview/{...}", data),

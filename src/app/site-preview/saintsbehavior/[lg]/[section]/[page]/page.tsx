@@ -10,7 +10,6 @@ import { GetSaintsBehaviorPageModel } from "@/http-api/interfaces/site-pages.mod
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useGetSaintsBehaviorSection } from "../../../get-saints-behavior-data";
 import { useEffect } from "react";
 import {
   EditableBlockType,
@@ -19,6 +18,7 @@ import {
 import { PAGE_STATUS } from "@/constants";
 import { tags } from "@/constants/tags";
 import { getEntitySelector } from "@/frontend/admin-dashboard/contexts/site-preview-state-context";
+import { useGetSaintsBehaviorSection } from "@/frontend/admin-dashboard/api-hooks/useGetSaintsBehaviorSection";
 
 const useGetSaintsBehaviorPage = (
   lg: string,
@@ -149,7 +149,12 @@ export default function Page() {
   }
 
   return (
-    <EditableContainer onEdit={onEditTextContent}>
+    <EditableContainer
+      className={
+        pageData!.status === PAGE_STATUS.DRAFT ? `bg-gray-100/50` : undefined
+      }
+      onEdit={onEditTextContent}
+    >
       <HtmlContentRenderer content={pageData!.content} />
     </EditableContainer>
   );

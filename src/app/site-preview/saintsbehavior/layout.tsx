@@ -3,7 +3,7 @@
 import { PropsWithChildren } from "react";
 
 import { SaintsBehaviorLayout } from "@/frontend/website/components/pages-layouts/SaintsBehaviorLayout";
-import { useGetSaintsBehaviorData } from "./get-saints-behavior-data";
+import { useGetSaintsBehaviorData } from "@/frontend/admin-dashboard/api-hooks/useGetSaintsBehaviorData";
 
 export default function Layout(props: PropsWithChildren) {
   const { data, isLoading, isError } = useGetSaintsBehaviorData();

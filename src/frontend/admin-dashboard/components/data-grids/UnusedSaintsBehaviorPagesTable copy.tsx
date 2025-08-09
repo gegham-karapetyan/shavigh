@@ -1,21 +1,26 @@
 import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import type { ColDef } from "ag-grid-community";
-import { GetBibleDynamicPageModel } from "@/http-api/interfaces/site-pages.models";
+import {
+  GetBibleDynamicPageModel,
+  GetSaintsBehaviorPageModel,
+} from "@/http-api/interfaces/site-pages.models";
 import { useMemo } from "react";
 import { ErrorView } from "../ErrorView";
-import { useGetUnusedBiblePages } from "../../api-hooks/useGetUnusedBiblePages";
 import { Stack, Typography } from "@mui/material";
 import { CopyBtn } from "../CopyBtn";
 import { getLastPathSegment } from "@/utls/urls";
 import Link from "next/link";
+import { useGetUnusedSaintsBehaviorPages } from "../../api-hooks/useGetUnusedSaintsBehaviorPages";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-export const UnusedBiblePagesTable = () => {
-  const { data, isError, isFetching } = useGetUnusedBiblePages();
+export const UnusedSaintsBehaviorPagesTable = () => {
+  const { data, isError, isFetching } = useGetUnusedSaintsBehaviorPages();
 
-  const columnsDef = useMemo<ColDef<GetBibleDynamicPageModel>[]>(() => {
+  const columnsDef = useMemo<
+    ColDef<Omit<GetSaintsBehaviorPageModel, "content">>[]
+  >(() => {
     return [
       {
         field: "id",
@@ -27,13 +32,15 @@ export const UnusedBiblePagesTable = () => {
         field: "url",
         flex: 1,
         cellRenderer: ({ data }: { data: GetBibleDynamicPageModel }) => {
-          const lastPath = getLastPathSegment(data.url) || "";
+          const fullUrl = "/" + data.url;
+          const lastPath = getLastPathSegment(fullUrl);
+
           return (
             <Stack direction="row" spacing={2} alignItems="center">
               <Typography variant="body2" color="textSecondary">
                 {lastPath}
               </Typography>
-              <CopyBtn value={lastPath} />
+              <CopyBtn value={fullUrl} />
             </Stack>
           );
         },

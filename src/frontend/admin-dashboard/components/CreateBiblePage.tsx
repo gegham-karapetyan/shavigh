@@ -60,7 +60,7 @@ const validation: yup.ObjectSchema<BiblePageFormModel> = yup.object({
     .string()
     .trim()
     .required("required")
-    .matches(/^[a-zA-Z0-9 ]+$/, "only numbers and letters are allowed"),
+    .matches(/^[a-zA-Z0-9-]+$/, "only numbers and letters are allowed"),
 });
 
 export interface CreateBiblePageProps {
@@ -110,38 +110,56 @@ export const CreateBiblePage: FC<CreateBiblePageProps> = ({ onClose }) => {
       strict: true,
       replacement: "-",
     });
-    // const url = `/${data.chapter!.url}/${slug}`;
-    createBiblePage(
+    const { status } = await axios.get(
+      "/api/site-preview/bible/chapter-or-page",
       {
-        title: data.title!,
-        content: "<div>New Content</div>",
-        bibleBookChapterUnattachedPageIds: [],
-        url: `${data.chapter!.url}/${slug}`,
-        nextLink: null,
-        prevLink: null,
-        bibleBookChapterId: data.chapter!.id,
-        linkToDefaultContent: null,
-        status: PAGE_STATUS.DRAFT,
-        bibleBookId: data.book!.id,
-      },
-      {
-        onSuccess() {
-          enqueueSnackbar("Բաժինը ստեղծվել է", {
-            variant: "success",
-          });
-          queryClient.invalidateQueries({
-            queryKey: [GET_UNUSED_BIBLE_PAGES_QUERY_KEY],
-          });
-          onClose();
+        params: {
+          lg: data.lg,
+          testament: data.testament!.toLowerCase(),
+          book: data.book!.slug,
+          chapter: data.chapter!.url.split("/").at(-1),
+          page: data.slug,
         },
-        onError() {
-          enqueueSnackbar("Սխալ է տեղի ունեցել", {
-            variant: "error",
-          });
-          onClose();
-        },
+        validateStatus: () => true,
       }
     );
+    if (status === 404) {
+      createBiblePage(
+        {
+          title: data.title!,
+          content: "<div>New Content</div>",
+          bibleBookChapterUnattachedPageIds: [],
+          url: `${data.chapter!.url}/${slug}`,
+          nextLink: null,
+          prevLink: null,
+          bibleBookChapterId: data.chapter!.id,
+          linkToDefaultContent: null,
+          status: PAGE_STATUS.DRAFT,
+          bibleBookId: data.book!.id,
+        },
+        {
+          onSuccess() {
+            enqueueSnackbar("Բաժինը ստեղծվել է", {
+              variant: "success",
+            });
+            queryClient.refetchQueries({
+              queryKey: [GET_UNUSED_BIBLE_PAGES_QUERY_KEY],
+            });
+            onClose();
+          },
+          onError() {
+            enqueueSnackbar("Սխալ է տեղի ունեցել", {
+              variant: "error",
+            });
+            onClose();
+          },
+        }
+      );
+    } else {
+      enqueueSnackbar("Այս էջը արդեն գոյություն ունի", {
+        variant: "error",
+      });
+    }
   };
 
   return (

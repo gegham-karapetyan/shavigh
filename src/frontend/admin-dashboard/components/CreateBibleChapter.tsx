@@ -126,7 +126,7 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
             enqueueSnackbar("Բաժինը ստեղծվել է", {
               variant: "success",
             });
-            queryClient.invalidateQueries({
+            queryClient.refetchQueries({
               queryKey: [GET_DRAFT_BIBLE_CHAPTERS_QUERY_KEY],
             });
             onClose();

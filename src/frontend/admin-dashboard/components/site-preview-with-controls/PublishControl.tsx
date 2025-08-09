@@ -14,13 +14,14 @@ import { PAGE_STATUS } from "@/constants";
 import { useSendRefetchEvent } from "../../contexts/dashboard-messaging-context";
 import { Fragment, useState } from "react";
 import { mutateHandlers } from "./mutate-handlres";
+import { PageType } from "../../contexts/types";
 
 export const PublishControl = () => {
   const { previewState } = useSitePreviewState();
   const sendToRefetch = useSendRefetchEvent();
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  console.log("PublishControl previewState", previewState);
   if (!previewState) {
     return <CircularProgress size="20px" />;
   }
@@ -28,11 +29,29 @@ export const PublishControl = () => {
   const handlePublish = async () => {
     try {
       setIsLoading(true);
-      await Promise.all(
-        Object.values(previewState.data)
-          .filter((item) => item.status === PAGE_STATUS.DRAFT)
-          .map((item) => mutateHandlers[item.pageType].publishHandler(item))
+      const draftPages = Object.values(previewState.data).filter(
+        (item) => item.status === PAGE_STATUS.DRAFT
       );
+
+      const draftSaintsBehaviorPage = draftPages.find(
+        (item) => item.pageType === PageType.SAINTS_BEHAVIOR_PAGE
+      );
+      if (draftSaintsBehaviorPage) {
+        await mutateHandlers[PageType.SAINTS_BEHAVIOR_PAGE].publishHandler(
+          draftSaintsBehaviorPage
+        );
+        await Promise.all(
+          draftPages
+            .filter((item) => item.pageType !== PageType.SAINTS_BEHAVIOR_PAGE)
+            .map((item) => mutateHandlers[item.pageType].publishHandler(item))
+        );
+      } else {
+        await Promise.all(
+          draftPages.map((item) =>
+            mutateHandlers[item.pageType].publishHandler(item)
+          )
+        );
+      }
 
       sendToRefetch({ type: "refetch" });
       setOpenConfirmation(false);

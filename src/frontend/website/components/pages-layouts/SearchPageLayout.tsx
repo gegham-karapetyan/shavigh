@@ -57,6 +57,7 @@ export const SearchPageLayout = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="px-5 py-10">
       <form
