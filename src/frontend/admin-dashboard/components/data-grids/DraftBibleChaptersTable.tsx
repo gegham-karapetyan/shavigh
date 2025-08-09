@@ -10,7 +10,7 @@ import { useGetDraftBibleChapters } from "../../api-hooks/useGetDraftBibleChapte
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 export const DraftBibleChaptersTable = () => {
-  const { data, isError, isLoading } = useGetDraftBibleChapters();
+  const { data, isError, isFetching } = useGetDraftBibleChapters();
 
   const columnsDef = useMemo<ColDef<GetBibleDynamicPageModel>[]>(() => {
     return [
@@ -37,6 +37,6 @@ export const DraftBibleChaptersTable = () => {
   }, []);
   if (isError) return <ErrorView />;
   return (
-    <AgGridReact loading={isLoading} rowData={data} columnDefs={columnsDef} />
+    <AgGridReact loading={isFetching} rowData={data} columnDefs={columnsDef} />
   );
 };

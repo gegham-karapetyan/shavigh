@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useBasePath } from "@/frontend/shared/contexts/basepath-context";
-import { useGetSaintsBehaviorData } from "./get-saints-behavior-data";
+import { useGetSaintsBehaviorData } from "@/frontend/admin-dashboard/api-hooks/useGetSaintsBehaviorData";
 
 export default function Page() {
   const { data, isError } = useGetSaintsBehaviorData();

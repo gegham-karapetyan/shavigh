@@ -4,7 +4,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { isAbsolutePath } from "@/frontend/shared/utils/path-utils";
 import { useBasePath } from "@/frontend/shared/contexts/basepath-context";
-import { useGetSaintsBehaviorSection } from "../../get-saints-behavior-data";
+import { useGetSaintsBehaviorSection } from "@/frontend/admin-dashboard/api-hooks/useGetSaintsBehaviorSection";
 
 export default function Page() {
   const params = useParams() as { lg: string; section: string };

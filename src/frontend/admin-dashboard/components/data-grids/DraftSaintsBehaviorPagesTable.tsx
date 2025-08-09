@@ -1,18 +1,23 @@
 import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import type { ColDef } from "ag-grid-community";
-import { GetBibleDynamicPageModel } from "@/http-api/interfaces/site-pages.models";
+import {
+  GetBibleDynamicPageModel,
+  GetSaintsBehaviorPageModel,
+} from "@/http-api/interfaces/site-pages.models";
 import { useMemo } from "react";
 import { ErrorView } from "../ErrorView";
 import Link from "next/link";
-import { useGetDraftBiblePages } from "../../api-hooks/useGetDraftBiblePages";
+import { useGetDraftSaintsBehaviorPages } from "../../api-hooks/useGetDraftSaintsBehaviorPages";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-export const DraftBiblePagesTable = () => {
-  const { data, isError, isFetching } = useGetDraftBiblePages();
+export const DraftSaintsBehaviorPagesTable = () => {
+  const { data, isError, isFetching } = useGetDraftSaintsBehaviorPages();
 
-  const columnsDef = useMemo<ColDef<GetBibleDynamicPageModel>[]>(() => {
+  const columnsDef = useMemo<
+    ColDef<Omit<GetSaintsBehaviorPageModel, "content">>[]
+  >(() => {
     return [
       {
         field: "id",

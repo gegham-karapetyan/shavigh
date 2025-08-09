@@ -269,10 +269,18 @@ export const sitePreviewApi = {
       },
     });
   },
-  publishSaintsBehaviorSectionData(id: number, originId: number) {
+  publishSaintsBehaviorSectionData(
+    id: number,
+    originId: number,
+    saintsBehaviourSectionAttachedPageIds: number[]
+  ) {
     return fetcher<void>("/saints-behavior/section/publish", {
       method: "PUT",
-      body: JSON.stringify({ id, originId }),
+      body: JSON.stringify({
+        id,
+        originId,
+        saintsBehaviourSectionAttachedPageIds,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -323,6 +331,30 @@ export const sitePreviewApi = {
   getPagesByChapterId(chapterId: string) {
     return fetcher<Omit<GetBibleDynamicPageModel, "content">[]>(
       `/bibles/chapters/pages/${chapterId}`,
+      {
+        cache: "no-cache",
+      }
+    );
+  },
+  getSaintBehaviorPagesBySectionId(sectionId: string) {
+    return fetcher<Omit<GetSaintsBehaviorPageModel, "content">[]>(
+      `/saints-behavior/section/pages/${sectionId}`,
+      {
+        cache: "no-cache",
+      }
+    );
+  },
+  getUnattachedSaintBehaviorPages() {
+    return fetcher<Omit<GetSaintsBehaviorPageModel, "content">[]>(
+      `/saints-behavior/section/pages/unattached`,
+      {
+        cache: "no-cache",
+      }
+    );
+  },
+  getSaintBehaviorDraftPages() {
+    return fetcher<Omit<GetSaintsBehaviorPageModel, "content">[]>(
+      `/saints-behavior/section/pages/draft`,
       {
         cache: "no-cache",
       }

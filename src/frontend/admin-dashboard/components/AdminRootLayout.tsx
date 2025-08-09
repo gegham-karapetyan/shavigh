@@ -38,6 +38,11 @@ const menus: NavbarProps["navItems"] = [
         label: "Bible Pages",
         link: "/admin/dashboard/bible-pages",
       },
+      {
+        type: NavbarMenuItemType.SINGLE,
+        label: "Saints Behavior Pages",
+        link: "/admin/dashboard/saints-behavior-pages",
+      },
     ],
   },
 

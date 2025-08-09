@@ -4,10 +4,13 @@ import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function PUT(request: Request) {
-  const data = (await request.json()) as EntityBaseModel;
+  const data = (await request.json()) as EntityBaseModel<{
+    saintsBehaviourSectionAttachedPageIds: number[];
+  }>;
   const response = await sitePreviewApi.publishSaintsBehaviorSectionData(
     data.id,
-    data.originId!
+    data.originId!,
+    data.saintsBehaviourSectionAttachedPageIds
   );
   if (!response.error) data.revalidateTags.forEach((tag) => revalidateTag(tag));
 
