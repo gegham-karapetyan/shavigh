@@ -6,11 +6,9 @@ export interface CreatePageHeaderProps {
   activeTab: string;
   onTabSelect: (label: string) => void;
   onCreateButtonClick: () => void;
-  tabs: [
-    {
-      label: string;
-    }
-  ];
+  tabs: {
+    label: string;
+  }[];
 }
 
 export const CreatePageHeader: FC<CreatePageHeaderProps> = ({

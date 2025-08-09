@@ -24,7 +24,7 @@ const slides: HomeHeroSliderProps["slides"] = [
     id: 2,
     component: () => (
       <HeroBase
-        title="ԾԱՆՈԹԱՑԻ՛Ր ԱՍՏԾՈ ԽՈՍՔԻՆ 2"
+        title="ԾԱՆՈԹԱՑԻ՛Ր ԱՍՏԾՈ ԽՈՍՔԻՆ"
         imgAlt="home hero"
         imgSrc={hero2}
       />
@@ -34,7 +34,7 @@ const slides: HomeHeroSliderProps["slides"] = [
     id: 3,
     component: () => (
       <HeroBase
-        title="ԾԱՆՈԹԱՑԻ՛Ր ԱՍՏԾՈ ԽՈՍՔԻՆ 3"
+        title="ԾԱՆՈԹԱՑԻ՛Ր ԱՍՏԾՈ ԽՈՍՔԻՆ"
         imgAlt="home hero"
         imgSrc={hero3}
       />

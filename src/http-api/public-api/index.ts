@@ -27,6 +27,14 @@ const getArticlesByIds = (articleIds: number[]) => {
 };
 
 export const publicApi = {
+  search(word: string) {
+    return fetcher<GetBibleDynamicPageModel[]>("/search", {
+      cache: "no-cache",
+      params: {
+        word,
+      },
+    });
+  },
   async getHomePageData() {
     const homeResponse = await fetcher<StaticPageInternalModel>(
       "/static-pages/home",

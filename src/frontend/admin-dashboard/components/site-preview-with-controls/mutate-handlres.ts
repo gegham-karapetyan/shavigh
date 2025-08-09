@@ -5,6 +5,7 @@ import {
   EntityBaseModel,
 } from "../../contexts/types";
 import { GetBibleDynamicPageModel } from "@/http-api/interfaces/site-pages.models";
+import { getLastPathSegment } from "@/utls/urls";
 
 export const mutateHandlers = {
   [PageType.HOME]: {
@@ -27,21 +28,31 @@ export const mutateHandlers = {
   },
   [PageType.BIBLE_CHAPTER]: {
     editHandler: async (data: EntityBaseModel) => {
+      return axios.post<void>("/api/site-preview/bible/chapter-or-page", data, {
+        params: {
+          pageType: "chapter",
+        },
+      });
+    },
+    publishHandler: async (data: EntityBaseModel) => {
       const { data: pages } = await axios.get<
         Omit<GetBibleDynamicPageModel, "content">[]
       >("/api/site-preview/bible/pages-by-chapter", {
         params: {
-          chapterId: data.id,
+          chapterId: data.originId ?? data.id,
         },
       });
-      const pagesMap = new Map(pages.map((page) => [page.url, page.id]));
+      const pagesMap = new Map<string, number>(
+        pages.map((page) => [getLastPathSegment(page.url)!, page.id])
+      );
+
       const bibleBookChapterAttachedPageIds = Array.from(
         new DOMParser()
           .parseFromString(data.content as string, "text/html")
           .querySelectorAll("a")
       )
         .map((a) => {
-          const url = a.getAttribute("href");
+          const url = getLastPathSegment(a.getAttribute("href"));
           if (url && pagesMap.has(url)) {
             return pagesMap.get(url);
           }
@@ -49,12 +60,9 @@ export const mutateHandlers = {
         })
         .filter((id) => id !== null) as number[];
 
-      return axios.post<void>(
-        "/api/site-preview/bible/chapter-or-page",
-        {
-          ...data,
-          bibleBookChapterAttachedPageIds,
-        },
+      await axios.put(
+        "/api/site-preview/bible/chapter-or-page/publish",
+        { ...data, bibleBookChapterAttachedPageIds },
         {
           params: {
             pageType: "chapter",
@@ -62,12 +70,6 @@ export const mutateHandlers = {
         }
       );
     },
-    publishHandler: (data: EntityBaseModel) =>
-      axios.put("/api/site-preview/bible/chapter-or-page/publish", data, {
-        params: {
-          pageType: "chapter",
-        },
-      }),
   },
 
   [PageType.BIBLE_PAGE]: {

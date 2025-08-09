@@ -6,9 +6,10 @@ import { Fragment, useState } from "react";
 import { CreatePageHeader } from "@/frontend/admin-dashboard/components/CreatePagesHeader";
 import { CreateBiblePage } from "@/frontend/admin-dashboard/components/CreateBiblePage";
 import { DraftBiblePagesTable } from "@/frontend/admin-dashboard/components/data-grids/DraftBiblePagesTable";
+import { UnusedBiblePagesTable } from "@/frontend/admin-dashboard/components/data-grids/UnusedBiblePagesTable";
 
 export default function NewBiblePagesPage() {
-  const [activeTab, setActiveTab] = useState("draft");
+  const [activeTab, setActiveTab] = useState<"draft" | "unused">("draft");
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
 
   return (
@@ -17,13 +18,14 @@ export default function NewBiblePagesPage() {
         <CreatePageHeader
           createButtonTitle="Create Page"
           onCreateButtonClick={() => setIsOpenCreateModal(true)}
-          tabs={[{ label: "draft" }]}
+          tabs={[{ label: "draft" }, { label: "unused" }]}
           activeTab={activeTab}
-          onTabSelect={setActiveTab}
+          onTabSelect={(label) => setActiveTab(label as "draft" | "unused")}
         />
 
         <Box width="100%" flex={1} minHeight={0}>
           {activeTab === "draft" && <DraftBiblePagesTable />}
+          {activeTab === "unused" && <UnusedBiblePagesTable />}
         </Box>
       </Stack>
       {isOpenCreateModal && (

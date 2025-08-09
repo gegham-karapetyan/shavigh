@@ -9,7 +9,7 @@
 import { LinkPlugin as LexicalLinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import * as React from "react";
 
-import { validateUrl } from "../../utils/url";
+// import { validateUrl } from "../../utils/url";
 
 type Props = {
   hasLinkAttributes?: boolean;
@@ -18,7 +18,7 @@ type Props = {
 export default function LinkPlugin({ hasLinkAttributes = false }: Props) {
   return (
     <LexicalLinkPlugin
-      validateUrl={validateUrl}
+      // validateUrl={validateUrl}
       attributes={
         hasLinkAttributes
           ? {

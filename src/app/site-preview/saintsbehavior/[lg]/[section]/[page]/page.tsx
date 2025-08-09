@@ -73,11 +73,6 @@ export default function Page() {
     refetchSectionData();
   });
 
-  console.log("xxxxxxx", {
-    sectionData,
-    pageData,
-  });
-
   useEffect(() => {
     if (
       !isPageDataFetching &&

@@ -9,15 +9,18 @@ export interface BibleDynamicPageLayoutProps {
   contentSection?: Exclude<ReactNode, null | undefined>;
   prevLink?: string | null;
   nextLink?: string | null;
+  title?: string;
 }
 
 export const BibleDynamicPageLayout: FC<BibleDynamicPageLayoutProps> = ({
   contentSection,
   prevLink,
   nextLink,
+  title,
 }) => {
   return (
     <div>
+      {title && <h1 className="text-2xl font-bold mb-4">{title}</h1>}
       {contentSection}
 
       <div className="flex gap-4 justify-center mt-6">
