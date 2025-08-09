@@ -111,6 +111,7 @@ export interface BibleBookModel {
   slug: string;
   translationName: string;
   chapters: {
+    id: number;
     url: string;
     title: string;
   }[];

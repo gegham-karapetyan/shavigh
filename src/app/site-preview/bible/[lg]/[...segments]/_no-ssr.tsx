@@ -149,6 +149,7 @@ export default function NoSsrPage() {
   }
   return (
     <BibleDynamicPageLayout
+      title={queryParams.page ? data.title : undefined}
       contentSection={
         <EditableContainer onEdit={onEditTextContent}>
           <HtmlContentRenderer content={data.content} />

@@ -46,8 +46,6 @@ export const TextEditControl = () => {
   const { previewState } = useSitePreviewState();
   const sendToRefetch = useSendRefetchEvent();
 
-  console.log("previewState", previewState);
-
   useOnEditEvent((data) => {
     if (
       data.blockType !== EditableBlockType.TEXT ||

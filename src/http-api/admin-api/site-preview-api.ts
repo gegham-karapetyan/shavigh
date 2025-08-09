@@ -156,7 +156,8 @@ export const sitePreviewApi = {
     id: number,
     originId: number,
     bibleBookId: number | undefined,
-    type: "chapter" | "page"
+    type: "chapter" | "page",
+    bibleBookChapterAttachedPageIds?: number[]
   ) {
     const url =
       type === "chapter"
@@ -164,7 +165,12 @@ export const sitePreviewApi = {
         : "/bibles/chapters/pages/publish";
     const response = await fetcher<void>(url, {
       method: "PUT",
-      body: JSON.stringify({ id, originId, bibleBookId }),
+      body: JSON.stringify({
+        id,
+        originId,
+        bibleBookId,
+        bibleBookChapterAttachedPageIds,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -215,6 +221,7 @@ export const sitePreviewApi = {
         "Content-Type": "application/json",
       },
     });
+
     return response;
   },
 
@@ -224,6 +231,12 @@ export const sitePreviewApi = {
         ? "/bibles/chapters/draft"
         : "/bibles/chapters/pages/draft";
     return await fetcher<GetBibleDynamicPageModel[]>(url);
+  },
+  getUnattachedBiblePages() {
+    return fetcher<Omit<GetBibleDynamicPageModel, "content">[]>(
+      "/bibles/chapters/pages/unattached",
+      { cache: "no-cache" }
+    );
   },
   getSaintsBehaviorSectionData(lg: string, section: string) {
     const url = `saintsbehavior/${lg}/${section}`;

@@ -69,7 +69,6 @@ export const CreateBibleChapter: FC<CreateBibleChapterProps> = ({
   const { mutate: createBibleChapter } = useCreateBibleChapter();
   const queryClient = useQueryClient();
   const { data, isSuccess, isLoading } = useBibleNavigationMenuData();
-  console.log("data", data);
   const { enqueueSnackbar } = useSnackbar();
   const { control, watch, setValue, handleSubmit } =
     useForm<BibleChapterFormModel>({

@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
   const data = (await request.json()) as UpdateSaintsBehaviorSectionModel;
 
   const response = await sitePreviewApi.updateSaintsBehaviorSectionData(data);
-  console.log("response", response);
   return NextResponse.json(null, {
     status: response?.error?.code || 200,
   });

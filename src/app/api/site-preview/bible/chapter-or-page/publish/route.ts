@@ -9,12 +9,14 @@ export async function PUT(request: NextRequest) {
 
   const data = (await request.json()) as EntityBaseModel<{
     bibleBookId: number | undefined;
+    bibleBookChapterAttachedPageIds: number[];
   }>;
   const response = await sitePreviewApi.publishBibleChapterOrPage(
     data.id,
     data.originId!,
     data.bibleBookId as number | undefined,
-    pageType
+    pageType,
+    pageType === "chapter" ? data.bibleBookChapterAttachedPageIds : undefined
   );
 
   if (!response.error) data.revalidateTags.forEach((tag) => revalidateTag(tag));

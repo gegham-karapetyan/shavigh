@@ -31,7 +31,6 @@ export default async function Page(props: BibleDynamicPageProps) {
   }
 
   const { data } = await getChapterOrPage(lg as string, segments as string[]);
-
   if (!data && lg === LANGUAGES.ECHMIADZIN) {
     return notFound();
   }
@@ -42,9 +41,11 @@ export default async function Page(props: BibleDynamicPageProps) {
     ).join("/")}`;
     return <BibleDynamicNotFoundPage alternateUrl={alternateUrl} />;
   }
+  const isPage = segments.length === 4;
 
   return (
     <BibleDynamicPageLayout
+      title={isPage ? data.title : undefined}
       prevLink={data.prevLink}
       nextLink={data.nextLink}
       contentSection={<HtmlContentRenderer content={data.content} />}

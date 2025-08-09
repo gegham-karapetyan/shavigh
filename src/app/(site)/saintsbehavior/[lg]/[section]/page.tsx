@@ -23,7 +23,6 @@ export default async function Page({
   const parsedContent = parse(data.content);
 
   const firstUrl = parsedContent.querySelectorAll("a")[0].getAttribute("href");
-  console.log("firstUrl", firstUrl);
   if (!firstUrl?.trim()) {
     return notFound();
   }

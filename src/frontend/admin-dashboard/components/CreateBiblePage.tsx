@@ -12,7 +12,7 @@ import slugify from "slugify";
 import { UpdateBibleDynamicPageModel } from "@/http-api/interfaces/site-pages.models";
 import { PAGE_STATUS } from "@/constants";
 import { useSnackbar } from "notistack";
-import { GET_DRAFT_BIBLE_CHAPTERS_QUERY_KEY } from "../api-hooks/useGetDraftBibleChapters";
+import { GET_UNUSED_BIBLE_PAGES_QUERY_KEY } from "../api-hooks/useGetUnusedBiblePages";
 
 const testamentMapping = {
   newTestament: "ՆՈՐ ԿՏԱԿԱՐԱՆ",
@@ -28,7 +28,7 @@ interface BiblePageFormModel {
   lg: keyof typeof languagesMapping | null;
   testament: keyof typeof testamentMapping | null;
   book: null | { title: string; slug: string; id: number };
-  chapter: null | { title: string; url: string };
+  chapter: null | { title: string; url: string; id: number };
   title: string;
   slug: string;
 }
@@ -51,6 +51,7 @@ const validation: yup.ObjectSchema<BiblePageFormModel> = yup.object({
     .object({
       title: yup.string().required(),
       url: yup.string().required(),
+      id: yup.number().required(),
     })
     .nullable()
     .required("required"),
@@ -59,7 +60,7 @@ const validation: yup.ObjectSchema<BiblePageFormModel> = yup.object({
     .string()
     .trim()
     .required("required")
-    .matches(/^[a-zA-Z0-9 ]+$/, "gh"),
+    .matches(/^[a-zA-Z0-9 ]+$/, "only numbers and letters are allowed"),
 });
 
 export interface CreateBiblePageProps {
@@ -115,9 +116,10 @@ export const CreateBiblePage: FC<CreateBiblePageProps> = ({ onClose }) => {
         title: data.title!,
         content: "<div>New Content</div>",
         bibleBookChapterUnattachedPageIds: [],
-        url: `/${data.chapter!.url}/${slug}`,
+        url: `${data.chapter!.url}/${slug}`,
         nextLink: null,
         prevLink: null,
+        bibleBookChapterId: data.chapter!.id,
         linkToDefaultContent: null,
         status: PAGE_STATUS.DRAFT,
         bibleBookId: data.book!.id,
@@ -128,7 +130,7 @@ export const CreateBiblePage: FC<CreateBiblePageProps> = ({ onClose }) => {
             variant: "success",
           });
           queryClient.invalidateQueries({
-            queryKey: [GET_DRAFT_BIBLE_CHAPTERS_QUERY_KEY],
+            queryKey: [GET_UNUSED_BIBLE_PAGES_QUERY_KEY],
           });
           onClose();
         },
