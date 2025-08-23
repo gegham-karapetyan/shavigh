@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, Fragment, memo } from "react";
 import "./styles.css";
 import parse, {
   DOMNode,
@@ -9,6 +9,7 @@ import parse, {
 } from "html-react-parser";
 import { Tooltip } from "./Tooltip";
 import { RendererLink, RendererLinkProps } from "./RendererLink";
+import { IdToAnchorScrollerPlugin } from "./IdToAnchorScrollerPlugin";
 
 export interface HtmlContentRendererProps {
   content: string;
@@ -40,7 +41,12 @@ const options: HTMLReactParserOptions = {
 
 export const HtmlContentRenderer: FC<HtmlContentRendererProps> = memo(
   ({ content }) => {
-    return <div className="scalable-section">{parse(content, options)}</div>;
+    return (
+      <Fragment>
+        <div className="scalable-section">{parse(content, options)}</div>
+        <IdToAnchorScrollerPlugin selector=".scalable-section" />
+      </Fragment>
+    );
   }
 );
 HtmlContentRenderer.displayName = "HtmlContentRenderer";

@@ -44,7 +44,6 @@ export default function Layout(props: PropsWithChildren) {
 
   if (isLoading) return <div>loading....</div>;
   if (isError) return <div>error....</div>;
-  console.log("SaintsBehaviorSectionLayout data", data);
   return (
     <SaintsBehaviorSectionLayout
       sectionTitle={data!.title}

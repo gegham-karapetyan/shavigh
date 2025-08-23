@@ -61,7 +61,7 @@ export const Tooltip: FC<TooltipProps> = ({ text, children }) => {
       <span
         ref={refs.setReference}
         {...getReferenceProps()}
-        className="cursor-help inline-block text-red"
+        className="cursor-help inline-block text-red whitespace-pre"
       >
         {children}
       </span>

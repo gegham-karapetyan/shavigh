@@ -48,7 +48,6 @@ export const DELETE = withAuth(async (request: NextRequest) => {
   if (!id) {
     return NextResponse.json({ error: "ID is required" }, { status: 400 });
   }
-  console.log("Deleting inbox message with ID:", id);
   const data = await inboxApi.deleteInboxMessage(Number(id));
 
   return NextResponse.json(

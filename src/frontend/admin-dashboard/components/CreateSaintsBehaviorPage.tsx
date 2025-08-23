@@ -108,7 +108,7 @@ export const CreateSaintsBehaviorPage: FC<CreateSaintsBehaviorPageProps> = ({
   return (
     <DraggableDialog
       onClose={onClose}
-      onSave={handleSubmit(onSave, console.log)}
+      onSave={handleSubmit(onSave)}
       open
       size="sm"
       title="Create Saints Behavior Page"

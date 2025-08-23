@@ -165,7 +165,7 @@ export const CreateBiblePage: FC<CreateBiblePageProps> = ({ onClose }) => {
   return (
     <DraggableDialog
       onClose={onClose}
-      onSave={handleSubmit(onSave, console.log)}
+      onSave={handleSubmit(onSave)}
       open
       size="sm"
       title="Create Bible Page"

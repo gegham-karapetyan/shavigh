@@ -21,7 +21,6 @@ export const PublishControl = () => {
   const sendToRefetch = useSendRefetchEvent();
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  console.log("PublishControl previewState", previewState);
   if (!previewState) {
     return <CircularProgress size="20px" />;
   }

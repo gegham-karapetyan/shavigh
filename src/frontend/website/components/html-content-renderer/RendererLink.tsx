@@ -8,17 +8,23 @@ import { FC } from "react";
 
 export interface RendererLinkProps extends Omit<LinkProps, "href"> {
   href: string;
+  target?: string;
 }
 
 export const RendererLink: FC<RendererLinkProps> = ({
   href = "",
+  target: targetOrigin,
   ...props
 }) => {
   const pathname = usePathname();
   const basepath = useBasePath();
   let fullHref: string = href;
+  let target = targetOrigin;
 
   if (href.trim()) {
+    if (href.startsWith("#")) {
+      target = "_self";
+    }
     fullHref = isAbsolutePath(href)
       ? `${basepath}${href}`
       : `${pathname}/${href}`;
@@ -30,5 +36,5 @@ export const RendererLink: FC<RendererLinkProps> = ({
   //   fullHref = `${basepath ? basepath + "/" : ""}${href}`;
   // }
 
-  return <Link {...props} prefetch={false} href={fullHref} />;
+  return <Link {...props} target={target} prefetch={false} href={fullHref} />;
 };
