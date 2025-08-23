@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 @font-face {
   font-family: "montserratarm-regular";
   src: url("./fonts/Montserratarm-Regular.woff") format("woff"),
@@ -39,7 +43,7 @@
     /* color: var(--foreground);
     background: var(--background); */
     font-family: var(--font-default) Arial, Helvetica, sans-serif;
-    scroll-behavior: smooth;
+
     overflow-x: hidden;
   }
   a {

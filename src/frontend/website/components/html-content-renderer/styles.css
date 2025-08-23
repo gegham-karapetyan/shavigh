@@ -1,6 +1,9 @@
 @reference "../../global.css";
 
 @layer components {
+  :target {
+    scroll-margin-top: 100px;
+  }
   .scalable-section {
     font-size: var(--text-scalable-paragraph);
 
@@ -28,7 +31,16 @@
       font-size: inherit;
     }
     a {
-      @apply hover:text-primary hover:underline my-1;
+      @apply hover:text-primary hover:underline my-1 scroll-m-20;
+    }
+    .columns {
+      @apply flex gap-4 w-full flex-wrap my-4;
+    }
+    .column {
+      @apply min-w-[360px] flex-1 p-0;
+    }
+    span[id] {
+      @apply cursor-pointer;
     }
   }
 }

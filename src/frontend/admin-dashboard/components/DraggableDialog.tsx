@@ -37,6 +37,7 @@ export type DraggableDialogProps = PropsWithChildren<{
   onSave: () => void;
   title: ReactNode;
   size?: DialogProps["maxWidth"];
+  loading?: boolean;
 }>;
 
 export const DraggableDialog: FC<DraggableDialogProps> = ({
@@ -46,6 +47,7 @@ export const DraggableDialog: FC<DraggableDialogProps> = ({
   title,
   children,
   size = "md",
+  loading,
 }) => {
   return (
     <Dialog
@@ -66,7 +68,12 @@ export const DraggableDialog: FC<DraggableDialogProps> = ({
         <Button size="small" onClick={onClose}>
           Cancel
         </Button>
-        <Button variant="contained" size="small" onClick={onSave}>
+        <Button
+          loading={loading}
+          variant="contained"
+          size="small"
+          onClick={onSave}
+        >
           Save
         </Button>
       </DialogActions>

@@ -3,7 +3,6 @@ import {
   useFloating,
   offset,
   shift,
-  flip,
   autoUpdate,
   useHover,
   useFocus,
@@ -11,19 +10,21 @@ import {
   useRole,
   useInteractions,
   FloatingPortal,
-  FloatingArrow,
-  arrow,
+  flip,
 } from "@floating-ui/react";
-import { useState, type ReactNode, type FC, Fragment, useRef } from "react";
+import { useState, type FC, Fragment, ComponentProps } from "react";
 
-interface TooltipProps {
+interface TooltipProps extends ComponentProps<"span"> {
   text: string;
-  children: ReactNode;
 }
 
-export const Tooltip: FC<TooltipProps> = ({ text, children }) => {
+export const Tooltip: FC<TooltipProps> = ({
+  text,
+  children,
+  className,
+  ...rest
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const arrowRef = useRef<SVGSVGElement>(null);
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -33,9 +34,9 @@ export const Tooltip: FC<TooltipProps> = ({ text, children }) => {
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(5),
-      arrow({ element: arrowRef, padding: 5 }),
+      // arrow({ element: arrowRef, padding: 5 }),
       flip({
-        fallbackAxisSideDirection: "start",
+        fallbackAxisSideDirection: "none",
       }),
       shift(),
     ],
@@ -61,7 +62,10 @@ export const Tooltip: FC<TooltipProps> = ({ text, children }) => {
       <span
         ref={refs.setReference}
         {...getReferenceProps()}
-        className="cursor-help inline-block text-red"
+        className={`cursor-help inline-block text-red whitespace-pre ${
+          className || ""
+        }`}
+        {...rest}
       >
         {children}
       </span>
@@ -73,11 +77,6 @@ export const Tooltip: FC<TooltipProps> = ({ text, children }) => {
             style={floatingStyles}
             {...getFloatingProps()}
           >
-            <FloatingArrow
-              ref={arrowRef}
-              context={context}
-              className="fill-gray-900"
-            />
             {text}
           </div>
         )}
