@@ -17,7 +17,7 @@ const useIdToAnchorScroller = (selector: string) => {
       )
     ) as Record<string, HTMLAnchorElement>;
 
-    const scrollToAnchor = (e: PointerEvent) => {
+    const scrollToAnchor = (e: MouseEvent) => {
       const anchor = allAnchorsMap[(e.target as HTMLSpanElement).id];
       if (anchor) {
         anchor.scrollIntoView();

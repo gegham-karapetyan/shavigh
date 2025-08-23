@@ -90,9 +90,20 @@ export const MenuButtonTitle = () => {
           if (editor?.isActive("tooltip")) {
             const markRange = getMarkRange(editor, "tooltip");
             if (markRange) {
+              const { state } = editor;
+              const text = state.doc.textBetween(
+                markRange.start,
+                markRange.end,
+                "\n",
+                "\n"
+              );
+              const leadingSpaces = text.match(/^(\s*)/)?.[0].length ?? 0;
+              const trailingSpaces = text.match(/(\s*)$/)?.[0].length ?? 0;
+              const trimmedStart = markRange.start + leadingSpaces;
+              const trimmedEnd = markRange.end - trailingSpaces;
               editor
                 .chain()
-                .setTextSelection({ from: markRange.start, to: markRange.end })
+                .setTextSelection({ from: trimmedStart, to: trimmedEnd })
                 .focus()
                 .run();
             }

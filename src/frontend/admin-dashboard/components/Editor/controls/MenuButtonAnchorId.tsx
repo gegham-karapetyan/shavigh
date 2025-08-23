@@ -177,9 +177,21 @@ export const MenuButtonAnchorId = () => {
             // Use the improved getMarkRange
             const markRange = getMarkRange(editor, "anchorId");
             if (markRange) {
+              const { state } = editor;
+              const text = state.doc.textBetween(
+                markRange.start,
+                markRange.end,
+                "\n",
+                "\n"
+              );
+              const leadingSpaces = text.match(/^(\s*)/)?.[0].length ?? 0;
+              const trailingSpaces = text.match(/(\s*)$/)?.[0].length ?? 0;
+              const trimmedStart = markRange.start + leadingSpaces;
+              const trimmedEnd = markRange.end - trailingSpaces;
+
               editor
                 .chain()
-                .setTextSelection({ from: markRange.start, to: markRange.end })
+                .setTextSelection({ from: trimmedStart, to: trimmedEnd })
                 .focus()
                 .run();
             }
