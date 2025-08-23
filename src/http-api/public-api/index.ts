@@ -207,7 +207,6 @@ export const publicApi = {
     );
   },
   createInboxMessage(data: CreateInboxMessageModel) {
-    console.log("Creating inbox message", data);
     return fetcher<void>("/inbox", {
       method: "POST",
       body: JSON.stringify(data),

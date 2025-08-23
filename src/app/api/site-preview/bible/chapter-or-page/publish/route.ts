@@ -1,9 +1,10 @@
 import { EntityBaseModel } from "@/frontend/admin-dashboard/contexts/types";
 import { sitePreviewApi } from "@/http-api/admin-api/site-preview-api";
+import { withAuth } from "@/lib/withAuth";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(request: NextRequest) {
+export const PUT = withAuth(async (request: NextRequest) => {
   const searchParams = new URL(request.nextUrl).searchParams;
   const pageType = searchParams.get("pageType") as "chapter" | "page";
 
@@ -24,4 +25,4 @@ export async function PUT(request: NextRequest) {
   return NextResponse.json(null, {
     status: response?.error?.code || 200,
   });
-}
+});

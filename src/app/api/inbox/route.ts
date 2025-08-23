@@ -2,20 +2,16 @@ import { inboxApi } from "@/http-api/admin-api/inbox-api";
 import { CreateInboxMessageModel } from "@/http-api/interfaces/inbox.models";
 import { publicApi } from "@/http-api/public-api";
 import { validateInboxMessage } from "@/http-api/validators/validate-inbox-message";
-import { verifySession } from "@/lib/auth";
+import { withAuth } from "@/lib/withAuth";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async () => {
-  const user = await verifySession();
-  if (!user) {
-    return NextResponse.json({}, { status: 401 });
-  }
+export const GET = withAuth(async () => {
   const data = await inboxApi.getInboxMessages();
 
   return NextResponse.json(data.data, {
     status: data.error?.code || 200,
   });
-};
+});
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -46,11 +42,7 @@ export const POST = async (request: NextRequest) => {
   }
 };
 
-export const DELETE = async (request: NextRequest) => {
-  const user = await verifySession();
-  if (!user) {
-    return NextResponse.json({}, { status: 401 });
-  }
+export const DELETE = withAuth(async (request: NextRequest) => {
   const searchParams = new URL(request.nextUrl).searchParams;
   const id = searchParams.get("id");
   if (!id) {
@@ -65,4 +57,4 @@ export const DELETE = async (request: NextRequest) => {
       status: data.error?.code || 200,
     }
   );
-};
+});

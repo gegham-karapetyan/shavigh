@@ -1,5 +1,6 @@
 import { sitePreviewApi } from "@/http-api/admin-api/site-preview-api";
 import { publicApi } from "@/http-api/public-api";
+import { withAuth } from "@/lib/withAuth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
   });
 }
 
-export async function POST(request: NextRequest) {
+export const POST = withAuth(async (request: NextRequest) => {
   const data = await request.json();
   const searchParams = new URL(request.nextUrl).searchParams;
   const pageType = searchParams.get("pageType") as "chapter" | "page";
@@ -47,4 +48,4 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(null, {
     status: response?.error?.code || 200,
   });
-}
+});
