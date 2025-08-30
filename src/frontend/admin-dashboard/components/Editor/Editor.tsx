@@ -36,6 +36,9 @@ const StyledEditor = styled(RichTextEditor)(() => ({
   "& span[data-info]": {
     borderBottom: "1px dotted red",
   },
+  "& span[data-author]": {
+    borderBottom: "1px solid black",
+  },
   "& span[id]": {
     borderBottom: "1px dotted blue",
   },

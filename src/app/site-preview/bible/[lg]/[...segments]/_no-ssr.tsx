@@ -15,13 +15,14 @@ import {
   useSendRouteChangeEvent,
 } from "@/frontend/admin-dashboard/contexts/website-messaging-context";
 import { EditableContainer } from "@/frontend/website/components/ui/EditableContainer/EditableContainer";
-import { useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import {
   EditableBlockType,
   PageType,
 } from "@/frontend/admin-dashboard/contexts/types";
 import { tags } from "@/constants/tags";
 import { getEntitySelector } from "@/frontend/admin-dashboard/contexts/site-preview-state-context";
+import { ParseBiblePageAuthorsPlugin } from "@/frontend/shared/contexts/bible-page-authors-context";
 
 interface GetBibleChapterOrPageQueryParams {
   lg: string;
@@ -148,13 +149,21 @@ export default function NoSsrPage() {
     return <BibleDynamicNotFoundPage alternateUrl={alternateUrl} />;
   }
   return (
-    <BibleDynamicPageLayout
-      title={queryParams.page ? data.title : undefined}
-      contentSection={
-        <EditableContainer onEdit={onEditTextContent}>
-          <HtmlContentRenderer content={data.content} />
-        </EditableContainer>
-      }
-    />
+    <Fragment>
+      <BibleDynamicPageLayout
+        nextLink={data.nextLink}
+        prevLink={data.prevLink}
+        title={queryParams.page ? data.title : undefined}
+        contentSection={
+          <EditableContainer onEdit={onEditTextContent}>
+            <HtmlContentRenderer
+              className={queryParams.page ? "bible-page" : "bible-chapter"}
+              content={data.content}
+            />
+          </EditableContainer>
+        }
+      />
+      <ParseBiblePageAuthorsPlugin contentSelector=".bible-page" data={data} />
+    </Fragment>
   );
 }

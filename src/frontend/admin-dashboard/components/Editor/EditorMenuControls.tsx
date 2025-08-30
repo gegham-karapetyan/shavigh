@@ -30,6 +30,7 @@ import {
 import { MenuButtonTitle } from "./controls/MenuButtonTitle";
 import { MenuButtonAnchorId } from "./controls/MenuButtonAnchorId";
 import { MenuButtonCols } from "./controls/MenuButtonCols";
+import { MenuButtonMentionAuthor } from "./controls/MenuButtonMentionAuthor";
 
 export default function EditorMenuControls() {
   const theme = useTheme();
@@ -152,6 +153,7 @@ export default function EditorMenuControls() {
       <MenuButtonTitle />
       <MenuButtonAnchorId />
       <MenuButtonCols />
+      <MenuButtonMentionAuthor />
       <MenuDivider />
 
       <MenuButtonUndo />

@@ -1,16 +1,22 @@
+"use client";
 import { FC, PropsWithChildren } from "react";
 // import { BibleNavMenu } from "../bible-nav-menu/BibleNavMenu";
 import { BibleHero } from "../hero/BibleHero";
 import { BibleNavMenu } from "../bible-nav-menu/BibleNavMenu";
 import { BibleNavDataModel } from "@/http-api/interfaces/site-pages.models";
+import { useParams } from "next/navigation";
+import { BibleAuthorsNav } from "../bible-authors-nav/BibleAuthorsNav";
 
 export type BibleLayoutProps = PropsWithChildren<{
   data: BibleNavDataModel;
 }>;
 export const BibleLayout: FC<BibleLayoutProps> = ({ data, children }) => {
+  const params = useParams();
+  const isBiblePage = params.segments?.length === 4;
+
   return (
-    <div>
-      <BibleHero />
+    <div className="relative">
+      {isBiblePage ? <BibleAuthorsNav /> : <BibleHero />}
       <main className="main-container mt-16 lg:mt-[110px]">
         <div className="flex flex-col-reverse lg:flex-row gap-12 justify-between">
           <div>{children}</div>

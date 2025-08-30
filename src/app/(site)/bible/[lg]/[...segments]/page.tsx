@@ -6,6 +6,8 @@ import {
   BibleDynamicPageLayout,
 } from "@/frontend/website/components/pages-layouts/BibleDynamicPageLayout";
 import { HtmlContentRenderer } from "@/frontend/website/components/html-content-renderer";
+import { Fragment } from "react";
+import { ParseBiblePageAuthorsPlugin } from "@/frontend/shared/contexts/bible-page-authors-context";
 
 export interface BibleDynamicPageProps {
   params: Promise<{ [key: string]: string | string[] }>;
@@ -44,11 +46,19 @@ export default async function Page(props: BibleDynamicPageProps) {
   const isPage = segments.length === 4;
 
   return (
-    <BibleDynamicPageLayout
-      title={isPage ? data.title : undefined}
-      prevLink={data.prevLink}
-      nextLink={data.nextLink}
-      contentSection={<HtmlContentRenderer content={data.content} />}
-    />
+    <Fragment>
+      <BibleDynamicPageLayout
+        title={isPage ? data.title : undefined}
+        prevLink={data.prevLink}
+        nextLink={data.nextLink}
+        contentSection={
+          <HtmlContentRenderer
+            className={isPage ? "bible-page" : "bible-chapter"}
+            content={data.content}
+          />
+        }
+      />
+      <ParseBiblePageAuthorsPlugin contentSelector=".bible-page" data={data} />
+    </Fragment>
   );
 }

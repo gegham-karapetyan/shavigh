@@ -1,9 +1,9 @@
 import PrevIcon from "@/frontend/website/media/icons/big-arrow-left.svg";
 import NextIcon from "@/frontend/website/media/icons/big-arrow-right.svg";
 import { IconButton } from "../ui/buttons/IconButton";
-import Link from "next/link";
 import { FC, ReactNode } from "react";
 import { Button } from "../ui/buttons/Button";
+import { NavLink } from "../ui/links/NavLink";
 
 export interface BibleDynamicPageLayoutProps {
   contentSection?: Exclude<ReactNode, null | undefined>;
@@ -28,7 +28,7 @@ export const BibleDynamicPageLayout: FC<BibleDynamicPageLayoutProps> = ({
           <IconButton
             size="lg"
             variant="text"
-            component={Link}
+            component={NavLink}
             className="p-2"
             href={prevLink}
           >
@@ -40,7 +40,7 @@ export const BibleDynamicPageLayout: FC<BibleDynamicPageLayoutProps> = ({
             size="lg"
             variant="text"
             className="p-2"
-            component={Link}
+            component={NavLink}
             href={nextLink}
           >
             <NextIcon className="max-w-full max-h-full" />
@@ -64,7 +64,7 @@ export const BibleDynamicNotFoundPage: FC<BibleDynamicNotFoundPageProps> = ({
       <Button
         variant="text"
         className="font-default-bold"
-        component={Link}
+        component={NavLink}
         href={alternateUrl}
       >
         Այստեղ.{" "}

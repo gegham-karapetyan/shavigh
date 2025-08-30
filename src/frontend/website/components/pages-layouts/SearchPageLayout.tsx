@@ -71,6 +71,7 @@ export const SearchPageLayout = () => {
           <input
             type="text"
             id="search"
+            autoFocus
             className="border border-gray-900 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary block w-full ps-10 p-2.5"
             placeholder="Փնտրել ..."
             required
