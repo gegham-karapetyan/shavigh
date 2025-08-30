@@ -20,7 +20,9 @@ const useIdToAnchorScroller = (selector: string) => {
     const scrollToAnchor = (e: MouseEvent) => {
       const anchor = allAnchorsMap[(e.target as HTMLSpanElement).id];
       if (anchor) {
-        anchor.scrollIntoView();
+        anchor.scrollIntoView({
+          block: "center",
+        });
       }
     };
     const allAnchorIdsElements = Array.from(

@@ -17,7 +17,7 @@ export type ButtonProps<T extends ElementType = "button"> = {
 } & ComponentPropsWithoutRef<T>;
 
 const baseStyles =
-  "inline-flex items-center transition-colors duration-300 focus:outline-none  cursor-pointer";
+  "inline-flex items-center transition-colors duration-600 focus:outline-none  cursor-pointer";
 const sizeStyles = {
   sm: "px-2 py-1 rounded-lg text-sm",
   md: "px-4 py-2 rounded-lg text-base",

@@ -1,15 +1,14 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from "@/frontend/website/media/icons/search-icon.svg";
 import Image from "next/image";
 import { IconButton } from "../ui/buttons/IconButton";
 import { NavLink } from "../ui/links/NavLink";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@/frontend/website/media/icons/burger-menu.svg";
+import CloseIcon from "@/frontend/website/media/icons/close-icon.svg";
 import logo from "@/frontend/website/media/icons/shavigh-logo.svg?url";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 
 const LogoComponent = (
   <NavLink prefetch={false} variant="text" href="/">
@@ -57,13 +56,23 @@ export const NavBar: FC<NavBarProps> = () => {
       <ul className="hidden flex-row items-center gap-5 2xl:gap-10 xl:flex">
         {routes.map(({ href, label }) => (
           <li key={label}>
-            <NavLink prefetch={false} className="font-bold" href={href}>
+            <NavLink
+              prefetch={false}
+              className="font-bold hover:no-underline!"
+              href={href}
+            >
               {label}
             </NavLink>
           </li>
         ))}
         <li className="mt-1">
-          <IconButton component={Link} href="/search" size="lg" variant="text">
+          <IconButton
+            component={NavLink}
+            href="/search"
+            size="xl"
+            variant="text"
+            className="hover:no-underline!"
+          >
             <SearchIcon />
           </IconButton>
         </li>
@@ -74,7 +83,7 @@ export const NavBar: FC<NavBarProps> = () => {
           variant="text"
           onClick={() => setIsMobileMenuOpen(true)}
         >
-          <MenuIcon />
+          <MenuIcon className="p-3" />
         </IconButton>
       </div>
       <div
@@ -92,15 +101,15 @@ export const NavBar: FC<NavBarProps> = () => {
             variant="text"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <CloseIcon />
+            <CloseIcon className="p-3" />
           </IconButton>
         </div>
         <ul className="px-5 pb-5">
           <li>
             <IconButton
-              component={Link}
+              component={NavLink}
               href="/search"
-              size="lg"
+              size="xl"
               variant="text"
             >
               <SearchIcon />
@@ -112,7 +121,7 @@ export const NavBar: FC<NavBarProps> = () => {
                 prefetch={false}
                 href={href}
                 variant="text"
-                className="pt-5 pb-4 text-xl block"
+                className="pt-5 pb-4 text-xl block hover:no-underline!"
               >
                 {label}
               </NavLink>

@@ -60,12 +60,14 @@ export const BibleNavMenu: FC<BibleNavMenuProps> = ({
           isActive={selectedLg === "echmiadzin"}
           variant="text"
           onClick={() => handleLanguageChange("echmiadzin")}
+          className="max-sm:px-2!"
         >
           ԷՋՄԻԱԾԻՆ
         </Button>
         <Button
           isActive={selectedLg === "ararat"}
           variant="text"
+          className="max-sm:px-2!"
           onClick={() => handleLanguageChange("ararat")}
         >
           ԱՐԱՐԱՏ
@@ -73,6 +75,7 @@ export const BibleNavMenu: FC<BibleNavMenuProps> = ({
         <Button
           isActive={selectedLg === "grabar"}
           variant="text"
+          className="max-sm:px-2!"
           onClick={() => handleLanguageChange("grabar")}
         >
           ԳՐԱԲԱՐ
@@ -174,7 +177,12 @@ const BookWithChapters: FC<BooksListItemProps> = ({
         <ul className="flex gap-1 px-8 flex-wrap p-3 bg-gray-500">
           {chapters.map((chapter) => (
             <li key={chapter.title} className="first-of-type:w-full">
-              <NavLink prefetch={false} size="sm" href={`/${chapter.url}`}>
+              <NavLink
+                prefetch={false}
+                size="sm"
+                className="hover:font-bold"
+                href={`/${chapter.url}`}
+              >
                 {chapter.title}
               </NavLink>
             </li>

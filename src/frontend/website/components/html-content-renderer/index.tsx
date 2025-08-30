@@ -13,6 +13,7 @@ import { IdToAnchorScrollerPlugin } from "./IdToAnchorScrollerPlugin";
 
 export interface HtmlContentRendererProps {
   content: string;
+  className?: string;
 }
 const options: HTMLReactParserOptions = {
   replace(domNode) {
@@ -54,10 +55,12 @@ const options: HTMLReactParserOptions = {
 };
 
 export const HtmlContentRenderer: FC<HtmlContentRendererProps> = memo(
-  ({ content }) => {
+  ({ content, className }) => {
     return (
       <Fragment>
-        <div className="scalable-section">{parse(content, options)}</div>
+        <div className={`scalable-section ${className || ""}`}>
+          {parse(content, options)}
+        </div>
         <IdToAnchorScrollerPlugin selector=".scalable-section" />
       </Fragment>
     );

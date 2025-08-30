@@ -42,6 +42,7 @@ import { Tooltip } from "./extensions/tooltip/Tooltip";
 import { AnchorId } from "./extensions/anchor-id/AnchorId";
 import { Column } from "./extensions/multi-columns/Column";
 import { MultiColumn } from "./extensions/multi-columns/MultiColumn";
+import { MentionAuthor } from "./extensions/mention-authors/MentionAuthors";
 
 export type UseExtensionsOptions = {
   /** Placeholder hint to show in the text input area before a user types a message. */
@@ -69,6 +70,34 @@ export type UseExtensionsOptions = {
 // https://github.com/ueberdosis/tiptap/issues/514
 const CustomLinkExtension = Link.extend({
   inclusive: false,
+  addAttributes() {
+    return {
+      href: {
+        default: null,
+      },
+      target: {
+        default: "_self", // 👈 default target
+        parseHTML: (element) => element.getAttribute("target") || "_self",
+        renderHTML: (attributes) => {
+          return { target: attributes.target };
+        },
+      },
+      rel: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("rel"),
+        renderHTML: (attributes) => {
+          return attributes.rel ? { rel: attributes.rel } : {};
+        },
+      },
+      name: {
+        default: null, // 👈 support custom "name"
+        parseHTML: (element) => element.getAttribute("name"),
+        renderHTML: (attributes) => {
+          return attributes.name ? { name: attributes.name } : {};
+        },
+      },
+    };
+  },
 });
 
 // Make subscript and superscript mutually exclusive
@@ -183,6 +212,7 @@ export default function useExtensions({
       AnchorId,
       Column,
       MultiColumn,
+      MentionAuthor,
     ];
   }, [placeholder]);
 }
