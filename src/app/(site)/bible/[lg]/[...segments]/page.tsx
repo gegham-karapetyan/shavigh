@@ -8,6 +8,7 @@ import {
 import { HtmlContentRenderer } from "@/frontend/website/components/html-content-renderer";
 import { Fragment } from "react";
 import { ParseBiblePageAuthorsPlugin } from "@/frontend/shared/contexts/bible-page-authors-context";
+import { generateBibleChapterTitle } from "@/frontend/shared/utils/generateBibleChapterTitle";
 
 export interface BibleDynamicPageProps {
   params: Promise<{ [key: string]: string | string[] }>;
@@ -48,7 +49,7 @@ export default async function Page(props: BibleDynamicPageProps) {
   return (
     <Fragment>
       <BibleDynamicPageLayout
-        title={isPage ? data.title : undefined}
+        title={isPage ? data.title : generateBibleChapterTitle(data.title)}
         prevLink={data.prevLink}
         nextLink={data.nextLink}
         contentSection={

@@ -23,6 +23,7 @@ import {
 import { tags } from "@/constants/tags";
 import { getEntitySelector } from "@/frontend/admin-dashboard/contexts/site-preview-state-context";
 import { ParseBiblePageAuthorsPlugin } from "@/frontend/shared/contexts/bible-page-authors-context";
+import { generateBibleChapterTitle } from "@/frontend/shared/utils/generateBibleChapterTitle";
 
 interface GetBibleChapterOrPageQueryParams {
   lg: string;
@@ -153,7 +154,9 @@ export default function NoSsrPage() {
       <BibleDynamicPageLayout
         nextLink={data.nextLink}
         prevLink={data.prevLink}
-        title={queryParams.page ? data.title : undefined}
+        title={
+          queryParams.page ? data.title : generateBibleChapterTitle(data.title)
+        }
         contentSection={
           <EditableContainer onEdit={onEditTextContent}>
             <HtmlContentRenderer
