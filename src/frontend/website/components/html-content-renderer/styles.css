@@ -42,5 +42,8 @@
     span[id] {
       @apply cursor-pointer;
     }
+    p:empty::after {
+      content: "\00A0";
+    }
   }
 }
