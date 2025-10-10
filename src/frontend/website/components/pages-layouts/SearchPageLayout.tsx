@@ -1,8 +1,9 @@
 "use client";
 
+import { useQueryParams } from "@/frontend/shared/hooks/useQueryParams";
 import { GetBibleDynamicPageModel } from "@/http-api/interfaces/site-pages.models";
 import Link from "next/link";
-import { useState } from "react";
+import { FC, Suspense, useEffect, useRef, useState } from "react";
 
 const Skeleton = () => {
   return (
@@ -15,6 +16,80 @@ const Skeleton = () => {
     </div>
   );
 };
+
+const SearchInput: FC<{ onSubmit: (value: string) => void }> = ({
+  onSubmit,
+}) => {
+  const onSubmitRef = useRef(onSubmit);
+  onSubmitRef.current = onSubmit;
+  const [searchParams, setSearchParams] = useQueryParams();
+  const initialSearchValue = useRef(searchParams.get("word")?.trim() || "");
+  const [searchValue, setSearchValue] = useState(initialSearchValue.current);
+
+  useEffect(() => {
+    if (initialSearchValue.current) {
+      onSubmitRef.current(initialSearchValue.current);
+    }
+  }, []);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!searchValue.trim()) {
+      return;
+    }
+
+    setSearchParams((params) => {
+      params.set("word", searchValue.trim());
+      return params;
+    });
+    onSubmitRef.current(searchValue);
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center max-w-sm mx-auto"
+    >
+      <label htmlFor="search" className="sr-only">
+        Search
+      </label>
+      <div className="relative w-full">
+        <input
+          type="text"
+          id="search"
+          autoFocus
+          onChange={(e) => setSearchValue(e.target.value)}
+          value={searchValue}
+          className="border border-gray-900 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary block w-full ps-10 p-2.5"
+          placeholder="Փնտրել ..."
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        className="cursor-pointer p-2.5 ms-2 text-sm font-medium text-white bg-primary rounded-lg border border-primary  focus:ring-4 focus:outline-none focus:ring-primary/55"
+      >
+        <svg
+          className="w-4 h-4"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+        <span className="sr-only">Փնտրել</span>
+      </button>
+    </form>
+  );
+};
+
 const ErrorMessage = ({ message }: { message: string }) => {
   return (
     <div className="max-w-5xl my-10 mx-auto text-red">
@@ -38,11 +113,10 @@ export const SearchPageLayout = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (searchQuery: string) => {
     setLoading(true);
     setError(null);
-    const searchQuery = (event.target as HTMLFormElement).search.value;
+
     try {
       const response = await fetch(`/api/search?word=${searchQuery}`);
       if (!response.ok) {
@@ -60,45 +134,9 @@ export const SearchPageLayout = () => {
 
   return (
     <div className="px-5 py-10">
-      <form
-        onSubmit={handleSubmit}
-        className="flex items-center max-w-sm mx-auto"
-      >
-        <label htmlFor="search" className="sr-only">
-          Search
-        </label>
-        <div className="relative w-full">
-          <input
-            type="text"
-            id="search"
-            autoFocus
-            className="border border-gray-900 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary block w-full ps-10 p-2.5"
-            placeholder="Փնտրել ..."
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="cursor-pointer p-2.5 ms-2 text-sm font-medium text-white bg-primary rounded-lg border border-primary  focus:ring-4 focus:outline-none focus:ring-primary/55"
-        >
-          <svg
-            className="w-4 h-4"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
-          <span className="sr-only">Փնտրել</span>
-        </button>
-      </form>
+      <Suspense>
+        <SearchInput onSubmit={handleSubmit} />
+      </Suspense>
       <div className="mt-10">
         {loading && <Skeleton />}
         {error && <ErrorMessage message={error} />}

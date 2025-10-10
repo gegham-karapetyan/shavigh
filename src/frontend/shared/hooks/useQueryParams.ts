@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -12,24 +13,26 @@ export const useQueryParams = () => {
     (
       queryParams:
         | URLSearchParams
-        | ((searchParams: URLSearchParams) => URLSearchParams)
+        | ((searchParams: URLSearchParams) => URLSearchParams),
+      replace: boolean = false
     ) => {
+      const method = replace ? "replace" : "push";
       if (typeof queryParams === "function") {
         const params = queryParams(
           new URLSearchParams(searchParamsRef.current)
         );
         const stringifiedParams = params.toString().trim();
         if (stringifiedParams) {
-          router.push(pathname + "?" + stringifiedParams);
+          router[method](pathname + "?" + stringifiedParams);
         } else {
-          router.push(pathname);
+          router[method](pathname);
         }
       } else {
         const stringifiedParams = queryParams.toString().trim();
         if (stringifiedParams) {
-          router.push(pathname + "?" + stringifiedParams);
+          router[method](pathname + "?" + stringifiedParams);
         } else {
-          router.push(pathname);
+          router[method](pathname);
         }
       }
     },

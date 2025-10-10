@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getSaintsBehaviorData } from "./actions";
 
 export default async function Page() {
@@ -12,5 +12,5 @@ export default async function Page() {
     return notFound();
   }
 
-  return redirect("/" + sections[0].url);
+  return permanentRedirect("/" + sections[0].url);
 }
