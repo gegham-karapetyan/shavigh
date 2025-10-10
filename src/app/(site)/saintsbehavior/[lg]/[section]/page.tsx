@@ -1,5 +1,5 @@
 import { publicApi } from "@/http-api/public-api";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { parse } from "node-html-parser";
 
 export const generateStaticParams = () => [];
@@ -27,5 +27,5 @@ export default async function Page({
     return notFound();
   }
 
-  return redirect(firstUrl);
+  return permanentRedirect(firstUrl);
 }
